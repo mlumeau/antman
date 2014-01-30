@@ -24,9 +24,18 @@ public class FourmiTest {
 		map = new Monde(dimension_x, dimension_y, meteo, abondance);
 		int fecondite = 10;
 		int taille_max = 10;
-		int ressources = 1;
+		int ressources = 2;
 		f = new Fourmiliere(map,map.getCaseAt(5,5),fecondite,taille_max,ressources);
 	}
+	
+	@Test
+	public void deplacementTest() throws Exception
+	{
+		Fourmi fourmi = new Eclaireuse(f,map.getCaseAt(5, 5) );  
+		fourmi.seDeplacer(map.getCaseAt(5, 6)); 
+		assertTrue(fourmi.get_case().getX() == 5 && fourmi.get_case().getY() == 6 ); 
+	}
+	
 	@Test
 	public void deplacementAleatoireTest() throws Exception
 	{
@@ -34,7 +43,19 @@ public class FourmiTest {
 		fourmi.seDeplacerAlea(); 
 		assertTrue(fourmi.get_case().getX() == 4 || fourmi.get_case().getX() == 5 || fourmi.get_case().getX() == 6); 
 		assertTrue(fourmi.get_case().getY() == 4 || fourmi.get_case().getY() == 5 || fourmi.get_case().getY() == 6); 
-		
+	}
+	
+	@Test 
+	public void mangerRestaureVieTest() throws Exception
+	{
+		Fourmi fourmi = new Eclaireuse(f,map.getCaseAt(5, 5) ); 
+		fourmi.manger(); 
+		assertEquals(fourmi.getSante_max(), fourmi.getSante()); 
+		fourmi.setSante(fourmi.getSante_max() - 1); 
+		fourmi.manger(); 
+		assertEquals(fourmi.getSante_max(), fourmi.getSante()); 
 		
 	}
+	
+	
 }
