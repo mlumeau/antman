@@ -375,7 +375,7 @@ public class Case {
 		int x = this.getX();
 		int y = this.getY();
 		
-		while(target.getX() != x && target.getY() != y) {
+		while(target.getX() != x || target.getY() != y) {
 			
 			if(target.getX() > x) {
 				x++;
