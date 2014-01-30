@@ -185,7 +185,7 @@
                 <layoutConstraint xmi:type="notation:Ratio" xmi:id="_SlmYQYNDEeOL6P3mcmTh7Q" value="0.9068267066766692"/>
               </children>
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_EX_rGIM4EeOL6P3mcmTh7Q" visible="false" type="SignalCompartment"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EX16EYM4EeOL6P3mcmTh7Q" x="-237" y="8079" width="6795" height="7348"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EX16EYM4EeOL6P3mcmTh7Q" x="53" y="8079" width="6795" height="7348"/>
             </children>
             <children xmi:type="umlnotation:UMLShape" xmi:id="_GY-nkVK1EeO0SNmhNFl3JA" element="_GY-nkFK1EeO0SNmhNFl3JA" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
               <children xmi:type="notation:DecorationNode" xmi:id="_GY-nk1K1EeO0SNmhNFl3JA" type="ImageCompartment">
@@ -519,7 +519,7 @@
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZDFFMoUIEeODj6vSyDEyTg" x="18111" y="13623" width="4678"/>
             </children>
           </children>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nenl0YNUEeOL6P3mcmTh7Q" x="13860" y="2772" width="49046" height="27155"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nenl0YNUEeOL6P3mcmTh7Q" x="15022" y="2772" width="47884" height="27155"/>
         </children>
         <edges xmi:type="umlnotation:UMLConnector" xmi:id="_NbvfsFK1EeO0SNmhNFl3JA" element="_NblusFK1EeO0SNmhNFl3JA" source="_E2orEVK1EeO0SNmhNFl3JA" target="_D06vYVK1EeO0SNmhNFl3JA" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
           <children xmi:type="notation:DecorationNode" xmi:id="_NbvfslK1EeO0SNmhNFl3JA" type="NameLabel">
