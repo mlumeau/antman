@@ -29,7 +29,7 @@ public class CaseTest {
 	@Test
 	public void mapConnueTest()
 	{
-		assertNotNull("Map inconnue", c.getMap()); 
+		assertNotNull("Map inconnue", c.getMonde()); 
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ public class CaseTest {
 	@Test
 	public void pathTest()
 	{
-		Case cTest = new Case(c.getMap(),5,9); 
+		Case cTest = new Case(c.getMonde(),5,9); 
 		List<Case> res = c.getPathTo(cTest);
 		
 		assertEquals("Path de taille incorrecte", 4,res.size());
@@ -56,9 +56,9 @@ public class CaseTest {
 	public void caseInRadiusTest()
 	{
 		List<Case> res = c.getCasesInRadius(1); 
-		assertEquals("Radius de taille incorrecte", 6, res.size()); 
+		assertEquals("Radius de taille incorrecte", 8, res.size()); 
 		
-		Case cTest = new Case(c.getMap(),9,9); 
+		Case cTest = new Case(c.getMonde(),9,9); 
 		res = cTest.getCasesInRadius(1); 
 		assertEquals("Radius de taille incorrecte en bord de map", 3, res.size()); 
 	}

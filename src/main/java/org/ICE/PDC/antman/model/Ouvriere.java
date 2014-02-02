@@ -1,9 +1,7 @@
-/**
- * 
- */
 package org.ICE.PDC.antman.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -11,160 +9,66 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 
 /** 
- * <!-- begin-UML-doc -->
- * <!-- end-UML-doc -->
- * @author S219
- * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+ * Une fourmi ouvriere :
+ * -Cherche des ressources en suivant des pistes de phéromones
+ * -Ramasse les ressources
+ * -Retourne à la fourmiliere en déposant des phéromones sur son passage
  */
 public class Ouvriere extends Fourmi {
 	
 	private static Logger logger = Logger.getLogger(Ouvriere.class);
 	
-	private final int charge_max;
-	
-	public int getCharge_max() {
-		return charge_max;
-	}
-	
-	private List<Case> chemin_retour;
-	
-	public List<Case> getChemin_retour() {
-		return chemin_retour;
-	}
-	
-	public void setChemin_retour(List<Case> chemin_retour) {
-		this.chemin_retour = chemin_retour;
-	}
-	
-
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @author S219
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public enum States {
-		/** 
-		 * <!-- begin-UML-doc -->
-		 * <!-- end-UML-doc -->
-		 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-		 */
 		SUIVRE_PHEROMONES,
-		/** 
-		 * <!-- begin-UML-doc -->
-		 * <!-- end-UML-doc -->
-		 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-		 */
 		RETOUR,
-		/** 
-		 * <!-- begin-UML-doc -->
-		 * <!-- end-UML-doc -->
-		 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-		 */
 		RECOLTER
 	}
-
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
+	
+	private final int charge_max;
+	private List<Case> chemin_retour;
 	private int capacite;
-
-	/** 
-	 * @return capacite
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public int getCapacite() {
-		// begin-user-code
-		return capacite;
-		// end-user-code
-	}
-
-	/** 
-	 * @param capacite capacite � d�finir
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public void setCapacite(int capacite) {
-		// begin-user-code
-		this.capacite = capacite;
-		// end-user-code
-	}
-
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	private int charge;
-
-	/** 
-	 * @return charge
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public int getCharge() {
-		// begin-user-code
-		return charge;
-		// end-user-code
-	}
-
-	/** 
-	 * @param charge charge � d�finir
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public void setCharge(int charge) {
-		// begin-user-code
-		this.charge = charge;
-		// end-user-code
-	}
-
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	private States etat;
-
-
-
+	
 	/** 
-	 * @return etat
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	 * @param fourmiliere
 	 */
-	public States getEtat() {
-		// begin-user-code
-		return etat;
-		// end-user-code
+	public Ouvriere(Fourmiliere fourmiliere) {
+		super(fourmiliere);
+		this.etat = States.SUIVRE_PHEROMONES;
+		this.charge_max = 20;
+		this.chemin_retour = null;
 	}
 
 	/** 
-	 * @param etat etat � d�finir
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	 * @param fourmiliere
+	 * @param _case
 	 */
-	public void setEtat(States etat) {
-		// begin-user-code
+	public Ouvriere(Fourmiliere fourmiliere, Case _case) {
+		super(fourmiliere,_case);
+		this.etat = States.SUIVRE_PHEROMONES;
+		this.charge_max = 20;
+		this.chemin_retour = null;
+	}
+
+	/** 
+	 * @param fourmiliere
+	 * @param _case
+	 * @param etat
+	 */
+	public Ouvriere(Fourmiliere fourmiliere, Case _case, States etat) {
+		super(fourmiliere,_case);
 		this.etat = etat;
-		// end-user-code
+		this.charge_max = 20;
+		this.chemin_retour = null;
 	}
 
-
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void poserPheromones() {
 		this.get_case().ajouterPheromone(new Pheromone(this.getFourmiliere(),5));
 	}
 
-
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void recolterNouriture() {
-		Set<Ressource> ressources = this.get_case().getRessource();
+		Set<Ressource> ressources = new HashSet<Ressource>(this.get_case().getRessources());
 		
 		for(Ressource r : ressources) {
 			
@@ -172,14 +76,14 @@ public class Ouvriere extends Fourmi {
 			
 				if(r.getQuantite() <= this.getCharge_max()-this.getCharge()) {
 					//Tout prendre
-					r.diminuerQuantite(this.getCharge_max()-this.getCharge());	
-					this.setCharge(this.getCharge_max());
-					
-				} else {
-					//Prendre le maximum possible
 					r.diminuerQuantite(r.getQuantite());
 					this.get_case().supprimerRessource(r); //Suppression de la ressource
 					this.setCharge(this.getCharge()+r.getQuantite());
+					
+				} else {
+					//Prendre le maximum possible
+					r.diminuerQuantite(this.getCharge_max()-this.getCharge());	
+					this.setCharge(this.getCharge_max());
 				}
 			
 			}
@@ -187,62 +91,13 @@ public class Ouvriere extends Fourmi {
 		}
 	}
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void deposerNouriture() {
 		this.getFourmiliere().augmenterRessources(this.charge);
 		this.charge = 0;
 	}
 
 	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param fourmiliere
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public Ouvriere(Fourmiliere fourmiliere) {
-		super(fourmiliere);
-		this.etat = States.SUIVRE_PHEROMONES;
-		this.charge_max = 5;
-		this.chemin_retour = null;
-	}
-
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param fourmiliere
-	 * @param _case
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public Ouvriere(Fourmiliere fourmiliere, Case _case) {
-		super(fourmiliere,_case);
-		this.etat = States.SUIVRE_PHEROMONES;
-		this.charge_max = 5;
-		this.chemin_retour = null;
-	}
-
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param fourmiliere
-	 * @param _case
-	 * @param etat
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public Ouvriere(Fourmiliere fourmiliere, Case _case, States etat) {
-		super(fourmiliere,_case);
-		this.etat = etat;
-		this.charge_max = 5;
-		this.chemin_retour = null;
-	}
-
-	/** 
-	 * (non-Javadoc)
 	 * @see Fourmi#agir()
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public void agir() {
 		this.setAge(this.getAge()+1);
@@ -265,7 +120,7 @@ public class Ouvriere extends Fourmi {
 				
 					case SUIVRE_PHEROMONES:
 						
-						if(this.get_case().getRessource().size() > 0) {
+						if(this.get_case().getRessources().size() > 0) {
 							this.setEtat(States.RECOLTER);
 							logger.info("L'Ouvriere ("+this.hashCode()+") a trouvé des ressources et commence sa recolte");
 						
@@ -273,14 +128,15 @@ public class Ouvriere extends Fourmi {
 						
 							//Recherche des phéromones
 							List<Case> adjacentes = this.get_case().getCasesInRadius(1);
-							List<Case> cases_with_ph = new ArrayList<Case>();
+							adjacentes.remove(this.getLast_position()); //On éxclu la derniere case de la recherche
+							List<Case> cases_with_max_ph = new ArrayList<Case>();
 							int puissance_max = 0;
 							
 							for(Case c : adjacentes) {
 								
 								int puissance = 0;
 								
-								for(Pheromone ph : c.getPheromone()) {
+								for(Pheromone ph : c.getPheromones()) {
 									
 									if(ph.getFourmiliere().equals(this.getFourmiliere())) {
 										puissance += ph.getPuissance();
@@ -288,21 +144,24 @@ public class Ouvriere extends Fourmi {
 									
 								}
 								
-								if(puissance > puissance_max) {
-									cases_with_ph.clear();
+								if(puissance > puissance_max ) {
+									cases_with_max_ph.clear();
 									puissance_max = puissance;
 								}
 								
 								if(puissance == puissance_max) {
-									cases_with_ph.add(c);
+									cases_with_max_ph.add(c);
 								}
 								
 							}
 							
-							//Deplacement dans une des cases adjacentes ayant le plus de phéromones
-							if(cases_with_ph.size() > 0) {
-								int index = new Random().nextInt(cases_with_ph.size());
-								this.seDeplacer(cases_with_ph.get(index));
+							if(cases_with_max_ph.size() > 0) {
+								//Deplacement dans une des cases adjacentes ayant le plus de phéromones
+								int index = new Random().nextInt(cases_with_max_ph.size());
+								this.seDeplacer(cases_with_max_ph.get(index));
+							} else {
+								//Si aucune case n'est trouvée, la fourmi effectue un déplacement aléatoire
+								this.seDeplacerAlea();
 							}
 						
 						}
@@ -322,13 +181,15 @@ public class Ouvriere extends Fourmi {
 						}
 						
 						if(this.chemin_retour.size() > 0) {
+							
+							//Poser des phéromones
+							this.poserPheromones();
+							logger.info("L'Ouvriere ("+this.hashCode()+") pose des phéromones");
+							
 							//Se déplacer sur la prochaine case
 							this.seDeplacer(this.getChemin_retour().get(0));
 							this.getChemin_retour().remove(0);
-							logger.info("L'Ouvriere ("+this.hashCode()+") se déplace en ("+this.get_case().getX()+","+this.get_case().getY()+")");
-							//Déposer des phéromones sur la nouvelle case
-							this.poserPheromones();
-							logger.info("L'Ouvriere ("+this.hashCode()+") pose des phéromones");
+							logger.info("L'Ouvriere ("+this.hashCode()+") se déplace en ("+this.get_case().getX()+","+this.get_case().getY()+")");			
 						
 						} else {
 							//Déposer ressources
@@ -346,6 +207,68 @@ public class Ouvriere extends Fourmi {
 			}
 			
 	}
+	
+	/**
+	 * @return charge_max
+	 */
+	public int getCharge_max() {
+		return charge_max;
+	}
+	
+	/**
+	 * @return chemin_retour
+	 */
+	public List<Case> getChemin_retour() {
+		return chemin_retour;
+	}
+	
+	/**
+	 * @param chemin_retour
+	 */
+	public void setChemin_retour(List<Case> chemin_retour) {
+		this.chemin_retour = chemin_retour;
+	}
 
+	/** 
+	 * @return capacite
+	 */
+	public int getCapacite() {
+		return capacite;
+	}
+
+	/** 
+	 * @param capacite capacite à définir
+	 */
+	public void setCapacite(int capacite) {
+		this.capacite = capacite;
+	}
+
+	/** 
+	 * @return charge
+	 */
+	public int getCharge() {
+		return charge;
+	}
+
+	/** 
+	 * @param charge charge à définir
+	 */
+	public void setCharge(int charge) {
+		this.charge = charge;
+	}
+
+	/** 
+	 * @return etat
+	 */
+	public States getEtat() {
+		return etat;
+	}
+
+	/** 
+	 * @param etat etat à définir
+	 */
+	public void setEtat(States etat) {
+		this.etat = etat;
+	}
 
 }

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.ICE.PDC.antman.model;
 
 import org.ICE.PDC.antman.model.events.FourmiAjouteeEvent;

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.ICE.PDC.antman.model;
 
 import java.util.List;
@@ -8,89 +5,28 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 /** 
- * <!-- begin-UML-doc -->
- * <!-- end-UML-doc -->
- * @author S219
- * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+ * Une fourmi éclaireuse :
+ * -Cherche des ressources en se déplacant aleatoirement
+ * -Retourne à la fourmiliere en déposant des phéromones sur son passage
  */
 public class Eclaireuse extends Fourmi {
 	
 	private static Logger logger = Logger.getLogger(Eclaireuse.class);
 	
-	private List<Case> chemin_retour;
-	
-	public List<Case> getChemin_retour() {
-		return this.chemin_retour;
-	}
-	
-	public void setChemin_retour(List<Case> chemin_retour) {
-		this.chemin_retour = chemin_retour;
-	}
-	
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @author S219
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public enum States {
-		/** 
-		 * <!-- begin-UML-doc -->
-		 * <!-- end-UML-doc -->
-		 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-		 */
 		CHERCHER_RESSOURCES,
-		/** 
-		 * <!-- begin-UML-doc -->
-		 * <!-- end-UML-doc -->
-		 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-		 */
 		RETOUR
 	}
-
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
+	
+	private List<Case> chemin_retour;
 	private States etat;
-
-	/** 
-	 * @return etat
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public States getEtat() {
-		// begin-user-code
-		return etat;
-		// end-user-code
-	}
-
-	/** 
-	 * @param etat etat � d�finir
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public void setEtat(States etat) {
-		// begin-user-code
-		this.etat = etat;
-		// end-user-code
-	}
-
-
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
+	
 	public void poserPheromones() {
 		this.get_case().ajouterPheromone(new Pheromone(this.getFourmiliere(),10));
 	}
 
-
 	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
 	 * @param fourmiliere
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public Eclaireuse(Fourmiliere fourmiliere) {
 		super(fourmiliere);
@@ -99,11 +35,8 @@ public class Eclaireuse extends Fourmi {
 	}
 
 	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
 	 * @param fourmiliere
 	 * @param _case
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public Eclaireuse(Fourmiliere fourmiliere, Case _case) {
 		super(fourmiliere,_case);
@@ -112,12 +45,9 @@ public class Eclaireuse extends Fourmi {
 	}
 
 	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
 	 * @param fourmiliere
 	 * @param _case
 	 * @param etat
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public Eclaireuse(Fourmiliere fourmiliere, Case _case, States etat) {
 		super(fourmiliere,_case);
@@ -126,9 +56,7 @@ public class Eclaireuse extends Fourmi {
 	}
 
 	/** 
-	 * (non-Javadoc)
 	 * @see Fourmi#agir()
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public void agir() {
 		this.setAge(this.getAge()+1);
@@ -153,7 +81,7 @@ public class Eclaireuse extends Fourmi {
 					case CHERCHER_RESSOURCES :
 							 //Si la case possède des ressources : Passage dans l'état RETOUR
 							 //Sinon : Déplacement aléatoire
-							if(this.get_case().getRessource().size() > 0) {
+							if(this.get_case().getRessources().size() > 0) {
 								this.setEtat(States.RETOUR);
 								logger.info("L'éclaireuse ("+this.hashCode()+") à trouvé des ressources et commence son retour vers la fourmiliere");
 							} else {
@@ -171,14 +99,14 @@ public class Eclaireuse extends Fourmi {
 						}
 						
 						if(this.chemin_retour.size() > 0) {
+							//Poser des phéromones
+							this.poserPheromones();
+							logger.info("L'éclaireuse ("+this.hashCode()+") pose des phéromones");
 							//Se déplacer sur la prochaine case
 							this.seDeplacer(this.getChemin_retour().get(0));
 							this.getChemin_retour().remove(0);
 							logger.info("L'éclaireuse ("+this.hashCode()+") se déplace en ("+this.get_case().getX()+","+this.get_case().getY()+")");
-							//Déposer des phéromones sur la nouvelle case
-							this.poserPheromones();
-							logger.info("L'éclaireuse ("+this.hashCode()+") pose des phéromones");
-						
+
 						} else {
 							//Retourner dans l'état recherche
 							this.setEtat(States.CHERCHER_RESSOURCES);
@@ -192,4 +120,35 @@ public class Eclaireuse extends Fourmi {
 			}
 		
 	}
+	
+	
+	/**
+	 * @return chemin_retour
+	 */
+	public List<Case> getChemin_retour() {
+		return this.chemin_retour;
+	}
+	
+	/**
+	 * @param chemin_retour
+	 */
+	public void setChemin_retour(List<Case> chemin_retour) {
+		this.chemin_retour = chemin_retour;
+	}
+	
+	/** 
+	 * @return etat
+	 */
+	public States getEtat() {
+		return etat;
+	}
+
+	/** 
+	 * @param etat etat à définir
+	 */
+	public void setEtat(States etat) {
+		this.etat = etat;
+	}
+
+	
 }
