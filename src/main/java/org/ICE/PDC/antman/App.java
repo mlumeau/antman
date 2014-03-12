@@ -76,7 +76,7 @@ public class App
 	       
 	       logger.info("Initialisation des fourmilieres ...");
 	       int fecondite = 5;
-	       int taille_max = 10;
+	       int taille_max = 45;
 	       int ressources = 100;
 	       Fourmiliere f1 = new Fourmiliere(monde,monde.getCaseAt(5,5),fecondite,taille_max,ressources);
 	       

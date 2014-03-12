@@ -27,18 +27,19 @@ public class Fourmiliere {
 	 * @param monde
 	 */
 	public void setMonde(Monde monde) {
+		monde.ajouterFourmiliere(this);
 		this.monde = monde;
 	}
 
 	public Fourmiliere(Monde monde, Case c, int fecondite,int taille_max, int ressources) {
-		this._case = c;
 		this.fecondite = fecondite;
 		this.taille_max = taille_max;
 		this.ressources = ressources;
 		this.fourmi = new HashSet<Fourmi>();
-		this.setMonde(monde);
+		this._case = c;
+		this.monde = monde;
 		logger.debug("Fourmiliere crée : "+this);
-		c.setFourmiliere(this); //Lie la case à la fourmiliere
+		_case.setFourmiliere(this); //Lie la case à la fourmiliere
 		monde.ajouterFourmiliere(this); //Lie le monde à la fourmiliere
 	}
 	
@@ -161,6 +162,7 @@ public class Fourmiliere {
 	 */
 	public void set_case(Case _case) {
 		this._case = _case;
+		_case.setFourmiliere(this);
 	}
 
 }

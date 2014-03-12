@@ -31,14 +31,14 @@ public abstract class Fourmi {
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public Fourmi(Fourmiliere fourmiliere, Case _case) {
-		this.fourmiliere = fourmiliere;
-		this._case = _case;
 		this.age = 0; //DEFAULT
 		this.esperance_de_vie = 20; //DEFAULT
 		this.sante = 20; //DEFAULT 
 		this.sante_max = this.sante; //DEFAULT 
+		this._case = _case;
+		this.fourmiliere = fourmiliere;
 		logger.debug("Fourmi crée : "+this);
-		this.set_case(_case); //Lie la case à la Fourmi
+		_case.ajouterFourmi(this); //Lie la case à la Fourmi
 		fourmiliere.ajouterFourmi(this); //Lie la fourmiliere à la Fourmi
 	}
 
@@ -199,7 +199,14 @@ public abstract class Fourmi {
 	 * @param fourmiliere
 	 */
 	public void setFourmiliere(Fourmiliere fourmiliere) {
+		
+		if(this.fourmiliere != null) {
+			this.fourmiliere.supprimerFourmi(this);
+		}
+		
 		this.fourmiliere = fourmiliere;
+		fourmiliere.ajouterFourmi(this);
+		
 	}
 
 }

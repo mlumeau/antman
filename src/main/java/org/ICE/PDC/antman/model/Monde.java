@@ -57,7 +57,7 @@ public class Monde {
 	
 
 	public void creerRessources() {
-		
+		//TODO improve ressources generation
 		Case where = this.get_cases().get(new Random().nextInt(this._cases.size()));
 		where.ajouterRessource(new Ressource(this.abondance/(new Random().nextInt(5)+1)));
 		
@@ -112,7 +112,13 @@ public class Monde {
 		}
 		
 		logger.info("Action des fourmis ...");
-		for(Fourmiliere fl : this.getFourmilieres()) {
+		/*
+		 * On copie la liste de fourmilires pour pouvoir supprimer certaines de celles-ci durant la boucle for 
+		 * en évitant le problème des modifications concurentes 
+		 */
+		Set<Fourmiliere> fourmilieres = new HashSet<Fourmiliere>(this.getFourmilieres());
+		
+		for(Fourmiliere fl : fourmilieres) {
 			
 			/*
 			 * On copie la liste de fourmi pour pouvoir supprimer certaines de celles-ci durant la boucle for 

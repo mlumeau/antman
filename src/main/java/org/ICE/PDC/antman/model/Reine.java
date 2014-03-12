@@ -36,6 +36,16 @@ public class Reine extends Fourmi {
 			} else {
 				new Eclaireuse(this.getFourmiliere());
 			}
+			
+			//Si la fourmiliere a atteind sa taille maximum, alors il est possible de creer une nouvelle reine
+			//(Une reine se creera en moyenne tout les 10 tours)
+			if(this.getFourmiliere().getTotalFourmis() >= this.getFourmiliere().getTaille_max()) {
+				
+				if(rand >= 9) {
+					new Reine(this.getFourmiliere()).setEtat(States.RECHERCHE_EMPLACEMENT);
+				}
+				
+			}
 
 		}
 	}
@@ -97,7 +107,22 @@ public class Reine extends Fourmi {
 					break;
 						
 					case RECHERCHE_EMPLACEMENT:
-						//TODO feed me :(
+						this.seDeplacerAlea();
+						
+						//L'emplacement ne doit pas déja contenir une fourmiliere
+						if(this.get_case().getFourmiliere() == null) {
+							
+							int rand = new Random().nextInt(10);
+							
+							if(rand >= 9) {
+								Fourmiliere f = new Fourmiliere(this.getFourmiliere().getMonde(),this.get_case(),this.getFourmiliere().getFecondite(), this.getFourmiliere().getTaille_max(),0);
+								this.setFourmiliere(f);
+								this.setEtat(States.INSTALEE);
+								logger.info("La Reine ("+this.hashCode()+") a fondé ue nouvelle fourmiliere");
+							}
+
+						}
+						
 					break;
 						
 				}
