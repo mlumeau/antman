@@ -165,7 +165,7 @@ public class App
 			 while(monde.getTotalFourmis() > 0) {
 			    
 				 if(App.auto) {
-					Thread.sleep(1000);
+					//Thread.sleep(1000);
 				    logger.info("Tour n°"+(++App.i)+" - Total fourmilieres : "+monde.getFourmilieres().size()+" - Total fourmis : "+monde.getTotalFourmis());
 				    monde.jouerTour();
 				    getFrameFor(panel,monde); 

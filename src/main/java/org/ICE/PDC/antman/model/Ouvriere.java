@@ -76,9 +76,9 @@ public class Ouvriere extends Fourmi {
 			
 				if(r.getQuantite() <= this.getCharge_max()-this.getCharge()) {
 					//Tout prendre
+					this.setCharge(this.getCharge()+r.getQuantite());
 					r.diminuerQuantite(r.getQuantite());
 					this.get_case().supprimerRessource(r); //Suppression de la ressource
-					this.setCharge(this.getCharge()+r.getQuantite());
 					
 				} else {
 					//Prendre le maximum possible

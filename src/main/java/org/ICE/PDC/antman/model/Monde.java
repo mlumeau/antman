@@ -7,8 +7,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.List;
 
-import javax.swing.event.EventListenerList;
-
 import org.apache.log4j.Logger;
 
 /** 
@@ -164,20 +162,6 @@ public class Monde {
 	 */
 	public void supprimerFourmiliere(Fourmiliere f) {
 		this.fourmilieres.remove(f);
-	}
-
-	/** 
-	 * @param l
-	 */
-	public void addMapListener(MapListener l) {
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-	}
-
-	/** 
-	 * @param L
-	 */
-	public void removeMapListener(MapListener L) {
-		// TODO Module de remplacement de m�thode auto-g�n�r�
 	}
 
 	/** 
