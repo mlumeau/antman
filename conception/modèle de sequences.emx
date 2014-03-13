@@ -550,18 +550,6 @@
       <message xmi:id="_ZUymTImoEeOEu9yVHnyqvg" name="augmenterQuantite" messageSort="asynchCall" receiveEvent="_ZUo1ZImoEeOEu9yVHnyqvg" sendEvent="_ZUo1Y4moEeOEu9yVHnyqvg" connector="_okP64KqVEeOxp7Vf-D-jqw"/>
       <message xmi:id="_ZUymTYmoEeOEu9yVHnyqvg" name="getTotalFourmis" receiveEvent="_ZUo1jomoEeOEu9yVHnyqvg" sendEvent="_ZUo1jYmoEeOEu9yVHnyqvg" connector="_ZUymT4moEeOEu9yVHnyqvg"/>
     </ownedBehavior>
-    <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_MvF1EKqZEeOxp7Vf-D-jqw" name="Machineàétat1">
-      <eAnnotations xmi:id="_MvF1EqqZEeOxp7Vf-D-jqw" source="uml2.diagrams">
-        <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_MvF1E6qZEeOxp7Vf-D-jqw" type="Statechart" element="_MvF1EKqZEeOxp7Vf-D-jqw" name="DiagrammeMachineEtat1" measurementUnit="Himetric">
-          <children xmi:type="umlnotation:UMLFrame" xmi:id="_MvF1FKqZEeOxp7Vf-D-jqw" type="Statemachine" element="_MvF1EKqZEeOxp7Vf-D-jqw" fontHeight="8" fillColor="16250871" transparency="0" lineColor="12632258" lineWidth="1" showStereotype="Label" alignment="Horizontal">
-            <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_MvF1FaqZEeOxp7Vf-D-jqw" type="Region" element="_MvF1EaqZEeOxp7Vf-D-jqw"/>
-            <children xmi:type="notation:BasicDecorationNode" xmi:id="_MvF1FqqZEeOxp7Vf-D-jqw" type="Name"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_MvF1F6qZEeOxp7Vf-D-jqw" x="793" y="793"/>
-          </children>
-        </contents>
-      </eAnnotations>
-      <region xmi:id="_MvF1EaqZEeOxp7Vf-D-jqw" name="Région1"/>
-    </ownedBehavior>
     <ownedAttribute xmi:id="_ZUo1QomoEeOEu9yVHnyqvg" name="">
       <type xmi:type="uml:Class" href="modèle%20métier.emx#_CbqdcFK1EeO0SNmhNFl3JA?modèle%20métier/model/Fourmiliere?"/>
     </ownedAttribute>
