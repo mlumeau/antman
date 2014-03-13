@@ -3,7 +3,10 @@
  */
 package org.ICE.PDC.antman.view;
 
+import java.util.EventListener;
+
 import javax.swing.JFrame;
+import javax.swing.event.EventListenerList;
 
 import org.ICE.PDC.antman.controller.MainCtrl;
 import org.ICE.PDC.antman.model.MapListener;
@@ -34,6 +37,7 @@ public class MainFrame extends JFrame implements MapListener {
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	private MainCtrl mainCtrl;
+	private EventListener listener;
 
 	/** 
 	 * @return mainCtrl
@@ -211,4 +215,13 @@ public class MainFrame extends JFrame implements MapListener {
 
 		// end-user-code
 	}
+	
+	public EventListener getListener() {
+		return listener;
+	}
+
+	public void setListener(EventListener listener) {
+		this.listener = listener;
+	}
+
 }

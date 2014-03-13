@@ -88,10 +88,10 @@
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_cs0FmINTEeOL6P3mcmTh7Q" type="OperationCompartment"/>
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_cs0FmYNTEeOL6P3mcmTh7Q" visible="false" type="SignalCompartment"/>
               <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_cs0FmoNTEeOL6P3mcmTh7Q" visible="false" type="StructureCompartment"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_cs0FkYNTEeOL6P3mcmTh7Q" x="1743" y="555"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_cs0FkYNTEeOL6P3mcmTh7Q" x="1743" y="555" height="2457"/>
             </children>
           </children>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_iD30YYNUEeOL6P3mcmTh7Q" x="2112" y="17292" width="6823" height="4096"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_iD30YYNUEeOL6P3mcmTh7Q" x="2112" y="17292" width="6823" height="5507"/>
         </children>
         <children xmi:type="umlnotation:UMLShape" xmi:id="_nenl0INUEeOL6P3mcmTh7Q" element="_3VqU0INFEeOL6P3mcmTh7Q" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
           <children xmi:type="notation:DecorationNode" xmi:id="_nenl0oNUEeOL6P3mcmTh7Q" type="ImageCompartment">
@@ -1470,6 +1470,9 @@
           <general xmi:type="uml:Class" href="mmi:///#jbintype%5Ename=javax.swing.JFrame%5Bproject%5Eid=Projet%20PDC%20Source%5D$uml.Class"/>
         </generalization>
       </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_I4x4kKqeEeOxp7Vf-D-jqw" name="MainFrameListener">
+        <ownedOperation xmi:id="_L8b20KqeEeOxp7Vf-D-jqw" name="Opération1"/>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_8FWXEINFEeOL6P3mcmTh7Q" name="controller">
       <eAnnotations xmi:id="_8FWXEYNFEeOL6P3mcmTh7Q" source="uml2.diagrams"/>
@@ -1477,6 +1480,10 @@
         <ownedAttribute xmi:id="_f7V3EYNTEeOL6P3mcmTh7Q" name="mainFrame" visibility="private" type="_AzecoINSEeOL6P3mcmTh7Q" association="_f7V3EINTEeOL6P3mcmTh7Q">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_f7foEYNTEeOL6P3mcmTh7Q" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_f7foEINTEeOL6P3mcmTh7Q" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_TfFI4KqeEeOxp7Vf-D-jqw" name="monde" visibility="private" type="_ACoJgFK1EeO0SNmhNFl3JA"/>
+        <ownedAttribute xmi:id="_XkJg0KqeEeOxp7Vf-D-jqw" name="timer" visibility="private">
+          <type xmi:type="uml:Class" href="mmi:///#jbintype%5Ename=java.util.Timer%5Bproject%5Eid=antman%5D$uml.Class"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_f7V3EINTEeOL6P3mcmTh7Q" memberEnd="_f7V3EYNTEeOL6P3mcmTh7Q _f7foEoNTEeOL6P3mcmTh7Q"/>
