@@ -5,7 +5,7 @@
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:JavaTransformation50="http:///schemas/JavaTransformation50/_znHmkE3YEd-tPpJR7OP4Bg/34" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmlns:umlnotation="http://www.ibm.com/xtools/1.5.3/Umlnotation" xsi:schemaLocation="http:///schemas/JavaTransformation50/_znHmkE3YEd-tPpJR7OP4Bg/34 pathmap://TRANSFORM_ANNOTATION_PROFILES/JavaTransformProfile.epx#_znahgE3YEd-tPpJR7OP4Bg?JavaTransformation5.0/JavaTransformation50?">
   <uml:Package xmi:id="_-Gyu8FK0EeO0SNmhNFl3JA" name="modèle métier">
     <eAnnotations xmi:id="_-Gyu8VK0EeO0SNmhNFl3JA" source="uml2.diagrams" references="_-Gyu8lK0EeO0SNmhNFl3JA">
-      <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_-Gyu8lK0EeO0SNmhNFl3JA" type="Freeform" name="Main">
+      <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_-Gyu8lK0EeO0SNmhNFl3JA" type="Freeform" name="Modèle métier">
         <children xmi:type="umlnotation:UMLShape" xmi:id="_awRD4INUEeOL6P3mcmTh7Q" element="_59mncINFEeOL6P3mcmTh7Q" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
           <children xmi:type="notation:DecorationNode" xmi:id="_awRD4oNUEeOL6P3mcmTh7Q" type="ImageCompartment">
             <layoutConstraint xmi:type="notation:Size" xmi:id="_awRD44NUEeOL6P3mcmTh7Q" width="1320" height="1320"/>
@@ -1444,11 +1444,7 @@
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_59mncINFEeOL6P3mcmTh7Q" name="view">
-      <eAnnotations xmi:id="_59mncYNFEeOL6P3mcmTh7Q" source="uml2.diagrams" references="_59mncoNFEeOL6P3mcmTh7Q">
-        <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_59mncoNFEeOL6P3mcmTh7Q" type="Freeform" name="Informations générales">
-          <element xsi:nil="true"/>
-        </contents>
-      </eAnnotations>
+      <eAnnotations xmi:id="_59mncYNFEeOL6P3mcmTh7Q" source="uml2.diagrams"/>
       <packagedElement xmi:type="uml:Class" xmi:id="_AzecoINSEeOL6P3mcmTh7Q" name="MainFrame" clientDependency="_aYquIINSEeOL6P3mcmTh7Q">
         <generalization xmi:id="_kRqzkINSEeOL6P3mcmTh7Q">
           <general xmi:type="uml:Class" href="mmi:///#jbintype%5Ename=javax.swing.JFrame%5Bproject%5Eid=Projet%20PDC%20Source%5D$uml.Class"/>
@@ -1476,11 +1472,7 @@
       </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_8FWXEINFEeOL6P3mcmTh7Q" name="controller">
-      <eAnnotations xmi:id="_8FWXEYNFEeOL6P3mcmTh7Q" source="uml2.diagrams" references="_8FWXEoNFEeOL6P3mcmTh7Q">
-        <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_8FWXEoNFEeOL6P3mcmTh7Q" type="Freeform" name="Informations générales">
-          <element xsi:nil="true"/>
-        </contents>
-      </eAnnotations>
+      <eAnnotations xmi:id="_8FWXEYNFEeOL6P3mcmTh7Q" source="uml2.diagrams"/>
       <packagedElement xmi:type="uml:Class" xmi:id="_ZJH8YINTEeOL6P3mcmTh7Q" name="MainCtrl">
         <ownedAttribute xmi:id="_f7V3EYNTEeOL6P3mcmTh7Q" name="mainFrame" visibility="private" type="_AzecoINSEeOL6P3mcmTh7Q" association="_f7V3EINTEeOL6P3mcmTh7Q">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_f7foEYNTEeOL6P3mcmTh7Q" value="1"/>
