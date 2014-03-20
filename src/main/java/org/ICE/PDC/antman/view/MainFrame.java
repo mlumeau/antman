@@ -113,6 +113,11 @@ public class MainFrame extends JFrame implements MapListener {
 		controlPanel.add(separator, "cell 4 0 1 2");
 		
 		WebSlider vitesseWebSlider = new WebSlider();
+		vitesseWebSlider.setMajorTickSpacing (10);
+		vitesseWebSlider.setMinimum(10);
+		vitesseWebSlider.setMaximum(30);
+		vitesseWebSlider.setPaintTicks (true);  
+		vitesseWebSlider.setPaintLabels (true);   
 		controlPanel.add(vitesseWebSlider, "cell 2 1 2 1,grow");
 		
 		JSeparator separator_1 = new JSeparator();
@@ -170,7 +175,7 @@ public class MainFrame extends JFrame implements MapListener {
 	/*-----------------*/
  
 	/** 
-	 * @return mainCtrl
+	 * @return mainFrameListener
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public MainFrameListener getMainFrameListener() {
@@ -180,12 +185,12 @@ public class MainFrame extends JFrame implements MapListener {
 	}
 
 	/** 
-	 * @param mainCtrl mainCtrl � d�finir
+	 * @param mainFrameListener mainFrameListener � d�finir
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
-	public void setMainCtrl(MainCtrl mainCtrl) {
+	public void setMainFrameListener(MainFrameListener mainFrameListener) {
 		// begin-user-code
-		this.mainFrameListener = mainCtrl;
+		this.mainFrameListener = mainFrameListener;
 		// end-user-code
 	}
 	
