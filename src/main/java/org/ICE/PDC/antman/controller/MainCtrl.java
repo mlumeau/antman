@@ -3,11 +3,6 @@
  */
 package org.ICE.PDC.antman.controller;
 
-import java.util.Timer;
-
-import javax.swing.event.EventListenerList;
-
-import org.ICE.PDC.antman.model.MapListener;
 import org.ICE.PDC.antman.model.Monde;
 import org.ICE.PDC.antman.view.MainFrame;
 import org.ICE.PDC.antman.view.MainFrameListener;
@@ -16,17 +11,14 @@ public class MainCtrl implements MainFrameListener {
 
 	private MainFrame mainFrame;
 	private Monde monde;
-    private Timer timer;
     
     
-    
-	
 	public MainCtrl(Monde monde){
 		this.monde = monde;
 		this.mainFrame = new MainFrame();
-		this.ticker
+		this.mainFrame.setMainFrameListener(this);
 	}
-	 
+	
 	/** 
 	 * @return mainFrame
 	 */
@@ -42,19 +34,19 @@ public class MainCtrl implements MainFrameListener {
 	}
 
 	public void setVitesse(int vitesse) {
-		// TODO Auto-generated method stub
+		
 	}
 
 	public void jouerTour() {
-		// TODO Auto-generated method stub
+		System.out.println("...TODO...");
 	}
 
 	public void setMeteo(int meteo) {
-		// TODO Auto-generated method stub
+		
 	}
 
 	public void setAbondance(int abondance) {
-		// TODO Auto-generated method stub
+		
 	}
 	
 }
