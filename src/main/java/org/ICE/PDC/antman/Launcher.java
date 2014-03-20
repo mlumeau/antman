@@ -1,5 +1,6 @@
 package org.ICE.PDC.antman;
 
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 
 import org.ICE.PDC.antman.controller.MainCtrl;
@@ -14,9 +15,12 @@ public class Launcher {
 	 */
 	public static void main(String[] args) {
 		WebLookAndFeel.install();
+		
       	MainFrame mf = new MainFrame();
       	
       	mf.setVisible(true);
+      	
+      	mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 
