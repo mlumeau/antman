@@ -1,7 +1,6 @@
 package org.ICE.PDC.antman.model;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -16,7 +15,7 @@ public class Monde {
 	
 	private static Logger logger = Logger.getLogger(Monde.class);
 	
-	private EventListener listener;
+	private EventListenerList listeners;
 	
 	private List<Case> _cases;
 	private Set<Case> obstacles;
@@ -251,15 +250,15 @@ public class Monde {
 	/** 
 	 * @return listeners
 	 */
-	public EventListener getListeners() {
-		return listener;
+	public EventListenerList getListeners() {
+		return listeners;
 	}
 
 	/** 
 	 * @param listeners listeners à définir
 	 */
-	public void setListeners(EventListener listener) {
-		this.listener = listener;
+	public void setListeners(EventListenerList listeners) {
+		this.listeners = listeners;
 	}
 
 }
