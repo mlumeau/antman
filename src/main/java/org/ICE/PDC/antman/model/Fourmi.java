@@ -1,8 +1,12 @@
 package org.ICE.PDC.antman.model;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import org.ICE.PDC.antman.model.events.FourmiAjouteeEvent;
+import org.ICE.PDC.antman.model.events.FourmiPositionChangeeEvent;
+import org.ICE.PDC.antman.model.events.FourmiSupprimeeEvent;
 import org.apache.log4j.Logger;
 
 /** 
@@ -40,6 +44,7 @@ public abstract class Fourmi {
 		logger.debug("Fourmi crée : "+this);
 		_case.ajouterFourmi(this); //Lie la case à la Fourmi
 		fourmiliere.ajouterFourmi(this); //Lie la fourmiliere à la Fourmi
+		fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(new FourmiAjouteeEvent(fourmiliere.getMonde().getTour(), new Date(), this));
 	}
 
 	/** 
@@ -60,6 +65,7 @@ public abstract class Fourmi {
 	}
 	
 	public void mourir() {
+		fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(new FourmiSupprimeeEvent(fourmiliere.getMonde().getTour(), new Date(),this));
 		this.get_case().supprimerFourmi(this);
 		this.getFourmiliere().supprimerFourmi(this);
 	}
@@ -67,7 +73,6 @@ public abstract class Fourmi {
 
 	public void seDeplacerAlea() {
 		List<Case> cases = this.get_case().getCasesInRadius(1);
-		
 		if(cases.size() > 1) {
 			cases.remove(this.getLast_position());
 		}
@@ -161,9 +166,9 @@ public abstract class Fourmi {
 	/** 
 	 * @param _case _case à définir
 	 */
-	public void set_case(Case _case) {
-		
+	public void set_case(Case _case) {		
 		if(this._case != null) {
+			fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(new FourmiPositionChangeeEvent(fourmiliere.getMonde().getTour(), new Date(),this,this.get_case().getX(),this.get_case().getY()));
 			this.setLast_position(this._case);
 			this._case.supprimerFourmi(this);
 		}

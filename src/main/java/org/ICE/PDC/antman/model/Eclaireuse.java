@@ -1,7 +1,10 @@
 package org.ICE.PDC.antman.model;
 
+import java.util.Date;
 import java.util.List;
 
+import org.ICE.PDC.antman.model.events.FourmiAjouteeEvent;
+import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.apache.log4j.Logger;
 
 /** 
@@ -30,7 +33,7 @@ public class Eclaireuse extends Fourmi {
 	 */
 	public Eclaireuse(Fourmiliere fourmiliere) {
 		super(fourmiliere);
-		this.etat = States.CHERCHER_RESSOURCES;
+		setEtat(States.CHERCHER_RESSOURCES);
 		this.chemin_retour = null;
 	}
 
@@ -40,7 +43,7 @@ public class Eclaireuse extends Fourmi {
 	 */
 	public Eclaireuse(Fourmiliere fourmiliere, Case _case) {
 		super(fourmiliere,_case);
-		this.etat = States.CHERCHER_RESSOURCES;
+		setEtat( States.CHERCHER_RESSOURCES);
 		this.chemin_retour = null;
 	}
 
@@ -51,7 +54,7 @@ public class Eclaireuse extends Fourmi {
 	 */
 	public Eclaireuse(Fourmiliere fourmiliere, Case _case, States etat) {
 		super(fourmiliere,_case);
-		this.etat = etat;
+		setEtat(etat);
 		this.chemin_retour = null;
 	}
 
@@ -147,6 +150,7 @@ public class Eclaireuse extends Fourmi {
 	 * @param etat etat à définir
 	 */
 	public void setEtat(States etat) {
+		getFourmiliere().getMonde().getEvents().get(getFourmiliere().getMonde().getTour()).add(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, this.etat));
 		this.etat = etat;
 	}
 

@@ -1,11 +1,13 @@
 package org.ICE.PDC.antman.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.apache.log4j.Logger;
 
 /** 
@@ -35,7 +37,7 @@ public class Ouvriere extends Fourmi {
 	 */
 	public Ouvriere(Fourmiliere fourmiliere) {
 		super(fourmiliere);
-		this.etat = States.SUIVRE_PHEROMONES;
+		setEtat(States.SUIVRE_PHEROMONES);
 		this.charge_max = 20;
 		this.chemin_retour = null;
 	}
@@ -46,7 +48,7 @@ public class Ouvriere extends Fourmi {
 	 */
 	public Ouvriere(Fourmiliere fourmiliere, Case _case) {
 		super(fourmiliere,_case);
-		this.etat = States.SUIVRE_PHEROMONES;
+		setEtat(States.SUIVRE_PHEROMONES);
 		this.charge_max = 20;
 		this.chemin_retour = null;
 	}
@@ -58,7 +60,7 @@ public class Ouvriere extends Fourmi {
 	 */
 	public Ouvriere(Fourmiliere fourmiliere, Case _case, States etat) {
 		super(fourmiliere,_case);
-		this.etat = etat;
+		setEtat( etat);
 		this.charge_max = 20;
 		this.chemin_retour = null;
 	}
@@ -268,6 +270,7 @@ public class Ouvriere extends Fourmi {
 	 * @param etat etat à définir
 	 */
 	public void setEtat(States etat) {
+		getFourmiliere().getMonde().getEvents().get(getFourmiliere().getMonde().getTour()).add(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, this.etat));
 		this.etat = etat;
 	}
 

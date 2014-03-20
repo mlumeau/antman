@@ -1,8 +1,12 @@
 package org.ICE.PDC.antman.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.ICE.PDC.antman.model.events.FourmiliereAjouteeEvent;
+import org.ICE.PDC.antman.model.events.FourmiliereRessourcesChangeesEvent;
+import org.ICE.PDC.antman.model.events.FourmiliereSupprimeeEvent;
 import org.apache.log4j.Logger;
 
 
@@ -41,6 +45,7 @@ public class Fourmiliere {
 		logger.debug("Fourmiliere crée : "+this);
 		_case.setFourmiliere(this); //Lie la case à la fourmiliere
 		monde.ajouterFourmiliere(this); //Lie le monde à la fourmiliere
+		monde.getEvents().get(monde.getTour()).add(new FourmiliereAjouteeEvent(monde.getTour(), new Date(), this));
 	}
 	
 	@Override
@@ -67,6 +72,7 @@ public class Fourmiliere {
 		
 		if(this.fourmi.size() == 0) {
 			this._case.setFourmiliere(null);
+			monde.getEvents().get(monde.getTour()).add(new FourmiliereSupprimeeEvent(monde.getTour(), new Date(), this));
 			this.getMonde().supprimerFourmiliere(this);
 		}
 		
@@ -133,6 +139,7 @@ public class Fourmiliere {
 	 * @param ressources ressources à définir
 	 */
 	public void setRessources(int ressources) {
+		monde.getEvents().get(monde.getTour()).add(new FourmiliereRessourcesChangeesEvent(monde.getTour(), new Date(), this,this.ressources));
 		this.ressources = ressources;
 	}
 

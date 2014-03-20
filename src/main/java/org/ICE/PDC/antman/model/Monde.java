@@ -274,6 +274,13 @@ public class Monde {
 	 */
 	public int getTour() {
 		return tour;
+	}	
+
+	public Map<Integer, List<MapEvent>> getEvents() {
+		return events;
 	}
 
+	public void setEvents(Map<Integer, List<MapEvent>> events) {
+		this.events = events;
+	}
 }
