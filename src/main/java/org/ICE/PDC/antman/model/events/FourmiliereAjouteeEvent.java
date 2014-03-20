@@ -3,6 +3,10 @@
  */
 package org.ICE.PDC.antman.model.events;
 
+import java.util.Date;
+
+import org.ICE.PDC.antman.model.Fourmiliere;
+
 /** 
  * <!-- begin-UML-doc -->
  * <!-- end-UML-doc -->
@@ -10,4 +14,9 @@ package org.ICE.PDC.antman.model.events;
  * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 public class FourmiliereAjouteeEvent extends FourmiliereEvent {
+
+	public FourmiliereAjouteeEvent(int tour, Date datetime,Fourmiliere fourmiliere) {
+		super(tour, datetime, fourmiliere);
+	}
+	
 }

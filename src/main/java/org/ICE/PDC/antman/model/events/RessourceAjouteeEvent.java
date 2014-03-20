@@ -3,11 +3,13 @@
  */
 package org.ICE.PDC.antman.model.events;
 
-/** 
- * <!-- begin-UML-doc -->
- * <!-- end-UML-doc -->
- * @author S219
- * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
- */
+import java.util.Date;
+
+import org.ICE.PDC.antman.model.Ressource;
+
 public class RessourceAjouteeEvent extends RessourceEvent {
+
+	public RessourceAjouteeEvent(int tour, Date datetime, Ressource ressource) {
+		super(tour, datetime, ressource);
+	}
 }
