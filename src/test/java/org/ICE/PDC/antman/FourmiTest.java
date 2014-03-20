@@ -56,6 +56,4 @@ public class FourmiTest {
 		assertEquals(fourmi.getSante_max(), fourmi.getSante()); 
 		
 	}
-	
-	
 }
