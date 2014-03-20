@@ -61,13 +61,13 @@ public class MainFrame extends JFrame implements MapListener {
 	 * <!-- end-UML-doc -->
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
-	private MainCtrl mainCtrl;
+	private MainFrameListener mainFrameListener;
 
 	
-	public MainFrame(MainCtrl mc) {
+	public MainFrame() {
 		setSize(new Dimension(800, 700));
+		setLocation(100, 100);
 		
-		mainCtrl = mc;
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -165,8 +165,6 @@ public class MainFrame extends JFrame implements MapListener {
 	
 	
 	
-	
-	
 	/*-----------------*/
 	/* GETTERS/SETTERS */
 	/*-----------------*/
@@ -175,9 +173,9 @@ public class MainFrame extends JFrame implements MapListener {
 	 * @return mainCtrl
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
-	public MainCtrl getMainCtrl() {
+	public MainFrameListener getMainFrameListener() {
 		// begin-user-code
-		return mainCtrl;
+		return mainFrameListener;
 		// end-user-code
 	}
 
@@ -187,7 +185,7 @@ public class MainFrame extends JFrame implements MapListener {
 	 */
 	public void setMainCtrl(MainCtrl mainCtrl) {
 		// begin-user-code
-		this.mainCtrl = mainCtrl;
+		this.mainFrameListener = mainCtrl;
 		// end-user-code
 	}
 	
