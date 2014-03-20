@@ -3,10 +3,12 @@ package org.ICE.PDC.antman.model;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.List;
 
+import org.ICE.PDC.antman.model.events.MapEvent;
 import org.apache.log4j.Logger;
 
 /** 
@@ -15,15 +17,15 @@ import org.apache.log4j.Logger;
 public class Monde {
 	
 	private static Logger logger = Logger.getLogger(Monde.class);
-	
-	private EventListener listener;
-	
+	private MapListener listener;
 	private List<Case> _cases;
 	private Set<Case> obstacles;
 	private Set<Fourmiliere> fourmilieres;
 	private Set<Pheromone> pheromones;
 	private int meteo;
 	private int abondance;
+	private Map<Integer,List<MapEvent>> events;
+	private int tour;
 	
 	/** 
 	 * @param longueur
@@ -51,12 +53,14 @@ public class Monde {
 		
 		this.abondance = abondance;
 		logger.info("Abondance initiale reglée à "+abondance);
+		
+		this.tour = 0;
 	}
 	
 	
 
 	public void creerRessources() {
-		//TODO improve ressources generation
+
 		Case where = this.get_cases().get(new Random().nextInt(this._cases.size()));
 		where.ajouterRessource(new Ressource(this.abondance/(new Random().nextInt(5)+1)));
 		
@@ -88,7 +92,10 @@ public class Monde {
 	/** 
 	 * Fait Avancer la simulation d'un tour
 	 */
-	public void jouerTour() {
+	public synchronized void jouerTour() {
+		
+		this.tour++;
+		this.events.put(tour,new ArrayList<MapEvent>());
 		
 		logger.info("Génération des Ressources ...");
 		
@@ -251,15 +258,22 @@ public class Monde {
 	/** 
 	 * @return listeners
 	 */
-	public EventListener getListeners() {
+	public MapListener getListeners() {
 		return listener;
 	}
 
 	/** 
 	 * @param listeners listeners à définir
 	 */
-	public void setListeners(EventListener listener) {
+	public void setListeners(MapListener listener) {
 		this.listener = listener;
+	}
+	
+	/** 
+	 * @return tour
+	 */
+	public int getTour() {
+		return tour;
 	}
 
 }
