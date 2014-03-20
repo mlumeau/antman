@@ -15,8 +15,6 @@ public class MainCtrl implements MainFrameListener {
     
 	public MainCtrl(Monde monde){
 		this.monde = monde;
-		this.mainFrame = new MainFrame();
-		this.mainFrame.setMainFrameListener(this);
 	}
 	
 	/** 
@@ -31,6 +29,7 @@ public class MainCtrl implements MainFrameListener {
 	 */
 	public void setMainFrame(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
+		this.mainFrame.setMainFrameListener(this);
 	}
 
 	public void setVitesse(int vitesse) {
