@@ -4,11 +4,16 @@
 package org.ICE.PDC.antman.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -16,10 +21,24 @@ import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.plaf.SliderUI;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.ICE.PDC.antman.Launcher;
+import org.ICE.PDC.antman.TextAreaAppender;
+import org.ICE.PDC.antman.model.Case;
+import org.ICE.PDC.antman.model.Eclaireuse;
+import org.ICE.PDC.antman.model.Fourmi;
+import org.ICE.PDC.antman.model.Fourmiliere;
 import org.ICE.PDC.antman.model.MapListener;
+import org.ICE.PDC.antman.model.Monde;
+import org.ICE.PDC.antman.model.Ouvriere;
+import org.ICE.PDC.antman.model.Pheromone;
+import org.ICE.PDC.antman.model.Reine;
+import org.ICE.PDC.antman.model.Ressource;
 import org.ICE.PDC.antman.model.events.FourmiAjouteeEvent;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.ICE.PDC.antman.model.events.FourmiPositionChangeeEvent;
@@ -33,6 +52,10 @@ import org.ICE.PDC.antman.model.events.PheromoneSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.RessourceAjouteeEvent;
 import org.ICE.PDC.antman.model.events.RessourceQuantiteChangeeEvent;
 import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
+import org.ICE.PDC.antman.model.events.TourJoueEvent;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
 
 import com.alee.extended.panel.WebAccordion;
 import com.alee.laf.button.WebButton;
@@ -59,11 +82,31 @@ public class MainFrame extends JFrame implements MapListener {
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	private MainFrameListener mainFrameListener;
-
+	private JPanel mapPanel;
+	private WebButton wbtnJouerTour;
+	private WebToggleButton wbtglbtnModeAutomatique;
+	private static Logger logger = Logger.getLogger(Launcher.class);
+	private WebSlider vitesseWebSlider;
+	private WebSlider meteoWebSlider;
+	private WebSlider abondanceWebSlider;
 	
 	public MainFrame() {
 		setSize(new Dimension(800, 700));
 		setLocation(100, 100);
+		
+		JTextArea logTextArea = new JTextArea();
+		logTextArea.setRows(10);
+		logTextArea.setEditable (false);
+		logTextArea.getCaret().setSelectionVisible(true);
+		logTextArea.getCaret().setVisible(true);
+
+  	   TextAreaAppender appender = new TextAreaAppender ();
+  	   appender.setLayout(new SimpleLayout());
+  	   TextAreaAppender.setTextArea(logTextArea);
+  	   
+  	   Logger logRoot = Logger.getRootLogger();
+  	   logRoot.addAppender(appender);
+  	   logRoot.setLevel(Level.INFO);
 		
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -95,11 +138,11 @@ public class MainFrame extends JFrame implements MapListener {
 		JLabel abondanceLabel = new JLabel("Abondance");
 		controlPanel.add(abondanceLabel, "cell 9 0");
 		
-		WebButton wbtnJouerTour = new WebButton();
+		wbtnJouerTour = new WebButton();
 		wbtnJouerTour.setText("Jouer tour");
 		controlPanel.add(wbtnJouerTour, "cell 1 0 1 2,grow");
 		
-		WebToggleButton wbtglbtnModeAutomatique = new WebToggleButton();
+		wbtglbtnModeAutomatique = new WebToggleButton();
 		wbtglbtnModeAutomatique.setText("Mode automatique");
 		controlPanel.add(wbtglbtnModeAutomatique, "cell 0 0 1 2,growy");
 		
@@ -109,15 +152,15 @@ public class MainFrame extends JFrame implements MapListener {
 		separator.setOpaque(true);
 		controlPanel.add(separator, "cell 4 0 1 2");
 		
-		WebSlider vitesseWebSlider = new WebSlider();
+		vitesseWebSlider = new WebSlider();
 		vitesseWebSlider.setSnapToTicks(true);
-		vitesseWebSlider.setMajorTickSpacing (10);
-		vitesseWebSlider.setMinimum(10);
-		vitesseWebSlider.setMaximum(30);
+		vitesseWebSlider.setMajorTickSpacing (1);
+		vitesseWebSlider.setMinimum(1);
+		vitesseWebSlider.setMaximum(3);
 		java.util.Hashtable<Integer,JLabel> vitesselabelTable = new java.util.Hashtable<Integer,JLabel>();  
-	    vitesselabelTable.put(new Integer(10), new JLabel("Lent"));  
-	    vitesselabelTable.put(new Integer(20), new JLabel("Moyen"));  
-	    vitesselabelTable.put(new Integer(30), new JLabel("Rapide"));  
+	    vitesselabelTable.put(new Integer(1), new JLabel("Lent"));  
+	    vitesselabelTable.put(new Integer(2), new JLabel("Moyen"));  
+	    vitesselabelTable.put(new Integer(3), new JLabel("Rapide"));  
 	    vitesseWebSlider.setLabelTable(vitesselabelTable);
 		vitesseWebSlider.setPaintTicks (true);  
 		vitesseWebSlider.setPaintLabels (true);   
@@ -128,45 +171,44 @@ public class MainFrame extends JFrame implements MapListener {
 		separator_1.setPreferredSize(new Dimension(0, 30));
 		controlPanel.add(separator_1, "cell 7 0 1 2");
 		
-		WebSlider meteoWebSlider = new WebSlider();
+		meteoWebSlider = new WebSlider();
 		meteoWebSlider.setSnapToTicks(true);
-		meteoWebSlider.setMajorTickSpacing (10);
-		meteoWebSlider.setMinimum(10);
-		meteoWebSlider.setMaximum(30);
+		meteoWebSlider.setMajorTickSpacing (1);
+		meteoWebSlider.setMinimum(1);
+		meteoWebSlider.setMaximum(3);
 		java.util.Hashtable<Integer,JLabel> meteolabelTable = new java.util.Hashtable<Integer,JLabel>();  
-		meteolabelTable.put(new Integer(10), new JLabel("Mauvais"));  
-		meteolabelTable.put(new Integer(20), new JLabel("Moyen"));  
-		meteolabelTable.put(new Integer(30), new JLabel("Bon"));  
+		meteolabelTable.put(new Integer(1), new JLabel("Mauvais"));  
+		meteolabelTable.put(new Integer(2), new JLabel("Moyen"));  
+		meteolabelTable.put(new Integer(3), new JLabel("Bon"));  
 		meteoWebSlider.setLabelTable(meteolabelTable);
 		meteoWebSlider.setPaintTicks (true);  
 		meteoWebSlider.setPaintLabels (true);   
 		meteoWebSlider.setSnapToTicks(true);
 		controlPanel.add(meteoWebSlider, "cell 5 1 2 1,grow");
 		
-		WebSlider abondanceWebSlider = new WebSlider();
+		abondanceWebSlider = new WebSlider();
 		abondanceWebSlider.setSnapToTicks(true);
-		abondanceWebSlider.setMajorTickSpacing (10);
-		abondanceWebSlider.setMinimum(10);
-		abondanceWebSlider.setMaximum(30);
+		abondanceWebSlider.setMajorTickSpacing (1);
+		abondanceWebSlider.setMinimum(1);
+		abondanceWebSlider.setMaximum(3);
 		java.util.Hashtable<Integer,JLabel> abondancelabelTable = new java.util.Hashtable<Integer,JLabel>();  
-		abondancelabelTable.put(new Integer(10), new JLabel("Basse"));  
-		abondancelabelTable.put(new Integer(20), new JLabel("Moyenne"));  
-		abondancelabelTable.put(new Integer(30), new JLabel("Haute"));  
+		abondancelabelTable.put(new Integer(1), new JLabel("Basse"));  
+		abondancelabelTable.put(new Integer(2), new JLabel("Moyenne"));  
+		abondancelabelTable.put(new Integer(3), new JLabel("Haute"));  
 		abondanceWebSlider.setLabelTable(abondancelabelTable);
 		abondanceWebSlider.setPaintTicks (true);  
 		abondanceWebSlider.setPaintLabels (true);   
 		abondanceWebSlider.setSnapToTicks(true);
 		controlPanel.add(abondanceWebSlider, "cell 8 1 2 1,grow");
 		
-		JPanel mapPanel = new JPanel();
+		mapPanel = new JPanel();
+		mapPanel.setLayout(new BoxLayout(mapPanel,  BoxLayout.Y_AXIS));
 		
 		WebScrollPane mapScrollPane = new WebScrollPane(mapPanel);
 		mainPanel.add(mapScrollPane, BorderLayout.CENTER);
+
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setRows(10);
-		
-		WebScrollPane webScrollPane = new WebScrollPane(textArea);
+		WebScrollPane webScrollPane = new WebScrollPane(logTextArea);
 		splitPane.setRightComponent(webScrollPane);
 		
 		JPanel panel = new JPanel();
@@ -200,11 +242,37 @@ public class MainFrame extends JFrame implements MapListener {
 		
 		wbtnJouerTour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				wbtnJouerTour.setEnabled(false);
 				mainFrameListener.jouerTour();
+				
 			}
 		});
 		
+		wbtglbtnModeAutomatique.addItemListener(new ItemListener() {
+			
+			public void itemStateChanged(ItemEvent e) {
+		        if(e.getStateChange() == ItemEvent.SELECTED)
+		        {
+		        	wbtglbtnModeAutomatique.setText("Mode manuel");
+		        	int i=vitesseWebSlider.getValue();
+		        	mainFrameListener.setVitesse(vitesseWebSlider.getValue());
+		        }
+		        else
+		        {
+		        	wbtglbtnModeAutomatique.setText("Mode automatique");
+		        	mainFrameListener.setVitesse(0);
+		        } 
+		    }
+		});
 		
+		vitesseWebSlider.addChangeListener(new ChangeListener() {
+			
+			public void stateChanged(ChangeEvent arg0) {
+				if (wbtglbtnModeAutomatique.isSelected()){
+					mainFrameListener.setVitesse(vitesseWebSlider.getValue());
+				}
+			}
+		});
 	}
 	
 	
@@ -235,10 +303,129 @@ public class MainFrame extends JFrame implements MapListener {
 	
 	
 	
+	
+	
 	/*-----------------*/
 	/* EVENT LISTENERS */
 	/*-----------------*/
 	
+	public void tourJoue(TourJoueEvent _e){
+		
+		Monde monde = _e.getMonde();
+		
+		try {
+	    	  
+			   int nbcases = monde.get_cases().size();
+			   int nbcases_sqrt = (int)Math.sqrt(nbcases);
+			    
+		    	mapPanel.removeAll(); 
+		    	
+		    	JPanel infos = new JPanel();
+
+
+		    	 logger.info("Tour n°"+(_e.getTour())+" - Total fourmilieres : "+monde.getFourmilieres().size()+" - Total fourmis : "+monde.getTotalFourmis());
+		    	int reines = 0;
+		    	int ouvrieres = 0;
+		    	int eclaireuses = 0;
+		    	
+		    	for(Fourmiliere f : monde.getFourmilieres()) {
+		    		
+		    		for(Fourmi fo : f.getFourmi()) {
+		    			
+		    			if(fo instanceof Ouvriere)  {
+		    				ouvrieres++;
+		    			} else if (fo instanceof Eclaireuse) {
+		    				eclaireuses++;
+		    			} else if (fo instanceof Reine) {
+		    				reines++;
+		    			}
+		    			
+		    		}
+		    		
+		    	}
+		    	
+		    	String infosString = "TOUR n° "+_e.getTour()+
+						 " -- Fourmilières : "+monde.getFourmilieres().size()+
+						 " - Fourmis : "+monde.getTotalFourmis()+
+						 "  (Reines : "+reines+
+						 " / Ouvrières : "+ouvrieres+
+						 " / Eclaireuses : "+eclaireuses+")";
+						 
+		    	infos.add(new JLabel(infosString));
+		    	
+		    	JPanel map = new JPanel(new GridLayout(nbcases_sqrt,nbcases_sqrt));
+		    	map.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
+		    	
+				for(int x=0; x<nbcases_sqrt; x++) {
+					
+					for(int y=0; y<nbcases_sqrt; y++) {
+						final Case current = monde.getCaseAt(x,y);
+						
+						final JLabel label = new JLabel("", SwingConstants.CENTER);
+					    label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					    label.setOpaque(true);
+					    label.setSize(10,10);
+					    
+						if(current.getFourmis().size() > 0) {
+							label.setText("F");
+						}
+					    
+						if(current.getFourmiliere() != null) {
+							label.setBackground(Color.BLACK);
+							
+							label.setText(String.valueOf(current.getFourmiliere().getRessources()));
+							
+						} else if(current.getRessources().size() > 0) {
+							label.setBackground(Color.YELLOW);
+							
+							int q = 0;
+							
+							for(Ressource r : current.getRessources()) {
+								q+= r.getQuantite();
+							}
+							
+							label.setText(String.valueOf(q));
+							
+						} else if (current.getPheromones().size() > 0) {
+						
+							int ph = 0;
+							
+							for(Pheromone p : current.getPheromones()) {
+								
+								ph+= p.getPuissance();
+							}
+						
+							if(ph != 0) {
+								
+								int gb = 0;
+								
+								if((10*ph) < 255) {
+									gb = 255 - (10*ph);
+								}
+								
+								label.setBackground(new Color(255,gb,gb));
+							}
+							
+						}
+						
+						map.add(label);
+					}
+					
+				}
+				
+				
+				mapPanel.add(map);
+				mapPanel.add(infos);
+				
+				mapPanel.repaint();
+				mapPanel.revalidate();
+				
+		      } catch (Exception e) {
+		    	  e.printStackTrace();
+		      }
+		
+		wbtnJouerTour.setEnabled(true);
+	}
 
 	/** 
 	 * (non-Javadoc)

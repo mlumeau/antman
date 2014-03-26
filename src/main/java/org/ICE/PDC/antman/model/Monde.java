@@ -145,7 +145,11 @@ public class Monde {
 			}
 			
 		}
-		events.get(tour).add(new TourJoueEvent(tour,new Date(),this));		
+		
+		TourJoueEvent e = new TourJoueEvent(tour,new Date(),this);
+		this.getListeners().tourJoue(e);
+		events.get(tour).add(e);
+		
 	}
 
 	/** 

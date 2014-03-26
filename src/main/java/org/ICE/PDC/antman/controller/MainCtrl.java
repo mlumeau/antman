@@ -33,11 +33,18 @@ public class MainCtrl implements MainFrameListener {
 	public void setMainFrame(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		this.mainFrame.setMainFrameListener(this);
+		this.monde.setListeners(this.mainFrame);
 	}
 
 	public void setVitesse(int vitesse) {
+		
+		System.out.println("setVitesse");
+		System.out.println(this.isPlaying);
+		System.out.println(vitesse);
+		this.vitesse = vitesse;
+		
 		if(vitesse > 0) {
-
+			
 			//On boucle tant que la vitesse reste la même
 			while(this.vitesse == vitesse) {
 				
@@ -61,6 +68,7 @@ public class MainCtrl implements MainFrameListener {
 	}
 
 	public void jouerTour() {
+	
 		if(!this.isPlaying) {
 			this.performJouerTour();
 		}

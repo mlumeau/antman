@@ -13,6 +13,7 @@ import org.ICE.PDC.antman.model.events.PheromoneSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.RessourceAjouteeEvent;
 import org.ICE.PDC.antman.model.events.RessourceQuantiteChangeeEvent;
 import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
+import org.ICE.PDC.antman.model.events.TourJoueEvent;
 
 /** 
  * <!-- begin-UML-doc -->
@@ -21,6 +22,10 @@ import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
  * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 public interface MapListener {
+	
+	
+	public void tourJoue(TourJoueEvent _e);
+	
 	/** 
 	 * <!-- begin-UML-doc -->
 	 * <!-- end-UML-doc -->
