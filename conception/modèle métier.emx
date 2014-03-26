@@ -1228,11 +1228,7 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__XA2E4HaEeO1vJ9y4LzjrA" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__XA2EoHaEeO1vJ9y4LzjrA"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_pXurQINOEeOL6P3mcmTh7Q" name="listeners" visibility="private">
-          <type xmi:type="uml:Class" href="mmi:///#jbintype%5Ename=javax.swing.event.EventListenerList%5Bproject%5Eid=Projet%20PDC%20Source%5D$uml.Class"/>
-        </ownedAttribute>
-        <ownedAttribute xmi:id="_TjIXMImIEeOFoOHpIZzs6Q" name="dimension_x" visibility="private"/>
-        <ownedAttribute xmi:id="_UczKIImIEeOFoOHpIZzs6Q" name="dimension_y" visibility="private"/>
+        <ownedAttribute xmi:id="_VnkhILTrEeOc6bWWsvj1Fg" name="events" visibility="private"/>
         <ownedOperation xmi:id="_Z_mhgFK4EeO0SNmhNFl3JA" name="creerRessources"/>
         <ownedOperation xmi:id="_D2IEwFK_EeO0SNmhNFl3JA" name="ajouterFourmiliere">
           <ownedParameter xmi:id="_PSd4AIUOEeODj6vSyDEyTg" name="f" type="_CbqdcFK1EeO0SNmhNFl3JA"/>
@@ -1507,7 +1503,7 @@
             <type xmi:type="uml:Class" href="mmi:///#jbintype%5Ename=java.util.Date%5Bproject%5Eid=antman%5D$uml.Class"/>
           </ownedAttribute>
         </packagedElement>
-        <packagedElement xmi:type="uml:Class" xmi:id="_ofES8LToEeOc6bWWsvj1Fg" name="TourJouerEvent">
+        <packagedElement xmi:type="uml:Class" xmi:id="_ofES8LToEeOc6bWWsvj1Fg" name="TourJoueEvent">
           <generalization xmi:id="_qv5tILToEeOc6bWWsvj1Fg" general="_TzE5ULA4EeOt3u0efR7oHQ"/>
           <ownedAttribute xmi:id="_sQKmALToEeOc6bWWsvj1Fg" name="numTour" visibility="private"/>
         </packagedElement>

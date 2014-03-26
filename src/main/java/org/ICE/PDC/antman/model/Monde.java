@@ -2,6 +2,7 @@ package org.ICE.PDC.antman.model;
 
 import java.util.ArrayList;
 import java.util.EventListener;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
@@ -55,6 +56,8 @@ public class Monde {
 		logger.info("Abondance initiale reglée à "+abondance);
 		
 		this.tour = 0;
+		this.events = new HashMap<Integer, List<MapEvent>>();
+		this.events.put(tour,new ArrayList<MapEvent>());
 	}
 	
 	

@@ -4,12 +4,12 @@ import java.util.Date;
 
 import org.ICE.PDC.antman.model.Monde;
 
-public class TourJoueEvent extends MapEvent {
+public class TourJouerEvent extends MapEvent {
 
 
 	private final Monde monde;
 	
-	public TourJoueEvent(int tour, Date datetime,Monde monde) {
+	public TourJouerEvent(int tour, Date datetime,Monde monde) {
 		super(tour, datetime);
 		this.monde = monde;
 	}
