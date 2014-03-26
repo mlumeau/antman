@@ -87,7 +87,7 @@ public class MainCtrl implements MainFrameListener {
 			
 			this.executionTime  = System.currentTimeMillis()-startTime;
 			
-			this.isPlaying = true;
+			this.isPlaying = false;
 	}
 
 	public void setMeteo(int meteo) {
