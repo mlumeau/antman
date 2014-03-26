@@ -15,9 +15,40 @@ public class MainCtrl implements MainFrameListener {
     private int abondance = 0;
 	private long executionTime = 0;
 	private boolean isPlaying = false;
+	private final Thread thread;
     
 	public MainCtrl(Monde monde){
 		this.monde = monde;
+		
+		this.thread = new Thread(new Runnable() {
+			
+			public void run() {
+				
+				while(true) {
+					
+					try {
+
+						if(vitesse != 0) {
+						
+							//On attend au moins X secondes entre chaque tour
+							if(((4-vitesse)*3000)-executionTime > 0 ) {
+								Thread.sleep(((4-vitesse)*1000)-executionTime);
+							}
+						
+							jouerTour();
+						
+						}
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+				}
+				
+			}
+			
+		});
+		
 	}
 	
 	/** 
@@ -36,42 +67,23 @@ public class MainCtrl implements MainFrameListener {
 		this.monde.setListeners(this.mainFrame);
 	}
 
-	public void setVitesse(int vitesse) {
+	public void setVitesse(final int v) {
 		
-		System.out.println("setVitesse");
-		System.out.println(this.isPlaying);
-		System.out.println(vitesse);
-		this.vitesse = vitesse;
+		this.vitesse = v;
+
+		if (!this.thread.isAlive()) {
+			this.thread.start();
+		}
 		
-		if(vitesse > 0) {
-			
-			//On boucle tant que la vitesse reste la même
-			while(this.vitesse == vitesse) {
-				
-				//On attend au moins X secondes entre chaque tour
-				if((1/this.vitesse)*1000-this.executionTime > 0) {
-					try {
-					Thread.sleep((1/this.vitesse)*1000-this.executionTime);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				
-				//Si un tour n'a pas été lancé entre temps (avec Jouer Tour) alors on lance un nouveau tour
-				if(!this.isPlaying) {
-					this.performJouerTour();
-				}
-				
-			}
-			
-		} 
 	}
 
 	public void jouerTour() {
-	
+		
+		//Si un tour n'a pas déja été lancé alors on lance un nouveau tour
 		if(!this.isPlaying) {
 			this.performJouerTour();
 		}
+		
 	}
 	
 	
