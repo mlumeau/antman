@@ -6,21 +6,19 @@ package org.ICE.PDC.antman.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
 
-import org.ICE.PDC.antman.controller.MainCtrl;
 import org.ICE.PDC.antman.model.MapListener;
 import org.ICE.PDC.antman.model.events.FourmiAjouteeEvent;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
@@ -37,16 +35,13 @@ import org.ICE.PDC.antman.model.events.RessourceQuantiteChangeeEvent;
 import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
 
 import com.alee.extended.panel.WebAccordion;
-import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.button.WebToggleButton;
-import com.alee.laf.slider.WebSlider;
-import com.alee.laf.panel.WebPanel;
+import com.alee.laf.menu.WebMenu;
 import com.alee.laf.menu.WebMenuBar;
 import com.alee.laf.menu.WebMenuItem;
-import com.alee.laf.menu.WebMenu;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import com.alee.laf.scroll.WebScrollPane;
+import com.alee.laf.slider.WebSlider;
 
 /** 
  * <!-- begin-UML-doc -->
