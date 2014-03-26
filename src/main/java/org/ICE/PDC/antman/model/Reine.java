@@ -6,6 +6,7 @@ package org.ICE.PDC.antman.model;
 import java.util.Date;
 import java.util.Random;
 
+import org.ICE.PDC.antman.model.Eclaireuse.States;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.apache.log4j.Logger;
 
@@ -144,7 +145,8 @@ public class Reine extends Fourmi {
 	 * @param etat etat à définir
 	 */
 	public void setEtat(States etat) {
-		getFourmiliere().getMonde().getEvents().get(getFourmiliere().getMonde().getTour()).add(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, this.etat));
+		States old = this.etat;
 		this.etat = etat;
+		getFourmiliere().getMonde().getEvents().get(getFourmiliere().getMonde().getTour()).add(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, old));
 	}
 }

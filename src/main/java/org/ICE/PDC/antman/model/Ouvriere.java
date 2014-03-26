@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.ICE.PDC.antman.model.Eclaireuse.States;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
+import org.ICE.PDC.antman.model.events.RessourceQuantiteChangeeEvent;
 import org.apache.log4j.Logger;
 
 /** 
@@ -70,26 +72,25 @@ public class Ouvriere extends Fourmi {
 	}
 
 	public void recolterNouriture() {
-		Set<Ressource> ressources = new HashSet<Ressource>(this.get_case().getRessources());
-		
+		Set<Ressource> ressources = new HashSet<Ressource>(this.get_case().getRessources());		
 		for(Ressource r : ressources) {
-			
-			if(this.getCharge() < this.getCharge_max()) {
-			
+			Integer old = null;			
+			if(this.getCharge() < this.getCharge_max()) {			
 				if(r.getQuantite() <= this.getCharge_max()-this.getCharge()) {
 					//Tout prendre
+					old = r.getQuantite();
 					this.setCharge(this.getCharge()+r.getQuantite());
 					r.diminuerQuantite(r.getQuantite());
-					this.get_case().supprimerRessource(r); //Suppression de la ressource
-					
+					this.get_case().supprimerRessource(r); //Suppression de la ressource					
 				} else {
+					old = r.getQuantite();
 					//Prendre le maximum possible
 					r.diminuerQuantite(this.getCharge_max()-this.getCharge());	
 					this.setCharge(this.getCharge_max());
-				}
-			
+				}			
 			}
-			
+			if(old != null)
+			this.getFourmiliere().getMonde().getEvents().get(this.getFourmiliere().getMonde().getTour()).add(new RessourceQuantiteChangeeEvent(this.getFourmiliere().getMonde().getTour(), new Date(), r, old));
 		}
 	}
 
@@ -270,8 +271,9 @@ public class Ouvriere extends Fourmi {
 	 * @param etat etat à définir
 	 */
 	public void setEtat(States etat) {
-		getFourmiliere().getMonde().getEvents().get(getFourmiliere().getMonde().getTour()).add(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, this.etat));
+		States old = this.etat;
 		this.etat = etat;
+		getFourmiliere().getMonde().getEvents().get(getFourmiliere().getMonde().getTour()).add(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, old));
 	}
 
 }

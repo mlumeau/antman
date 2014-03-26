@@ -3,6 +3,9 @@
  */
 package org.ICE.PDC.antman.model;
 
+import java.util.Date;
+
+import org.ICE.PDC.antman.model.events.PheromonePuissanceChangeeEvent;
 import org.apache.log4j.Logger;
 
 public class Pheromone {
@@ -39,7 +42,10 @@ public class Pheromone {
 	 * @param puissance
 	 */
 	public void diminuerPuissance(int puissance) {
+		int old = this.getPuissance();
 		this.setPuissance(this.getPuissance()-puissance);
+		this.fourmiliere.getMonde().getEvents().get(this.fourmiliere.getMonde().getTour()).add(new PheromonePuissanceChangeeEvent(this.fourmiliere.getMonde().getTour(), new Date(),this,old));
+		
 	}
 	
 	/** 

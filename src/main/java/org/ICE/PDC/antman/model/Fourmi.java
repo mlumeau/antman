@@ -166,15 +166,18 @@ public abstract class Fourmi {
 	/** 
 	 * @param _case _case à définir
 	 */
-	public void set_case(Case _case) {		
+	public void set_case(Case _case) {	
+		Case old = this.get_case();
 		if(this._case != null) {
-			fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(new FourmiPositionChangeeEvent(fourmiliere.getMonde().getTour(), new Date(),this,this.get_case().getX(),this.get_case().getY()));
+			
 			this.setLast_position(this._case);
 			this._case.supprimerFourmi(this);
 		}
 		
 		this._case = _case;
 		_case.ajouterFourmi(this);
+		if(old != null)
+		fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(new FourmiPositionChangeeEvent(fourmiliere.getMonde().getTour(), new Date(),this,old.getX(),old.getY()));
 	}
 
 	/** 

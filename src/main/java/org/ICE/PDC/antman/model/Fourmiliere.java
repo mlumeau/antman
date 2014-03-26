@@ -139,8 +139,9 @@ public class Fourmiliere {
 	 * @param ressources ressources à définir
 	 */
 	public void setRessources(int ressources) {
-		monde.getEvents().get(monde.getTour()).add(new FourmiliereRessourcesChangeesEvent(monde.getTour(), new Date(), this,this.ressources));
+		int old = this.ressources;		
 		this.ressources = ressources;
+		monde.getEvents().get(monde.getTour()).add(new FourmiliereRessourcesChangeesEvent(monde.getTour(), new Date(), this,old));
 	}
 
 	/** 

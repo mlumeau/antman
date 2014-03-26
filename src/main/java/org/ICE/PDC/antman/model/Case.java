@@ -1,10 +1,15 @@
 package org.ICE.PDC.antman.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.ICE.PDC.antman.model.events.PheromoneAjouteeEvent;
+import org.ICE.PDC.antman.model.events.PheromoneSupprimeeEvent;
+import org.ICE.PDC.antman.model.events.RessourceAjouteeEvent;
+import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
 import org.apache.log4j.Logger;
 
 /** 
@@ -203,6 +208,7 @@ public class Case {
 	 */
 	public void ajouterRessource(Ressource r) {
 		this.ressources.add(r);
+		this.monde.getEvents().get(this.monde.getTour()).add(new RessourceAjouteeEvent(this.monde.getTour(), new Date(),r));
 		logger.debug("Case ("+this.hashCode()+") Ajout de la Ressource : "+r+" ");
 	}
 
@@ -211,6 +217,7 @@ public class Case {
 	 */
 	public void ajouterPheromone(Pheromone ph) {
 		this.pheromones.add(ph);
+		this.monde.getEvents().get(this.monde.getTour()).add(new PheromoneAjouteeEvent(this.monde.getTour(), new Date(),ph));
 		logger.debug("Case ("+this.hashCode()+") Ajout de Pheromones : "+ph+" ");
 	}
 
@@ -227,6 +234,7 @@ public class Case {
 	 */
 	public void supprimerRessource(Ressource r) {
 		this.ressources.remove(r);
+		this.monde.getEvents().get(this.monde.getTour()).add(new RessourceSupprimeeEvent(this.monde.getTour(), new Date(),r));
 		logger.debug("Case ("+this.hashCode()+") Suppression de la Ressource : "+r+" ");
 	}
 
@@ -235,6 +243,7 @@ public class Case {
 	 */
 	public void supprimerPheromone(Pheromone ph) {
 		this.pheromones.remove(ph);
+		this.monde.getEvents().get(this.monde.getTour()).add(new PheromoneSupprimeeEvent(this.monde.getTour(), new Date(),ph));
 		logger.debug("Case ("+this.hashCode()+") Suppression de Pheromones : "+ph+" ");
 	}
 

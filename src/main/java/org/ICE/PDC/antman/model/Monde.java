@@ -1,6 +1,7 @@
 package org.ICE.PDC.antman.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.EventListener;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,6 +11,9 @@ import java.util.Set;
 import java.util.List;
 
 import org.ICE.PDC.antman.model.events.MapEvent;
+import org.ICE.PDC.antman.model.events.PheromoneAjouteeEvent;
+import org.ICE.PDC.antman.model.events.PheromonePuissanceChangeeEvent;
+import org.ICE.PDC.antman.model.events.TourJoueEvent;
 import org.apache.log4j.Logger;
 
 /** 
@@ -112,6 +116,7 @@ public class Monde {
 			for(Pheromone ph : pheromones) {
 				ph.diminuerPuissance(1);
 				
+				
 				if(ph.getPuissance() == 0) {
 					c.supprimerPheromone(ph);
 				}
@@ -140,7 +145,7 @@ public class Monde {
 			}
 			
 		}
-		
+		events.get(tour).add(new TourJoueEvent(tour,new Date(),this));		
 	}
 
 	/** 

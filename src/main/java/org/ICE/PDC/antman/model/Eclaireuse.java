@@ -150,8 +150,10 @@ public class Eclaireuse extends Fourmi {
 	 * @param etat etat à définir
 	 */
 	public void setEtat(States etat) {
-		getFourmiliere().getMonde().getEvents().get(getFourmiliere().getMonde().getTour()).add(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, this.etat));
+		States old = this.etat;
 		this.etat = etat;
+		getFourmiliere().getMonde().getEvents().get(getFourmiliere().getMonde().getTour()).add(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, old));
+		
 	}
 
 	
