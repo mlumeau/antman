@@ -31,8 +31,8 @@ public class MainCtrl implements MainFrameListener {
 						if(vitesse != 0) {
 						
 							//On attend au moins X secondes entre chaque tour
-							if(((4-vitesse)*3000)-executionTime > 0 ) {
-								Thread.sleep(((4-vitesse)*1000)-executionTime);
+							if(((4-vitesse)*500)-executionTime > 0 ) {
+								Thread.sleep(((4-vitesse)*500)-executionTime);
 							}
 						
 							jouerTour();
