@@ -8,12 +8,13 @@ public class MainCtrl implements MainFrameListener {
 
 	private MainFrame mainFrame;
 	private Monde monde;
-    private long wait = 0;
+    private int vitesse = 0;
     private boolean meteoSet = false;
     private boolean abondanceSet = false;
     private int meteo = 0;
     private int abondance = 0;
 	private long executionTime = 0;
+	private boolean isPlaying = false;
     
 	public MainCtrl(Monde monde){
 		this.monde = monde;
@@ -36,19 +37,39 @@ public class MainCtrl implements MainFrameListener {
 
 	public void setVitesse(int vitesse) {
 		if(vitesse > 0) {
-			this.wait = (1/vitesse)*3000;
-		} else {
-			this.wait = 0;
-		}
+
+			//On boucle tant que la vitesse reste la même
+			while(this.vitesse == vitesse) {
+				
+				//On attend au moins X secondes entre chaque tour
+				if((1/this.vitesse)*1000-this.executionTime > 0) {
+					try {
+					Thread.sleep((1/this.vitesse)*1000-this.executionTime);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
+				//Si un tour n'a pas été lancé entre temps (avec Jouer Tour) alors on lance un nouveau tour
+				if(!this.isPlaying) {
+					this.performJouerTour();
+				}
+				
+			}
+			
+		} 
 	}
 
 	public void jouerTour() {
-		
-		try {
-			
-			if(this.wait-this.executionTime > 0) {
-				Thread.sleep(this.wait-this.executionTime);
-			}
+		if(!this.isPlaying) {
+			this.performJouerTour();
+		}
+	}
+	
+	
+	public void performJouerTour() {
+
+			this.isPlaying = true;
 			
 			long startTime = System.currentTimeMillis();
 			
@@ -66,10 +87,7 @@ public class MainCtrl implements MainFrameListener {
 			
 			this.executionTime  = System.currentTimeMillis()-startTime;
 			
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
+			this.isPlaying = true;
 	}
 
 	public void setMeteo(int meteo) {
