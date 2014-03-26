@@ -65,6 +65,7 @@ import com.alee.laf.menu.WebMenuBar;
 import com.alee.laf.menu.WebMenuItem;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.slider.WebSlider;
+import java.awt.Component;
 
 /** 
  * <!-- begin-UML-doc -->
@@ -89,20 +90,15 @@ public class MainFrame extends JFrame implements MapListener {
 	private WebSlider vitesseWebSlider;
 	private WebSlider meteoWebSlider;
 	private WebSlider abondanceWebSlider;
+	private JPanel mondeInfoPanel;
+	private JPanel infoPanel;
 	
 	public MainFrame() {
 		setSize(new Dimension(800, 700));
 		setLocation(100, 100);
-		
-		JTextArea logTextArea = new JTextArea();
-		logTextArea.setRows(10);
-		logTextArea.setEditable (false);
-		logTextArea.getCaret().setSelectionVisible(true);
-		logTextArea.getCaret().setVisible(true);
 
   	   TextAreaAppender appender = new TextAreaAppender ();
   	   appender.setLayout(new SimpleLayout());
-  	   TextAreaAppender.setTextArea(logTextArea);
   	   
   	   Logger logRoot = Logger.getRootLogger();
   	   logRoot.addAppender(appender);
@@ -110,9 +106,27 @@ public class MainFrame extends JFrame implements MapListener {
 		
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		java.util.Hashtable<Integer,JLabel> vitesselabelTable = new java.util.Hashtable<Integer,JLabel>();  
+	    vitesselabelTable.put(new Integer(1), new JLabel("Lent"));  
+	    vitesselabelTable.put(new Integer(2), new JLabel("Moyen"));  
+	    vitesselabelTable.put(new Integer(3), new JLabel("Rapide"));  
+		java.util.Hashtable<Integer,JLabel> meteolabelTable = new java.util.Hashtable<Integer,JLabel>();  
+		meteolabelTable.put(new Integer(1), new JLabel("Mauvais"));  
+		meteolabelTable.put(new Integer(2), new JLabel("Moyen"));  
+		meteolabelTable.put(new Integer(3), new JLabel("Bon"));  
+		java.util.Hashtable<Integer,JLabel> abondancelabelTable = new java.util.Hashtable<Integer,JLabel>();  
+		abondancelabelTable.put(new Integer(1), new JLabel("Basse"));  
+		abondancelabelTable.put(new Integer(2), new JLabel("Moyenne"));  
+		abondancelabelTable.put(new Integer(3), new JLabel("Haute"));  
+		
+		JTextArea logTextArea = new JTextArea();
+		logTextArea.setRows(10);
+		logTextArea.setEditable (false);
+		logTextArea.getCaret().setSelectionVisible(true);
+		logTextArea.getCaret().setVisible(true);
+		TextAreaAppender.setTextArea(logTextArea);
 		
 		JPanel viewPanel = new JPanel();
-		getContentPane().add(viewPanel, BorderLayout.CENTER);
 		viewPanel.setLayout(new BorderLayout(0, 0));
 		
 		JSplitPane splitPane = new JSplitPane();
@@ -157,11 +171,7 @@ public class MainFrame extends JFrame implements MapListener {
 		vitesseWebSlider.setMajorTickSpacing (1);
 		vitesseWebSlider.setMinimum(1);
 		vitesseWebSlider.setMaximum(3);
-		java.util.Hashtable<Integer,JLabel> vitesselabelTable = new java.util.Hashtable<Integer,JLabel>();  
-	    vitesselabelTable.put(new Integer(1), new JLabel("Lent"));  
-	    vitesselabelTable.put(new Integer(2), new JLabel("Moyen"));  
-	    vitesselabelTable.put(new Integer(3), new JLabel("Rapide"));  
-	    vitesseWebSlider.setLabelTable(vitesselabelTable);
+		vitesseWebSlider.setLabelTable(vitesselabelTable);
 		vitesseWebSlider.setPaintTicks (true);  
 		vitesseWebSlider.setPaintLabels (true);   
 		controlPanel.add(vitesseWebSlider, "cell 2 1 2 1,grow");
@@ -176,10 +186,6 @@ public class MainFrame extends JFrame implements MapListener {
 		meteoWebSlider.setMajorTickSpacing (1);
 		meteoWebSlider.setMinimum(1);
 		meteoWebSlider.setMaximum(3);
-		java.util.Hashtable<Integer,JLabel> meteolabelTable = new java.util.Hashtable<Integer,JLabel>();  
-		meteolabelTable.put(new Integer(1), new JLabel("Mauvais"));  
-		meteolabelTable.put(new Integer(2), new JLabel("Moyen"));  
-		meteolabelTable.put(new Integer(3), new JLabel("Bon"));  
 		meteoWebSlider.setLabelTable(meteolabelTable);
 		meteoWebSlider.setPaintTicks (true);  
 		meteoWebSlider.setPaintLabels (true);   
@@ -191,33 +197,41 @@ public class MainFrame extends JFrame implements MapListener {
 		abondanceWebSlider.setMajorTickSpacing (1);
 		abondanceWebSlider.setMinimum(1);
 		abondanceWebSlider.setMaximum(3);
-		java.util.Hashtable<Integer,JLabel> abondancelabelTable = new java.util.Hashtable<Integer,JLabel>();  
-		abondancelabelTable.put(new Integer(1), new JLabel("Basse"));  
-		abondancelabelTable.put(new Integer(2), new JLabel("Moyenne"));  
-		abondancelabelTable.put(new Integer(3), new JLabel("Haute"));  
 		abondanceWebSlider.setLabelTable(abondancelabelTable);
 		abondanceWebSlider.setPaintTicks (true);  
 		abondanceWebSlider.setPaintLabels (true);   
 		abondanceWebSlider.setSnapToTicks(true);
 		controlPanel.add(abondanceWebSlider, "cell 8 1 2 1,grow");
 		
+		JPanel panel = new JPanel();
+		
 		mapPanel = new JPanel();
 		mapPanel.setLayout(new BoxLayout(mapPanel,  BoxLayout.Y_AXIS));
+		panel.setLayout(new BorderLayout(0, 0));
 		
-		WebScrollPane mapScrollPane = new WebScrollPane(mapPanel);
+		WebScrollPane mapScrollPane = new WebScrollPane(panel);
 		mainPanel.add(mapScrollPane, BorderLayout.CENTER);
-
+		
+		mondeInfoPanel = new JPanel();
+		mondeInfoPanel.setPreferredSize(new Dimension(10, 30));
+		mondeInfoPanel.setSize(new Dimension(0, 30));
+		panel.add(mondeInfoPanel, BorderLayout.NORTH);
+		panel.add(mapPanel, BorderLayout.CENTER);
 		
 		WebScrollPane webScrollPane = new WebScrollPane(logTextArea);
 		splitPane.setRightComponent(webScrollPane);
 		
-		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.WEST);
-		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		infoPanel = new JPanel();
 		
-		WebAccordion webAccordion = new WebAccordion();
-		webAccordion.setPreferredSize(new Dimension(150, 6));
-		panel.add(webAccordion);
+		JSplitPane mainSplitPane = new JSplitPane();
+		mainSplitPane.setPreferredSize(new Dimension(150, 25));
+		mainSplitPane.setResizeWeight(0.5);
+		getContentPane().add(mainSplitPane, BorderLayout.CENTER);
+		
+		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
+		
+		WebScrollPane infoWebScrollPane = new WebScrollPane(infoPanel);
+		getContentPane().add(infoWebScrollPane, BorderLayout.NORTH);
 		
 		WebMenuBar webMenuBar = new WebMenuBar();
 		setJMenuBar(webMenuBar);
@@ -233,8 +247,9 @@ public class MainFrame extends JFrame implements MapListener {
 		WebMenuItem wbmntmHelp = new WebMenuItem();
 		wbmntmHelp.setText("Help");
 		webMenuBar.add(wbmntmHelp);
-		
-		
+
+		mainSplitPane.setLeftComponent(infoWebScrollPane);
+		mainSplitPane.setRightComponent(viewPanel);
 		
 		/*-----------------*/
 		/*ACTION LISTENERS */
@@ -254,7 +269,6 @@ public class MainFrame extends JFrame implements MapListener {
 		        if(e.getStateChange() == ItemEvent.SELECTED)
 		        {
 		        	wbtglbtnModeAutomatique.setText("Mode manuel");
-		        	int i=vitesseWebSlider.getValue();
 		        	mainFrameListener.setVitesse(vitesseWebSlider.getValue());
 		        }
 		        else
@@ -266,13 +280,25 @@ public class MainFrame extends JFrame implements MapListener {
 		});
 		
 		vitesseWebSlider.addChangeListener(new ChangeListener() {
-			
 			public void stateChanged(ChangeEvent arg0) {
 				if (wbtglbtnModeAutomatique.isSelected()){
 					mainFrameListener.setVitesse(vitesseWebSlider.getValue());
 				}
 			}
 		});
+		
+		abondanceWebSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				mainFrameListener.setAbondance(abondanceWebSlider.getValue());
+			}
+		});
+		
+		meteoWebSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				mainFrameListener.setMeteo(meteoWebSlider.getValue());
+			}
+		});
+		
 	}
 	
 	
@@ -319,6 +345,8 @@ public class MainFrame extends JFrame implements MapListener {
 			   int nbcases_sqrt = (int)Math.sqrt(nbcases);
 			    
 		    	mapPanel.removeAll(); 
+		    	mondeInfoPanel.removeAll();
+		    	infoPanel.removeAll();
 		    	
 		    	JPanel infos = new JPanel();
 
@@ -328,20 +356,39 @@ public class MainFrame extends JFrame implements MapListener {
 		    	int ouvrieres = 0;
 		    	int eclaireuses = 0;
 		    	
+		    	int i=1;
+		    	
 		    	for(Fourmiliere f : monde.getFourmilieres()) {
+		    		JPanel fp = new JPanel();
+		    		fp.setLayout(new BoxLayout(fp,BoxLayout.Y_AXIS));
+		    		
+		    		fp.add(new JLabel("Fourmilière "+ i));
+		    		
+		    		int nbf=0;
+		    		int nbo=0;
+		    		int nbe=0;
 		    		
 		    		for(Fourmi fo : f.getFourmi()) {
-		    			
 		    			if(fo instanceof Ouvriere)  {
 		    				ouvrieres++;
+		    				nbo++;
 		    			} else if (fo instanceof Eclaireuse) {
 		    				eclaireuses++;
+		    				nbe++;
 		    			} else if (fo instanceof Reine) {
 		    				reines++;
 		    			}
-		    			
+		    			nbf++;
 		    		}
+		    	
+		    		fp.add(new JLabel("Total fourmis : " + nbf));
+		    		fp.add(new JLabel("Ouvrières : " + nbo));
+		    		fp.add(new JLabel("Éclaireuses : " + nbe));
+		    		fp.add(new JLabel("Ressources : " + f.getRessources()));
+		    		fp.add(new JLabel("\n"));
 		    		
+		    		infoPanel.add(fp);
+		    		i++;
 		    	}
 		    	
 		    	String infosString = "TOUR n° "+_e.getTour()+
@@ -415,16 +462,28 @@ public class MainFrame extends JFrame implements MapListener {
 				
 				
 				mapPanel.add(map);
-				mapPanel.add(infos);
+				mondeInfoPanel.add(infos);
 				
 				mapPanel.repaint();
 				mapPanel.revalidate();
 				
+				mondeInfoPanel.repaint();
+				mondeInfoPanel.revalidate();
+				
+				infoPanel.repaint();
+				infoPanel.revalidate();
+				
 		      } catch (Exception e) {
 		    	  e.printStackTrace();
 		      }
+			
 		
-		wbtnJouerTour.setEnabled(true);
+			wbtnJouerTour.setEnabled(true);
+			
+			if(monde.getTotalFourmis()==0){
+				mainFrameListener.setVitesse(0);
+				wbtglbtnModeAutomatique.setSelected(false);
+			}
 	}
 
 	/** 

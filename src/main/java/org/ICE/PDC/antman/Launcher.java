@@ -47,7 +47,6 @@ public class Launcher {
 	       int ressources = 100;
 	       Fourmiliere f1;
 		   f1 = new Fourmiliere(monde,monde.getCaseAt(5,5),fecondite,taille_max,ressources);
-	
 	       
 	       logger.info("Initialisation des fourmis ...");
 	       new Reine(f1);
