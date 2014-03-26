@@ -489,6 +489,19 @@
                   <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_T2y7uLA4EeOt3u0efR7oHQ" visible="false" type="StructureCompartment"/>
                   <layoutConstraint xmi:type="notation:Bounds" xmi:id="_T2gAwbA4EeOt3u0efR7oHQ" x="7787" y="8392" width="3063" height="1793"/>
                 </children>
+                <children xmi:type="umlnotation:UMLShape" xmi:id="_omES0LToEeOc6bWWsvj1Fg" element="_ofES8LToEeOc6bWWsvj1Fg" fontHeight="8" transparency="0" lineColor="14263149" lineWidth="1" showStereotype="Label">
+                  <children xmi:type="notation:DecorationNode" xmi:id="_omX00LToEeOc6bWWsvj1Fg" type="ImageCompartment">
+                    <layoutConstraint xmi:type="notation:Size" xmi:id="_omX00bToEeOc6bWWsvj1Fg" width="1320" height="1320"/>
+                  </children>
+                  <children xmi:type="notation:BasicDecorationNode" xmi:id="_omX00rToEeOc6bWWsvj1Fg" type="Stereotype"/>
+                  <children xmi:type="notation:BasicDecorationNode" xmi:id="_omX007ToEeOc6bWWsvj1Fg" type="Name"/>
+                  <children xmi:type="notation:BasicDecorationNode" xmi:id="_omX01LToEeOc6bWWsvj1Fg" type="Parent"/>
+                  <children xmi:type="notation:SemanticListCompartment" xmi:id="_omX01bToEeOc6bWWsvj1Fg" type="AttributeCompartment"/>
+                  <children xmi:type="notation:SemanticListCompartment" xmi:id="_omX01rToEeOc6bWWsvj1Fg" type="OperationCompartment"/>
+                  <children xmi:type="notation:SemanticListCompartment" xmi:id="_omX017ToEeOc6bWWsvj1Fg" visible="false" type="SignalCompartment"/>
+                  <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_omX02LToEeOc6bWWsvj1Fg" visible="false" type="StructureCompartment"/>
+                  <layoutConstraint xmi:type="notation:Bounds" xmi:id="_omES0bToEeOc6bWWsvj1Fg" x="1277" y="9071" height="1999"/>
+                </children>
               </children>
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_nihY8YNVEeOL6P3mcmTh7Q" x="23919" y="148" width="27915" height="25842"/>
             </children>
@@ -1022,6 +1035,14 @@
           </children>
           <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_6BKTErA6EeOt3u0efR7oHQ" points="[11, -13, -76, 74]$[80, -103, -7, -16]"/>
         </edges>
+        <edges xmi:type="umlnotation:UMLConnector" xmi:id="_qwDeILToEeOc6bWWsvj1Fg" element="_qv5tILToEeOc6bWWsvj1Fg" source="_omES0LToEeOc6bWWsvj1Fg" target="_T2gAwLA4EeOt3u0efR7oHQ" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
+          <children xmi:type="notation:DecorationNode" xmi:id="_qwNPILToEeOc6bWWsvj1Fg" type="NameLabel">
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_qwNPIrToEeOc6bWWsvj1Fg" type="Stereotype"/>
+            <children xmi:type="notation:BasicDecorationNode" xmi:id="_qwNPI7ToEeOc6bWWsvj1Fg" type="Name"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_qwNPIbToEeOc6bWWsvj1Fg" y="-186"/>
+          </children>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_qwDeIbToEeOc6bWWsvj1Fg" points="[49, -9, -129, 4]$[136, -9, -42, 4]"/>
+        </edges>
       </contents>
     </eAnnotations>
     <packageImport xmi:id="_-Gyu81K0EeO0SNmhNFl3JA">
@@ -1485,6 +1506,10 @@
           <ownedAttribute xmi:id="_MvoZ0LA6EeOt3u0efR7oHQ" name="time" visibility="private">
             <type xmi:type="uml:Class" href="mmi:///#jbintype%5Ename=java.util.Date%5Bproject%5Eid=antman%5D$uml.Class"/>
           </ownedAttribute>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_ofES8LToEeOc6bWWsvj1Fg" name="TourJouerEvent">
+          <generalization xmi:id="_qv5tILToEeOc6bWWsvj1Fg" general="_TzE5ULA4EeOt3u0efR7oHQ"/>
+          <ownedAttribute xmi:id="_sQKmALToEeOc6bWWsvj1Fg" name="numTour" visibility="private"/>
         </packagedElement>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_bZAagIgYEeOzjYoLOH-VIA" memberEnd="_bZJkcIgYEeOzjYoLOH-VIA _bZTVcogYEeOzjYoLOH-VIA"/>
