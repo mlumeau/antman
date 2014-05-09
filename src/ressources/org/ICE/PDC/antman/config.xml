@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<antman>
+	<!-- Path for the Maps folder (default : APP_PATH/maps -->
+	<mapsPath>${antman.maps}</mapsPath>
+	<!-- Path for the saves folder (default : APP_PATH/save -->
+	<savePath>${antman.save}</savePath>
+</antman>

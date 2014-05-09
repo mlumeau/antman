@@ -31,6 +31,11 @@
   		<artifactId>miglayout</artifactId>
 		<version>3.7.4</version>
 	</dependency>
+	<dependency>
+		<groupId>org.jdom</groupId>
+		<artifactId>jdom</artifactId>
+		<version>2.0.2</version>
+	</dependency>    
   </dependencies>
   
 	 <build>
@@ -49,6 +54,16 @@
 	      </configuration>
 	    </plugin>
 	  </plugins>
+	  
+	 <resources>
+      <resource>
+        <directory>src/ressources</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+    </resources>
+	  
 	</build>
    
 </project>
