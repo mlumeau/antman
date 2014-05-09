@@ -1,8 +1,8 @@
 package org.ICE.PDC.antman.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.EventListener;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -11,16 +11,15 @@ import java.util.Set;
 import java.util.List;
 
 import org.ICE.PDC.antman.model.events.MapEvent;
-import org.ICE.PDC.antman.model.events.PheromoneAjouteeEvent;
-import org.ICE.PDC.antman.model.events.PheromonePuissanceChangeeEvent;
 import org.ICE.PDC.antman.model.events.TourJoueEvent;
 import org.apache.log4j.Logger;
 
 /** 
  * Le monde contient tout les autres élements de la simmulation
  */
-public class Monde {
+public class Monde implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(Monde.class);
 	private MapListener listener;
 	private List<Case> _cases;

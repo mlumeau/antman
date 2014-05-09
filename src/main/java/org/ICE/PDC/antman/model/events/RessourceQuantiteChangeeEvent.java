@@ -3,13 +3,14 @@
  */
 package org.ICE.PDC.antman.model.events;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.ICE.PDC.antman.model.Ressource;
 
-public class RessourceQuantiteChangeeEvent extends RessourceEvent {
+public class RessourceQuantiteChangeeEvent extends RessourceEvent implements Serializable {
 
-
+	private static final long serialVersionUID = 1L;
 	private final int old_quantite;
 	
 	

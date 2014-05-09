@@ -1,7 +1,6 @@
 package org.ICE.PDC.antman;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import org.ICE.PDC.antman.model.Eclaireuse;
 import org.ICE.PDC.antman.model.Fourmi;
 import org.ICE.PDC.antman.model.Fourmiliere;

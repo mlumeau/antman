@@ -23,7 +23,6 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.SliderUI;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -57,7 +56,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 
-import com.alee.extended.panel.WebAccordion;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.button.WebToggleButton;
 import com.alee.laf.menu.WebMenu;
@@ -65,7 +63,6 @@ import com.alee.laf.menu.WebMenuBar;
 import com.alee.laf.menu.WebMenuItem;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.slider.WebSlider;
-import java.awt.Component;
 
 /** 
  * <!-- begin-UML-doc -->
@@ -76,6 +73,8 @@ import java.awt.Component;
 
 public class MainFrame extends JFrame implements MapListener {
 	
+	
+	private static final long serialVersionUID = 1L;
 	
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -417,8 +416,12 @@ public class MainFrame extends JFrame implements MapListener {
 							label.setText("F");
 						}
 					    
+						if(current.getNiveau_obstacle() > 0) {
+							label.setBackground(Color.WHITE);
+						}
+						
 						if(current.getFourmiliere() != null) {
-							label.setBackground(Color.BLACK);
+							label.setBackground(Color.ORANGE);
 							
 							label.setText(String.valueOf(current.getFourmiliere().getRessources()));
 							

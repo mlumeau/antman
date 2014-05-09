@@ -3,10 +3,10 @@
  */
 package org.ICE.PDC.antman.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Random;
 
-import org.ICE.PDC.antman.model.Eclaireuse.States;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.apache.log4j.Logger;
 
@@ -15,8 +15,9 @@ import org.apache.log4j.Logger;
  * -Crée des nouvelles fourmis tout les tours
  */
 
-public class Reine extends Fourmi {
+public class Reine extends Fourmi implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(Reine.class);
 	
 	public enum States {

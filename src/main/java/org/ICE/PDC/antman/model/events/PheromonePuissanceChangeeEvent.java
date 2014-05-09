@@ -3,12 +3,14 @@
  */
 package org.ICE.PDC.antman.model.events;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.ICE.PDC.antman.model.Pheromone;
 
-public class PheromonePuissanceChangeeEvent extends PheromoneEvent {
+public class PheromonePuissanceChangeeEvent extends PheromoneEvent implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private final int old_puissance;
 
 	

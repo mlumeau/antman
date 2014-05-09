@@ -1,5 +1,6 @@
 package org.ICE.PDC.antman.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,8 +11,9 @@ import org.ICE.PDC.antman.model.events.FourmiliereSupprimeeEvent;
 import org.apache.log4j.Logger;
 
 
-public class Fourmiliere {
+public class Fourmiliere implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(Fourmiliere.class);
 	private Monde monde;
 	private Set<Fourmi> fourmi;

@@ -1,9 +1,9 @@
 package org.ICE.PDC.antman.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.ICE.PDC.antman.model.events.FourmiAjouteeEvent;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.apache.log4j.Logger;
 
@@ -12,8 +12,9 @@ import org.apache.log4j.Logger;
  * -Cherche des ressources en se déplacant aleatoirement
  * -Retourne à la fourmiliere en déposant des phéromones sur son passage
  */
-public class Eclaireuse extends Fourmi {
+public class Eclaireuse extends Fourmi implements Serializable  {
 	
+	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(Eclaireuse.class);
 	
 	public enum States {

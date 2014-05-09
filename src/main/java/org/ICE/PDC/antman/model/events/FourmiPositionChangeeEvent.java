@@ -3,13 +3,15 @@
  */
 package org.ICE.PDC.antman.model.events;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.ICE.PDC.antman.model.Fourmi;
 
 
-public class FourmiPositionChangeeEvent extends FourmiEvent {
+public class FourmiPositionChangeeEvent extends FourmiEvent implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private final int old_position_x;
 	private final int old_position_y;
 	

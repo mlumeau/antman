@@ -3,13 +3,15 @@
  */
 package org.ICE.PDC.antman.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.ICE.PDC.antman.model.events.PheromonePuissanceChangeeEvent;
 import org.apache.log4j.Logger;
 
-public class Pheromone {
+public class Pheromone implements Serializable  {
 	
+	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(Pheromone.class);
 
 	private Fourmiliere fourmiliere;

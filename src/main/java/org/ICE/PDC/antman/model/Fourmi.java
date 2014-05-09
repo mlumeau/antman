@@ -1,5 +1,6 @@
 package org.ICE.PDC.antman.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -15,8 +16,10 @@ import org.apache.log4j.Logger;
  * @author S219
  * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
-public abstract class Fourmi {
+public abstract class Fourmi implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	private static Logger logger = Logger.getLogger(Fourmi.class);
 	
 	private Case last_position;

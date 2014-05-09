@@ -1,5 +1,6 @@
 package org.ICE.PDC.antman.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -7,7 +8,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import org.ICE.PDC.antman.model.Eclaireuse.States;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.ICE.PDC.antman.model.events.RessourceQuantiteChangeeEvent;
 import org.apache.log4j.Logger;
@@ -18,8 +18,9 @@ import org.apache.log4j.Logger;
  * -Ramasse les ressources
  * -Retourne à la fourmiliere en déposant des phéromones sur son passage
  */
-public class Ouvriere extends Fourmi {
+public class Ouvriere extends Fourmi implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(Ouvriere.class);
 	
 	public enum States {

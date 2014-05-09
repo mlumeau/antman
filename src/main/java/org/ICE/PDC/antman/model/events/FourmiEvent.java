@@ -3,12 +3,14 @@
  */
 package org.ICE.PDC.antman.model.events;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.ICE.PDC.antman.model.Fourmi;
 
-public abstract class FourmiEvent extends MapEvent {
+public abstract class FourmiEvent extends MapEvent implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private final Fourmi fourmi;
 	
 	public FourmiEvent(int tour, Date datetime, Fourmi fourmi) {

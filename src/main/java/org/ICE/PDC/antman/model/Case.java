@@ -1,9 +1,11 @@
 package org.ICE.PDC.antman.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.ICE.PDC.antman.model.events.PheromoneAjouteeEvent;
@@ -15,8 +17,10 @@ import org.apache.log4j.Logger;
 /** 
  * Une case du terrain
  */
-public class Case {
+public class Case implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	private static Logger logger = Logger.getLogger(Case.class);
 	
 	private int niveau_obstacle;
@@ -248,7 +252,7 @@ public class Case {
 	}
 
 	/**
-	 * Retourne toutes les cases dans un rayon donné autour de la case courante
+	 * Retourne toutes les cases dans un rayon donné autour de la case courante qui ne contiennent pas d'obstacle infranchissable
 	 * @param radius
 	 * @return Les cases sous forme de liste ordonée 
 	 */
@@ -265,8 +269,11 @@ public class Case {
 					
 					try {
 						Case c = this.getMonde().getCaseAt(x,y);
-						matched.add(c);
-						log += c;
+						
+						if(c.getNiveau_obstacle() < 1) {
+							matched.add(c);
+							log += c;
+						}
 						
 					} catch (Exception e) {
 						//Nothing to do here
@@ -283,7 +290,7 @@ public class Case {
 
 	/**
 	 * Permet de trouver le chemin le plus optimisé entre la case courante et une autre case
-	 * V1 : Pas de gestion des obstacles
+	 * V2 : Evitement des obstacles avec un déplacemnt aleatoire
 	 * @param target
 	 * @return Le chemin sous la forme d'une Liste triée de cases
 	 */
@@ -307,7 +314,15 @@ public class Case {
 			}
 			
 			try {
-				path.add(this.getMonde().getCaseAt(x, y));
+				Case c = this.getMonde().getCaseAt(x, y);
+				//Si la case contient un obstacle infranchissable on se déplace Aléatoirement sur une case sans obstacles
+				if(c.getNiveau_obstacle() > 0) {
+					List<Case> cases = this.getCasesInRadius(1);
+					int index = new Random().nextInt(cases.size());
+					path.add(cases.get(index));
+				} else {
+					path.add(c);
+				}
 			} catch (Exception e) {
 				//Unexpected Error
 				e.printStackTrace();

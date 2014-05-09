@@ -1,12 +1,13 @@
 package org.ICE.PDC.antman.model.events;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.ICE.PDC.antman.model.Monde;
 
-public class TourJoueEvent extends MapEvent {
+public class TourJoueEvent extends MapEvent implements Serializable {
 
-
+	private static final long serialVersionUID = 1L;
 	private final Monde monde;
 	
 	public TourJoueEvent(int tour, Date datetime,Monde monde) {
