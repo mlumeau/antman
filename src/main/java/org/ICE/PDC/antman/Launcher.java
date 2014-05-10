@@ -7,10 +7,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.ICE.PDC.antman.controller.MainCtrl;
 import org.ICE.PDC.antman.model.Eclaireuse;
@@ -18,6 +21,7 @@ import org.ICE.PDC.antman.model.Fourmiliere;
 import org.ICE.PDC.antman.model.Monde;
 import org.ICE.PDC.antman.model.Ouvriere;
 import org.ICE.PDC.antman.model.Reine;
+import org.ICE.PDC.antman.view.CreationFrame;
 import org.ICE.PDC.antman.view.MainFrame;
 import org.apache.log4j.Logger;
 import org.jdom2.Document;
@@ -41,7 +45,6 @@ public class Launcher {
 		try { 
 			
 			//CHARGEMENT DES PARAMETRES DE CONFIGURATION
-			System.out.println(Launcher.class.getResource("config.xml"));
 			String configPath = Launcher.class.getResource("config.xml").getPath();
 			File xmlFile = new File(configPath); 
 			Document document = (Document) new SAXBuilder().build(xmlFile);
@@ -67,7 +70,7 @@ public class Launcher {
 			if (!sd.exists() || !sd.getCanonicalFile().isDirectory()) {
 				sd.mkdirs();
 			}
-
+			
 			//Sauvegarde d'un fond de carte (TEST)
 			int dimension_x = 20; //TODO REMOVE ME (TEST LINE)
 			int dimension_y = 20; //TODO REMOVE ME (TEST LINE)
@@ -77,62 +80,150 @@ public class Launcher {
 			obstacles.put(new Integer[]{3,4},1); //TODO REMOVE ME (TEST LINE)
 			saveMap(mapsPath+"/map.xml",dimension_x,dimension_y,obstacles);  //TODO REMOVE ME (TEST LINE)
 
-			//TODO SELECTION D'UN FOND DE CARTE
-			String mapFilePath = mapsPath+"/map.xml";
-			
-			//CHARGEMENT DU FOND DE CARTE SELECTIONNE
-			Monde monde = loadMap(mapFilePath);
-			
-			//TODO APPEL A CONFIGFRAME(monde)
-			//TODO CETTE PARTIE DOIT ETRE EXCECUTEE A PARTIR DE CONFIGFRAME
+			Object[] possibilities = {"New simulation", "Create a new map", "Load a saved simulation"};
 
-			logger.info("Paramétrage de la simmulation ...");
+			String lauchChoice = (String)JOptionPane.showInputDialog( 
+                    null,
+                    "Welcome in Antman Simmulator 2014 ©",
+                    "Antman Simmulator",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    possibilities,
+                    "");
 
-			int meteo = 50;
-			int abondance = 100;
+			if(lauchChoice == "New simulation") {
+				//Chose a map :
+				//SELECTION D'UN FOND DE CARTE
+				List<String> availablesFiles = new ArrayList<String>();
+				
+				for (final File fileEntry : new File(mapsPath).listFiles()) {
+				     if (fileEntry.getName().endsWith(".xml")) {
+				    	 availablesFiles.add(fileEntry.getName());
+				     }
+			    }
+				
+				if(availablesFiles.size() > 0) {
+				
+					//TODO IMPROVE GUI ?
+					String mapName = (String)JOptionPane.showInputDialog( 
+		                    null,
+		                    "Select a map to Load:\n",
+		                    "Map Selection",
+		                    JOptionPane.PLAIN_MESSAGE,
+		                    null,
+		                    availablesFiles.toArray(),
+		                    "");
+	
+					String mapFilePath = mapsPath+"/"+mapName;
+					
+					//CHARGEMENT DU FOND DE CARTE SELECTIONNE
+					Monde monde = loadMap(mapFilePath);
+					
+					//TODO APPEL A CONFIGFRAME(monde)
+					//TODO CETTE PARTIE DOIT ETRE EXCECUTEE A PARTIR DE CONFIGFRAME
+					logger.info("Paramétrage de la simmulation ...");
+					int meteo = 50;
+					int abondance = 100;
+	
+					logger.info("Initialisation du monde ...");
+					monde.setMeteo(meteo);
+					monde.setAbondance(abondance);
+	
+					logger.info("Initialisation des fourmilieres ...");
+					//TODO <BOUCLE> POUR CHAQUE FOURMILIERE DEFINIE
+					int fecondite = 5;
+					int taille_max = 45;
+					int ressources = 100;
+					int x = 5;
+					int y = 5;
+					int nbOuvrieres = 3;
+					int nbEclaireuses = 3;
+					//int ratioEclaireuses = 10; //TODO USE OR NOT ???
+	
+					Fourmiliere f1 = new Fourmiliere(monde,monde.getCaseAt(x,y),fecondite,taille_max,ressources);
+	
+					logger.info("Initialisation des fourmis ...");
+					//Ajout de la reine
+					new Reine(f1);
+					//Ajout des fourmis
+					for(int i = 0;i<nbOuvrieres;i++) {
+						new Ouvriere(f1);
+					}
+					for(int i = 0;i<nbEclaireuses;i++) {
+						new Eclaireuse(f1);
+					}
+					//</BOUCLE>
+	
+					logger.info("Paramétrage terminé !");
+					//SAUVEGARDE (TEST)
+					saveContext(savePath+"/monde.antman", monde); //TODO REMOVE ME (TEST LINE)
+					
+					//INITIALIZE MAIN FRAME
+					MainFrame mf = new MainFrame();
+					MainCtrl ctrl = new MainCtrl(monde);
+					ctrl.setMainFrame(mf);
+					mf.setVisible(true);
+					mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					
+				} else {
+					//Affichage d'un message d'erreur
+					JOptionPane.showMessageDialog(null,
+					    "No maps found. You must first create maps in order to create simulations.",
+					    "Antman simulator",
+					    JOptionPane.ERROR_MESSAGE);
+				}
+				
+			} else if (lauchChoice == "Create a new map") {
+				
+				CreationFrame cf = new CreationFrame();
+				cf.setVisible(true);
+				cf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
+			} else if (lauchChoice == "Load a saved simulation") {
+				
+				//SELECTION D'UN FOND DE CARTE
+				List<String> availablesFiles = new ArrayList<String>();
+				
+				for (final File fileEntry : new File(savePath).listFiles()) {
+				     if (fileEntry.getName().endsWith(".antman")) {
+				    	 availablesFiles.add(fileEntry.getName());
+				     }
+			    }
+				
+				if(availablesFiles.size() > 0) {
+					
+					//TODO IMPROVE GUI ?
+					String saveName = (String)JOptionPane.showInputDialog( 
+		                    null,
+		                    "Select a simulation to Load:\n",
+		                    "Simulation Selection",
+		                    JOptionPane.PLAIN_MESSAGE,
+		                    null,
+		                    availablesFiles.toArray(),
+		                    "");
 
-			logger.info("Initialisation du monde ...");
-			monde.setMeteo(meteo);
-			monde.setAbondance(abondance);
-
-			logger.info("Initialisation des fourmilieres ...");
-			//TODO <BOUCLE> POUR CHAQUE FOURMILIERE DEFINIE
-			int fecondite = 5;
-			int taille_max = 45;
-			int ressources = 100;
-			int x = 5;
-			int y = 5;
-			int nbOuvrieres = 3;
-			int nbEclaireuses = 3;
-			//int ratioEclaireuses = 10; //TODO USE OR NOT ???
-
-			Fourmiliere f1 = new Fourmiliere(monde,monde.getCaseAt(x,y),fecondite,taille_max,ressources);
-
-			logger.info("Initialisation des fourmis ...");
-			//Ajout de la reine
-			new Reine(f1);
-			//Ajout des fourmis
-			for(int i = 0;i<nbOuvrieres;i++) {
-				new Ouvriere(f1);
+					String mapFilePath = savePath+"/"+saveName;
+					
+					Monde monde = loadContext(mapFilePath); //TODO REMOVE ME (TEST LINE)
+					
+					//INITIALIZE MAIN FRAME
+					MainFrame mf = new MainFrame();
+					MainCtrl ctrl = new MainCtrl(monde);
+					ctrl.setMainFrame(mf);
+					mf.setVisible(true);
+					mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					
+				} else {
+					//Affichage d'un message d'erreur
+					JOptionPane.showMessageDialog(null,
+					    "No saved simulations found. You must first create a new simulation !",
+					    "Antman simulator",
+					    JOptionPane.ERROR_MESSAGE);
+					
+				}
+				
 			}
-			for(int i = 0;i<nbEclaireuses;i++) {
-				new Eclaireuse(f1);
-			}
-			//</BOUCLE>
-
-			logger.info("Paramétrage terminé !");
-
-			//TRY CONTEXT LOADER
-			saveContext(savePath+"/monde.antman", monde); //TODO REMOVE ME (TEST LINE)
-			monde = loadContext(savePath+"/monde.antman"); //TODO REMOVE ME (TEST LINE)
-
-			//INITIALIZE MAIN FRAME
-			MainFrame mf = new MainFrame();
-			MainCtrl ctrl = new MainCtrl(monde);
-			ctrl.setMainFrame(mf);
-			mf.setVisible(true);
-			mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+			
 		} catch (Exception e) {
 			// TODO Bloc catch auto-généré
 			e.printStackTrace();
@@ -195,7 +286,6 @@ public class Launcher {
 		 * (...)
 		 * </world>
 		 */
-
 		Element map = new Element("map");
 		Document doc = new Document(map);
 
@@ -232,5 +322,6 @@ public class Launcher {
 		ois.close();
 		return monde;
 	}
+	
 
 }

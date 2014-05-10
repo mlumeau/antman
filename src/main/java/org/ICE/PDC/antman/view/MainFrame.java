@@ -340,9 +340,6 @@ public class MainFrame extends JFrame implements MapListener {
 		
 		try {
 	    	  
-			   int nbcases = monde.get_cases().size();
-			   int nbcases_sqrt = (int)Math.sqrt(nbcases);
-			    
 		    	mapPanel.removeAll(); 
 		    	mondeInfoPanel.removeAll();
 		    	infoPanel.removeAll();
@@ -399,12 +396,12 @@ public class MainFrame extends JFrame implements MapListener {
 						 
 		    	infos.add(new JLabel(infosString));
 		    	
-		    	JPanel map = new JPanel(new GridLayout(nbcases_sqrt,nbcases_sqrt));
+		    	JPanel map = new JPanel(new GridLayout(monde.getDimensionX(),monde.getDimensionY()));
 		    	map.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
 		    	
-				for(int x=0; x<nbcases_sqrt; x++) {
+				for(int x=0; x<monde.getDimensionX(); x++) {
 					
-					for(int y=0; y<nbcases_sqrt; y++) {
+					for(int y=0; y<monde.getDimensionY(); y++) {
 						final Case current = monde.getCaseAt(x,y);
 						
 						final JLabel label = new JLabel("", SwingConstants.CENTER);

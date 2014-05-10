@@ -30,6 +30,8 @@ public class Monde implements Serializable {
 	private int abondance;
 	private Map<Integer,List<MapEvent>> events;
 	private int tour;
+	private int dimension_x;
+	private int dimension_y;
 	
 	/** 
 	 * @param longueur
@@ -40,13 +42,15 @@ public class Monde implements Serializable {
 	public Monde(int dimension_x, int dimension_y, int meteo, int abondance) {
 		
 		this.fourmilieres = new HashSet<Fourmiliere>();
+		this.dimension_x = dimension_x;
+		this.dimension_y = dimension_y;
 		
 		logger.info("Génération des cases ...");
 		this._cases = new ArrayList<Case>();
 		
-		for(int x=0; x<dimension_x; x++) {
+		for(int x=0; x<this.dimension_x; x++) {
 			
-			for(int y=0; y<dimension_y; y++) {
+			for(int y=0; y<this.dimension_y; y++) {
 				this._cases.add(new Case(this,x,y));
 				logger.debug("Ajout de la case "+x+", "+y+" au Monde");
 			}
@@ -294,4 +298,13 @@ public class Monde implements Serializable {
 	public void setEvents(Map<Integer, List<MapEvent>> events) {
 		this.events = events;
 	}
+	
+	public int getDimensionX() {
+		return this.dimension_x;
+	}
+	
+	public int getDimensionY() {
+		return this.dimension_y;
+	}
+	
 }
