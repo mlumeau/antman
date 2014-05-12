@@ -46,7 +46,9 @@ public class Launcher {
 			
 			//CHARGEMENT DES PARAMETRES DE CONFIGURATION
 			String configPath = Launcher.class.getResource("config.xml").getPath();
+			configPath=configPath.replaceAll("%20", " ");
 			File xmlFile = new File(configPath); 
+			
 			Document document = (Document) new SAXBuilder().build(xmlFile);
 			Element rootNode = document.getRootElement();
 			String mapsPath = rootNode.getChildText("mapsPath");
@@ -82,16 +84,16 @@ public class Launcher {
 
 			Object[] possibilities = {"New simulation", "Create a new map", "Load a saved simulation"};
 
-			String lauchChoice = (String)JOptionPane.showInputDialog( 
+			String launchChoice = (String)JOptionPane.showInputDialog( 
                     null,
-                    "Welcome in Antman Simmulator 2014 ©",
-                    "Antman Simmulator",
+                    "Welcome in Antman Simulator 2014 ©",
+                    "Antman Simulator",
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     possibilities,
                     "");
 
-			if(lauchChoice == "New simulation") {
+			if(launchChoice == "New simulation") {
 				//Chose a map :
 				//SELECTION D'UN FOND DE CARTE
 				List<String> availablesFiles = new ArrayList<String>();
@@ -121,7 +123,7 @@ public class Launcher {
 					
 					//TODO APPEL A CONFIGFRAME(monde)
 					//TODO CETTE PARTIE DOIT ETRE EXCECUTEE A PARTIR DE CONFIGFRAME
-					logger.info("Paramétrage de la simmulation ...");
+					logger.info("Paramétrage de la simulation ...");
 					int meteo = 50;
 					int abondance = 100;
 	
@@ -173,13 +175,13 @@ public class Launcher {
 					    JOptionPane.ERROR_MESSAGE);
 				}
 				
-			} else if (lauchChoice == "Create a new map") {
+			} else if (launchChoice == "Create a new map") {
 				
 				CreationFrame cf = new CreationFrame();
 				cf.setVisible(true);
 				cf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
-			} else if (lauchChoice == "Load a saved simulation") {
+			} else if (launchChoice == "Load a saved simulation") {
 				
 				//SELECTION D'UN FOND DE CARTE
 				List<String> availablesFiles = new ArrayList<String>();

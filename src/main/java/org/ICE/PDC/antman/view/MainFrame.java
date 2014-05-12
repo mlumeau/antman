@@ -230,7 +230,6 @@ public class MainFrame extends JFrame implements MapListener {
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 		
 		WebScrollPane infoWebScrollPane = new WebScrollPane(infoPanel);
-		getContentPane().add(infoWebScrollPane, BorderLayout.NORTH);
 		
 		WebMenuBar webMenuBar = new WebMenuBar();
 		setJMenuBar(webMenuBar);
