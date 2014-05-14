@@ -21,6 +21,7 @@ public class Fourmiliere implements Serializable {
 	private int ressources;
 	private int taille_max;
 	private Case _case;
+	private int tauxEclaireuses;
 	
 	/**
 	 * @return monde
@@ -37,13 +38,14 @@ public class Fourmiliere implements Serializable {
 		this.monde = monde;
 	}
 
-	public Fourmiliere(Monde monde, Case c, int fecondite,int taille_max, int ressources) {
+	public Fourmiliere(Monde monde, Case c, int fecondite,int taille_max, int ressources,int tauxEclaireuses) {
 		this.fecondite = fecondite;
 		this.taille_max = taille_max;
 		this.ressources = ressources;
 		this.fourmi = new HashSet<Fourmi>();
 		this._case = c;
 		this.monde = monde;
+		this.tauxEclaireuses = tauxEclaireuses;		
 		logger.debug("Fourmiliere crée : "+this);
 		_case.setFourmiliere(this); //Lie la case à la fourmiliere
 		monde.ajouterFourmiliere(this); //Lie le monde à la fourmiliere
@@ -173,6 +175,13 @@ public class Fourmiliere implements Serializable {
 	public void set_case(Case _case) {
 		this._case = _case;
 		_case.setFourmiliere(this);
+	}
+	
+	/** 
+	 * @return tauxEclaireuses
+	 */
+	public int get_tauxEclaireuses() {
+		return tauxEclaireuses;
 	}
 
 }

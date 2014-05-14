@@ -33,9 +33,9 @@ public class Reine extends Fourmi implements Serializable {
 		
 		for(int i=0; i<naissances; i++) {
 			
-			int rand = new Random().nextInt(10);
+			int rand = new Random().nextInt(100);
 			
-			if(rand < 8) {
+			if(rand >= this.getFourmiliere().get_tauxEclaireuses()) {
 				new Ouvriere(this.getFourmiliere());
 			} else {
 				new Eclaireuse(this.getFourmiliere());
@@ -45,7 +45,7 @@ public class Reine extends Fourmi implements Serializable {
 			//(Une reine se creera en moyenne tout les 10 tours)
 			if(this.getFourmiliere().getTotalFourmis() >= this.getFourmiliere().getTaille_max()) {
 				
-				if(rand >= 9) {
+				if(rand >= 90) {
 					new Reine(this.getFourmiliere()).setEtat(States.RECHERCHE_EMPLACEMENT);
 				}
 				
@@ -119,10 +119,10 @@ public class Reine extends Fourmi implements Serializable {
 							int rand = new Random().nextInt(10);
 							
 							if(rand >= 9) {
-								Fourmiliere f = new Fourmiliere(this.getFourmiliere().getMonde(),this.get_case(),this.getFourmiliere().getFecondite(), this.getFourmiliere().getTaille_max(),0);
+								Fourmiliere f = new Fourmiliere(this.getFourmiliere().getMonde(),this.get_case(),this.getFourmiliere().getFecondite(), this.getFourmiliere().getTaille_max(),0,this.getFourmiliere().get_tauxEclaireuses());
 								this.setFourmiliere(f);
 								this.setEtat(States.INSTALEE);
-								logger.info("La Reine ("+this.hashCode()+") a fondé ue nouvelle fourmiliere");
+								logger.info("La Reine ("+this.hashCode()+") a fondé une nouvelle fourmiliere");
 							}
 
 						}
