@@ -26,7 +26,7 @@ public class OuvriereTest {
 		int fecondite = 10;
 		int taille_max = 10;
 		int ressources = 2;
-		f = new Fourmiliere(map,map.getCaseAt(5,5),fecondite,taille_max,ressources);
+		f = new Fourmiliere(map,map.getCaseAt(5,5),fecondite,taille_max,ressources, 1);
 		
 		ouv = new Ouvriere(f,map.getCaseAt(3, 5) );  
 		
