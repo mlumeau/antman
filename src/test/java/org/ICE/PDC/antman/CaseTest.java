@@ -35,6 +35,11 @@ public class CaseTest {
 		Monde map = new Monde(dimension_x, dimension_y, meteo, abondance);
 		
 		c = map.getCaseAt(5, 5);
+
+		map.getCaseAt(4, 6).setNiveau_obstacle(55);
+		map.getCaseAt(4, 7).setNiveau_obstacle(55);
+		map.getCaseAt(5, 7).setNiveau_obstacle(55);
+		map.getCaseAt(6, 7).setNiveau_obstacle(55);
 		
     }
 	
@@ -59,9 +64,9 @@ public class CaseTest {
 		
 		assertEquals("Path de taille incorrecte", 4,res.size());
 
-		assertEquals(5, res.get(0).getX()); 
-		assertEquals(5, res.get(1).getX()); 
-		assertEquals(5, res.get(2).getX()); 
+		assertEquals(6, res.get(0).getX()); 
+		assertEquals(7, res.get(1).getX()); 
+		assertEquals(6, res.get(2).getX()); 
 		assertEquals(5, res.get(3).getX()); 
 		
 		assertEquals(6, res.get(0).getY()); 
@@ -78,9 +83,9 @@ public class CaseTest {
 	public void caseInRadiusTest()
 	{
 		List<Case> res = c.getCasesInRadius(1); 
-		assertEquals("Radius de taille incorrecte", 8, res.size()); 
+		assertEquals("Radius de taille incorrecte", 7, res.size()); 
 		res = c.getCasesInRadius(2); 
-		assertEquals("Radius de taille incorrecte", 24, res.size()); 
+		assertEquals("Radius de taille incorrecte", 20, res.size()); 
 		
 		Case cTest = new Case(c.getMonde(),9,9); 
 		res = cTest.getCasesInRadius(1); 

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.ICE.PDC.antman.PathFinding;
 import org.ICE.PDC.antman.model.events.PheromoneAjouteeEvent;
 import org.ICE.PDC.antman.model.events.PheromoneSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.RessourceAjouteeEvent;
@@ -291,10 +292,11 @@ public class Case implements Serializable {
 	/**
 	 * Permet de trouver le chemin le plus optimisé entre la case courante et une autre case
 	 * V2 : Evitement des obstacles avec un déplacemnt aleatoire
+	 * V3 : A* pathfinding
 	 * @param target
 	 * @return Le chemin sous la forme d'une Liste triée de cases
 	 */
-	public List<Case> getPathTo(Case target) {
+	public List<Case> getPathTo(Case target) {/*
 		List<Case> path = new ArrayList<Case>();
 		int x = this.getX();
 		int y = this.getY();
@@ -330,7 +332,13 @@ public class Case implements Serializable {
 			
 		}
 		
-		return path;
+		return path;*/
+		try {
+			return new PathFinding(this, target).findPath();
+		} catch (Exception e) {
+			logger.error("Fail to finding Path :"+e);
+		}
+		return new ArrayList<Case>();
 	}
 
 }
