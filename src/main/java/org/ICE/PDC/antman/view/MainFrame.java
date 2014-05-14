@@ -11,10 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.HashMap;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
@@ -56,11 +57,13 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 
+import com.alee.extended.panel.WebCollapsiblePane;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.button.WebToggleButton;
 import com.alee.laf.menu.WebMenu;
 import com.alee.laf.menu.WebMenuBar;
 import com.alee.laf.menu.WebMenuItem;
+import com.alee.laf.rootpane.WebFrame;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.slider.WebSlider;
 
@@ -71,7 +74,7 @@ import com.alee.laf.slider.WebSlider;
  * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
 
-public class MainFrame extends JFrame implements MapListener {
+public class MainFrame extends WebFrame implements MapListener {
 	
 	
 	private static final long serialVersionUID = 1L;
@@ -92,9 +95,19 @@ public class MainFrame extends JFrame implements MapListener {
 	private JPanel mondeInfoPanel;
 	private JPanel infoPanel;
 	
+	private HashMap<Fourmiliere,Color> colors;
+	
+	public MainFrame(HashMap<Fourmiliere, Color> c) {
+		this();
+		colors=c;
+	}
+	
 	public MainFrame() {
-		setSize(new Dimension(800, 700));
-		setLocation(100, 100);
+		setTitle("Simulation");
+		colors=new HashMap<Fourmiliere, Color>();
+		
+		setSize(new Dimension(1024, 800));
+		setLocationByPlatform(true);
 
   	   TextAreaAppender appender = new TextAreaAppender ();
   	   appender.setLayout(new SimpleLayout());
@@ -111,12 +124,10 @@ public class MainFrame extends JFrame implements MapListener {
 	    vitesselabelTable.put(new Integer(3), new JLabel("Rapide"));  
 		java.util.Hashtable<Integer,JLabel> meteolabelTable = new java.util.Hashtable<Integer,JLabel>();  
 		meteolabelTable.put(new Integer(1), new JLabel("Mauvais"));  
-		meteolabelTable.put(new Integer(2), new JLabel("Moyen"));  
-		meteolabelTable.put(new Integer(3), new JLabel("Bon"));  
+		meteolabelTable.put(new Integer(100), new JLabel("Bon"));  
 		java.util.Hashtable<Integer,JLabel> abondancelabelTable = new java.util.Hashtable<Integer,JLabel>();  
 		abondancelabelTable.put(new Integer(1), new JLabel("Basse"));  
-		abondancelabelTable.put(new Integer(2), new JLabel("Moyenne"));  
-		abondancelabelTable.put(new Integer(3), new JLabel("Haute"));  
+		abondancelabelTable.put(new Integer(100), new JLabel("Haute"));  
 		
 		JTextArea logTextArea = new JTextArea();
 		logTextArea.setRows(10);
@@ -156,6 +167,7 @@ public class MainFrame extends JFrame implements MapListener {
 		controlPanel.add(wbtnJouerTour, "cell 1 0 1 2,grow");
 		
 		wbtglbtnModeAutomatique = new WebToggleButton();
+		wbtglbtnModeAutomatique.setIcon(null);
 		wbtglbtnModeAutomatique.setText("Mode automatique");
 		controlPanel.add(wbtglbtnModeAutomatique, "cell 0 0 1 2,growy");
 		
@@ -166,12 +178,13 @@ public class MainFrame extends JFrame implements MapListener {
 		controlPanel.add(separator, "cell 4 0 1 2");
 		
 		vitesseWebSlider = new WebSlider();
+		vitesseWebSlider.setMinorTickSpacing(1);
+		vitesseWebSlider.setMaximum(3);
+		vitesseWebSlider.setPaintTicks(true);
 		vitesseWebSlider.setSnapToTicks(true);
 		vitesseWebSlider.setMajorTickSpacing (1);
 		vitesseWebSlider.setMinimum(1);
-		vitesseWebSlider.setMaximum(3);
 		vitesseWebSlider.setLabelTable(vitesselabelTable);
-		vitesseWebSlider.setPaintTicks (true);  
 		vitesseWebSlider.setPaintLabels (true);   
 		controlPanel.add(vitesseWebSlider, "cell 2 1 2 1,grow");
 		
@@ -181,25 +194,22 @@ public class MainFrame extends JFrame implements MapListener {
 		controlPanel.add(separator_1, "cell 7 0 1 2");
 		
 		meteoWebSlider = new WebSlider();
-		meteoWebSlider.setSnapToTicks(true);
-		meteoWebSlider.setMajorTickSpacing (1);
+		meteoWebSlider.setMinorTickSpacing(99);
+		meteoWebSlider.setMajorTickSpacing (99);
 		meteoWebSlider.setMinimum(1);
-		meteoWebSlider.setMaximum(3);
-		meteoWebSlider.setLabelTable(meteolabelTable);
 		meteoWebSlider.setPaintTicks (true);  
 		meteoWebSlider.setPaintLabels (true);   
-		meteoWebSlider.setSnapToTicks(true);
+		meteoWebSlider.setLabelTable(meteolabelTable);
 		controlPanel.add(meteoWebSlider, "cell 5 1 2 1,grow");
 		
 		abondanceWebSlider = new WebSlider();
-		abondanceWebSlider.setSnapToTicks(true);
-		abondanceWebSlider.setMajorTickSpacing (1);
+		abondanceWebSlider.setMinorTickSpacing(99);
+		abondanceWebSlider.setMajorTickSpacing (99);
 		abondanceWebSlider.setMinimum(1);
-		abondanceWebSlider.setMaximum(3);
-		abondanceWebSlider.setLabelTable(abondancelabelTable);
 		abondanceWebSlider.setPaintTicks (true);  
 		abondanceWebSlider.setPaintLabels (true);   
-		abondanceWebSlider.setSnapToTicks(true);
+		abondanceWebSlider.setLabelTable(abondancelabelTable);
+		
 		controlPanel.add(abondanceWebSlider, "cell 8 1 2 1,grow");
 		
 		JPanel panel = new JPanel();
@@ -212,9 +222,9 @@ public class MainFrame extends JFrame implements MapListener {
 		mainPanel.add(mapScrollPane, BorderLayout.CENTER);
 		
 		mondeInfoPanel = new JPanel();
+		mainPanel.add(mondeInfoPanel, BorderLayout.NORTH);
 		mondeInfoPanel.setPreferredSize(new Dimension(10, 30));
 		mondeInfoPanel.setSize(new Dimension(0, 30));
-		panel.add(mondeInfoPanel, BorderLayout.NORTH);
 		panel.add(mapPanel, BorderLayout.CENTER);
 		
 		WebScrollPane webScrollPane = new WebScrollPane(logTextArea);
@@ -224,12 +234,12 @@ public class MainFrame extends JFrame implements MapListener {
 		
 		JSplitPane mainSplitPane = new JSplitPane();
 		mainSplitPane.setPreferredSize(new Dimension(150, 25));
-		mainSplitPane.setResizeWeight(0.5);
 		getContentPane().add(mainSplitPane, BorderLayout.CENTER);
 		
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 		
 		WebScrollPane infoWebScrollPane = new WebScrollPane(infoPanel);
+		infoWebScrollPane.setMinimumSize(new Dimension(150, 150));
 		
 		WebMenuBar webMenuBar = new WebMenuBar();
 		setJMenuBar(webMenuBar);
@@ -305,6 +315,22 @@ public class MainFrame extends JFrame implements MapListener {
 	/* GETTERS/SETTERS */
 	/*-----------------*/
  
+	public WebToggleButton getWbtglbtnModeAutomatique() {
+		return wbtglbtnModeAutomatique;
+	}
+
+	public WebSlider getVitesseWebSlider() {
+		return vitesseWebSlider;
+	}
+
+	public WebSlider getMeteoWebSlider() {
+		return meteoWebSlider;
+	}
+
+	public WebSlider getAbondanceWebSlider() {
+		return abondanceWebSlider;
+	}
+
 	/** 
 	 * @return mainFrameListener
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
@@ -354,10 +380,19 @@ public class MainFrame extends JFrame implements MapListener {
 		    	int i=1;
 		    	
 		    	for(Fourmiliere f : monde.getFourmilieres()) {
-		    		JPanel fp = new JPanel();
-		    		fp.setLayout(new BoxLayout(fp,BoxLayout.Y_AXIS));
+					if(colors.get(f)==null){
+						Random rand = new Random();
+						colors.put(f, new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
+					}
 		    		
-		    		fp.add(new JLabel("Fourmilière "+ i));
+		    		JPanel fpc = new JPanel();
+		    		
+		    		WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+ i, fpc );
+		    		fp.setSize(150, 80);
+		            fp.setExpanded ( true );
+		            fp.getTitleComponent().setForeground(colors.get(f));
+		    		fpc.setLayout(new BoxLayout(fpc,BoxLayout.Y_AXIS));
+		    		
 		    		
 		    		int nbf=0;
 		    		int nbo=0;
@@ -376,13 +411,13 @@ public class MainFrame extends JFrame implements MapListener {
 		    			nbf++;
 		    		}
 		    	
-		    		fp.add(new JLabel("Total fourmis : " + nbf));
-		    		fp.add(new JLabel("Ouvrières : " + nbo));
-		    		fp.add(new JLabel("Éclaireuses : " + nbe));
-		    		fp.add(new JLabel("Ressources : " + f.getRessources()));
-		    		fp.add(new JLabel("\n"));
+		    		fpc.add(new JLabel("Total fourmis : " + nbf));
+		    		fpc.add(new JLabel("Ouvrières : " + nbo));
+		    		fpc.add(new JLabel("Éclaireuses : " + nbe));
+		    		fpc.add(new JLabel("Ressources : " + f.getRessources()));
 		    		
 		    		infoPanel.add(fp);
+		    		
 		    		i++;
 		    	}
 		    	
@@ -408,29 +443,14 @@ public class MainFrame extends JFrame implements MapListener {
 					    label.setOpaque(true);
 					    label.setSize(10,10);
 					    
-						if(current.getFourmis().size() > 0) {
-							label.setText("F");
-						}
-					    
-						if(current.getNiveau_obstacle() > 0) {
-							label.setBackground(Color.WHITE);
-						}
+
 						
 						if(current.getFourmiliere() != null) {
-							label.setBackground(Color.ORANGE);
+							
+							label.setBackground(colors.get(current.getFourmiliere()));
 							
 							label.setText(String.valueOf(current.getFourmiliere().getRessources()));
-							
-						} else if(current.getRessources().size() > 0) {
-							label.setBackground(Color.YELLOW);
-							
-							int q = 0;
-							
-							for(Ressource r : current.getRessources()) {
-								q+= r.getQuantite();
-							}
-							
-							label.setText(String.valueOf(q));
+							label.setForeground(Color.BLACK);
 							
 						} else if (current.getPheromones().size() > 0) {
 						
@@ -452,6 +472,26 @@ public class MainFrame extends JFrame implements MapListener {
 								label.setBackground(new Color(255,gb,gb));
 							}
 							
+						}
+						if (current.getFourmiliere() == null && current.getFourmis().size() > 0) {
+							label.setText("F");
+				    		label.setForeground(colors.get(current.getFourmis().iterator().next().getFourmiliere()));
+						}
+						if(current.getRessources().size() > 0) {
+							label.setBackground(Color.ORANGE);
+							
+							int q = 0;
+							
+							for(Ressource r : current.getRessources()) {
+								q+= r.getQuantite();
+							}
+							
+							label.setText(String.valueOf(q));
+							
+						}
+					    
+						if(current.getNiveau_obstacle() > 0) {
+							label.setBackground(Color.BLACK);
 						}
 						
 						map.add(label);

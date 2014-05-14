@@ -13,14 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import org.ICE.PDC.antman.controller.MainCtrl;
-import org.ICE.PDC.antman.model.Eclaireuse;
-import org.ICE.PDC.antman.model.Fourmiliere;
 import org.ICE.PDC.antman.model.Monde;
-import org.ICE.PDC.antman.model.Ouvriere;
-import org.ICE.PDC.antman.model.Reine;
+import org.ICE.PDC.antman.view.ConfigFrame;
 import org.ICE.PDC.antman.view.CreationFrame;
 import org.ICE.PDC.antman.view.MainFrame;
 import org.apache.log4j.Logger;
@@ -31,6 +27,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import com.alee.laf.WebLookAndFeel;
+import com.alee.laf.optionpane.WebOptionPane;
 
 public class Launcher {
 
@@ -41,6 +38,9 @@ public class Launcher {
 	 */
 	public static void main(String[] args) {
 		WebLookAndFeel.install();
+
+        WebLookAndFeel.setDecorateFrames ( true );
+        WebLookAndFeel.setDecorateDialogs ( true );
 
 		try { 
 			
@@ -82,18 +82,18 @@ public class Launcher {
 			obstacles.put(new Integer[]{3,4},1); //TODO REMOVE ME (TEST LINE)
 			saveMap(mapsPath+"/map.xml",dimension_x,dimension_y,obstacles);  //TODO REMOVE ME (TEST LINE)
 
-			Object[] possibilities = {"New simulation", "Create a new map", "Load a saved simulation"};
+			Object[] possibilities = {"Nouvelle simulation", "Créer une nouvelle carte", "Charger une simulation"};
 
-			String launchChoice = (String)JOptionPane.showInputDialog( 
+			String launchChoice = (String)WebOptionPane.showInputDialog( 
                     null,
-                    "Welcome in Antman Simulator 2014 ©",
+                    "Bienvenue dans Antman Simulator 2014 ©",
                     "Antman Simulator",
-                    JOptionPane.PLAIN_MESSAGE,
+                    WebOptionPane.PLAIN_MESSAGE,
                     null,
                     possibilities,
                     "");
 
-			if(launchChoice == "New simulation") {
+			if(launchChoice == "Nouvelle simulation") {
 				//Chose a map :
 				//SELECTION D'UN FOND DE CARTE
 				List<String> availablesFiles = new ArrayList<String>();
@@ -107,11 +107,11 @@ public class Launcher {
 				if(availablesFiles.size() > 0) {
 				
 					//TODO IMPROVE GUI ?
-					String mapName = (String)JOptionPane.showInputDialog( 
+					String mapName = (String)WebOptionPane.showInputDialog( 
 		                    null,
-		                    "Select a map to Load:\n",
-		                    "Map Selection",
-		                    JOptionPane.PLAIN_MESSAGE,
+		                    "Choisissez une carte à charger:\n",
+		                    "Séléction de la carte",
+		                    WebOptionPane.PLAIN_MESSAGE,
 		                    null,
 		                    availablesFiles.toArray(),
 		                    "");
@@ -121,7 +121,15 @@ public class Launcher {
 					//CHARGEMENT DU FOND DE CARTE SELECTIONNE
 					Monde monde = loadMap(mapFilePath);
 					
-					//TODO APPEL A CONFIGFRAME(monde)
+					//INITIALIZE FRAMES
+					ConfigFrame cf = new ConfigFrame();
+					cf.setMonde(monde);
+
+					
+					cf.setVisible(true);
+					cf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					
+					/*
 					//TODO CETTE PARTIE DOIT ETRE EXCECUTEE A PARTIR DE CONFIGFRAME
 					logger.info("Paramétrage de la simulation ...");
 					int meteo = 50;
@@ -165,23 +173,23 @@ public class Launcher {
 					MainCtrl ctrl = new MainCtrl(monde);
 					ctrl.setMainFrame(mf);
 					mf.setVisible(true);
-					mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+					mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
 					
 				} else {
 					//Affichage d'un message d'erreur
-					JOptionPane.showMessageDialog(null,
-					    "No maps found. You must first create maps in order to create simulations.",
+					WebOptionPane.showMessageDialog(null,
+					    "Aucune carte trouvée. Vous devez d'abord créer une carte avant de créer une simulation.",
 					    "Antman simulator",
-					    JOptionPane.ERROR_MESSAGE);
+					    WebOptionPane.ERROR_MESSAGE);
 				}
 				
-			} else if (launchChoice == "Create a new map") {
+			} else if (launchChoice == "Créer une nouvelle carte") {
 				
 				CreationFrame cf = new CreationFrame();
 				cf.setVisible(true);
 				cf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
-			} else if (launchChoice == "Load a saved simulation") {
+			} else if (launchChoice == "Charger une simulation") {
 				
 				//SELECTION D'UN FOND DE CARTE
 				List<String> availablesFiles = new ArrayList<String>();
@@ -195,11 +203,11 @@ public class Launcher {
 				if(availablesFiles.size() > 0) {
 					
 					//TODO IMPROVE GUI ?
-					String saveName = (String)JOptionPane.showInputDialog( 
+					String saveName = (String)WebOptionPane.showInputDialog( 
 		                    null,
-		                    "Select a simulation to Load:\n",
-		                    "Simulation Selection",
-		                    JOptionPane.PLAIN_MESSAGE,
+		                    "Choisissez une simulation à charger:\n",
+		                    "Séléction de la simulation",
+		                    WebOptionPane.PLAIN_MESSAGE,
 		                    null,
 		                    availablesFiles.toArray(),
 		                    "");
@@ -217,10 +225,10 @@ public class Launcher {
 					
 				} else {
 					//Affichage d'un message d'erreur
-					JOptionPane.showMessageDialog(null,
-					    "No saved simulations found. You must first create a new simulation !",
+					WebOptionPane.showMessageDialog(null,
+						"Aucune simulation trouvée. Vous devez d'abord créer une simulation.",
 					    "Antman simulator",
-					    JOptionPane.ERROR_MESSAGE);
+					    WebOptionPane.ERROR_MESSAGE);
 					
 				}
 				
