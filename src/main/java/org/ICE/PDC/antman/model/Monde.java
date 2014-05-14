@@ -72,19 +72,13 @@ public class Monde implements Serializable {
 	public void creerRessources() {
 
 		Case where = this.get_cases().get(new Random().nextInt(this._cases.size()));
-		if(where.getNiveau_obstacle() > 0) return;
-		where.ajouterRessource(new Ressource(this.abondance/(new Random().nextInt(5)+1)));
 		
-		/*int foodBucket = this.abondance/(new Random().nextInt(10)+1);
+		int quantite = this.abondance/(new Random().nextInt(5)+1);
 		
-			while(foodBucket > 0) {
-				Case where = this.get_cases().get(new Random().nextInt(this._cases.size()));
-				int quantite = new Random().nextInt(foodBucket)+1;
-				//int quantite = foodBucket;
-				where.ajouterRessource(new Ressource(foodBucket));
-				foodBucket = foodBucket - quantite;
-			}
-		*/
+		if(quantite > 0) {
+			where.ajouterRessource(new Ressource(quantite));
+		}
+		
 	}
 
 	/** 
