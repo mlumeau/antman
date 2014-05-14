@@ -112,8 +112,14 @@ public class Monde implements Serializable {
 			Set<Pheromone> pheromones = new HashSet<Pheromone>(c.getPheromones());
 			
 			for(Pheromone ph : pheromones) {
-				ph.diminuerPuissance(1);
 				
+				int puissFactor = this.meteo/20;
+				
+				if(puissFactor < 1) {
+					puissFactor = 1;
+				}
+				
+				ph.diminuerPuissance(puissFactor);
 				
 				if(ph.getPuissance() == 0) {
 					c.supprimerPheromone(ph);
