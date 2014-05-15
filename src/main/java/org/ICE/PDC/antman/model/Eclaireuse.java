@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.ICE.PDC.antman.ConfigurationLoader;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.apache.log4j.Logger;
 
@@ -26,7 +27,7 @@ public class Eclaireuse extends Fourmi implements Serializable  {
 	private States etat;
 	
 	public void poserPheromones() {
-		this.get_case().ajouterPheromone(new Pheromone(this.getFourmiliere(),10));
+		this.get_case().ajouterPheromone(new Pheromone(this.getFourmiliere(),ConfigurationLoader.PHEROMONES_ECLAIREUSES));
 	}
 
 	/** 
@@ -36,6 +37,9 @@ public class Eclaireuse extends Fourmi implements Serializable  {
 		super(fourmiliere);
 		setEtat(States.CHERCHER_RESSOURCES);
 		this.chemin_retour = null;
+		this.setSante(ConfigurationLoader.SANTE_ECLAIREUSE);
+		this.setSante_max(ConfigurationLoader.SANTE_MAX_ECLAIREUSE);
+		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_ECLAIREUSE);
 	}
 
 	/** 
@@ -46,6 +50,9 @@ public class Eclaireuse extends Fourmi implements Serializable  {
 		super(fourmiliere,_case);
 		setEtat( States.CHERCHER_RESSOURCES);
 		this.chemin_retour = null;
+		this.setSante(ConfigurationLoader.SANTE_ECLAIREUSE);
+		this.setSante_max(ConfigurationLoader.SANTE_MAX_ECLAIREUSE);
+		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_ECLAIREUSE);
 	}
 
 	/** 
@@ -57,6 +64,9 @@ public class Eclaireuse extends Fourmi implements Serializable  {
 		super(fourmiliere,_case);
 		setEtat(etat);
 		this.chemin_retour = null;
+		this.setSante(ConfigurationLoader.SANTE_ECLAIREUSE);
+		this.setSante_max(ConfigurationLoader.SANTE_MAX_ECLAIREUSE);
+		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_ECLAIREUSE);
 	}
 
 	/** 

@@ -1,5 +1,6 @@
 package org.ICE.PDC.antman.controller;
 
+import org.ICE.PDC.antman.ConfigurationLoader;
 import org.ICE.PDC.antman.model.Monde;
 import org.ICE.PDC.antman.view.MainFrame;
 import org.ICE.PDC.antman.view.MainFrameListener;
@@ -31,8 +32,8 @@ public class MainCtrl implements MainFrameListener {
 						if(vitesse != 0) {
 						
 							//On attend au moins X secondes entre chaque tour
-							if(((4-vitesse)*500)-executionTime > 0 ) {
-								Thread.sleep(((4-vitesse)*500)-executionTime);
+							if(((4-vitesse)*1000)/ConfigurationLoader.VITESSE_MULTIPLICATOR-executionTime > 0 ) {
+								Thread.sleep(((4-vitesse)*1000)/ConfigurationLoader.VITESSE_MULTIPLICATOR-executionTime);
 							}
 						
 							jouerTour();

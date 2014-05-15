@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Random;
 
+import org.ICE.PDC.antman.ConfigurationLoader;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.apache.log4j.Logger;
 
@@ -45,7 +46,7 @@ public class Reine extends Fourmi implements Serializable {
 			//(Une reine se creera en moyenne tout les 10 tours)
 			if(this.getFourmiliere().getTotalFourmis() >= this.getFourmiliere().getTaille_max()) {
 				
-				if(rand >= 90) {
+				if(rand < ConfigurationLoader.CHANCES_NAISSANCE_REINES) {
 					new Reine(this.getFourmiliere()).setEtat(States.RECHERCHE_EMPLACEMENT);
 				}
 				
@@ -60,7 +61,9 @@ public class Reine extends Fourmi implements Serializable {
 	public Reine(Fourmiliere fourmiliere) {
 		super(fourmiliere);
 		this.setEtat(States.INSTALEE);
-		this.setEsperance_de_vie(99999);
+		this.setSante(ConfigurationLoader.SANTE_REINE);
+		this.setSante_max(ConfigurationLoader.SANTE_MAX_REINE);
+		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_REINE);
 	}
 
 	/** 
@@ -70,7 +73,9 @@ public class Reine extends Fourmi implements Serializable {
 	public Reine(Fourmiliere fourmiliere, Case _case) {
 		super(fourmiliere,_case);
 		this.setEtat(States.INSTALEE);
-		this.setEsperance_de_vie(99999);
+		this.setSante(ConfigurationLoader.SANTE_REINE);
+		this.setSante_max(ConfigurationLoader.SANTE_MAX_REINE);
+		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_REINE);
 	}
 
 	/** 
@@ -81,7 +86,9 @@ public class Reine extends Fourmi implements Serializable {
 	public Reine(Fourmiliere fourmiliere, Case _case, States etat) {
 		super(fourmiliere,_case);
 		setEtat( etat);
-		this.setEsperance_de_vie(99999);
+		this.setSante(ConfigurationLoader.SANTE_REINE);
+		this.setSante_max(ConfigurationLoader.SANTE_MAX_REINE);
+		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_REINE);
 	}
 
 	/** 
@@ -116,9 +123,9 @@ public class Reine extends Fourmi implements Serializable {
 						//L'emplacement ne doit pas déja contenir une fourmiliere
 						if(this.get_case().getFourmiliere() == null) {
 							
-							int rand = new Random().nextInt(10);
+							int rand = new Random().nextInt(100);
 							
-							if(rand >= 9) {
+							if(rand < ConfigurationLoader.CHANCES_INSTALLATION_REINES) {
 								Fourmiliere f = new Fourmiliere(this.getFourmiliere().getMonde(),this.get_case(),this.getFourmiliere().getFecondite(), this.getFourmiliere().getTaille_max(),0,this.getFourmiliere().get_tauxEclaireuses());
 								this.setFourmiliere(f);
 								this.setEtat(States.INSTALEE);

@@ -7,19 +7,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.swing.JFrame;
-
-import org.ICE.PDC.antman.controller.MainCtrl;
 import org.ICE.PDC.antman.model.Monde;
-import org.ICE.PDC.antman.view.ConfigFrame;
-import org.ICE.PDC.antman.view.CreationFrame;
 import org.ICE.PDC.antman.view.LaunchFrame;
-import org.ICE.PDC.antman.view.MainFrame;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.jdom2.Document;
@@ -29,7 +20,7 @@ import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
 import com.alee.laf.WebLookAndFeel;
-import com.alee.laf.optionpane.WebOptionPane;
+
 
 public class Launcher {
 
@@ -39,6 +30,10 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		//Correction d'un bug de org.jdom2. see :  https://coderwall.com/p/kqsrrw
+		System.setProperty("javax.xml.parsers.SAXParserFactory", "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
+				
 		BasicConfigurator.configure();
 		WebLookAndFeel.install();
 
@@ -48,44 +43,8 @@ public class Launcher {
 		try { 
 			
 			//CHARGEMENT DES PARAMETRES DE CONFIGURATION
-			String configPath = Launcher.class.getResource("config.xml").getPath();
-			configPath=configPath.replaceAll("%20", " ");
-			File xmlFile = new File(configPath); 
-			
-			Document document = (Document) new SAXBuilder().build(xmlFile);
-			Element rootNode = document.getRootElement();
-			String mapsPath = rootNode.getChildText("mapsPath");
-			String savePath = rootNode.getChildText("savePath");
-			
-			if(mapsPath.equals("${antman.maps}")) {
-				mapsPath = "maps";
-			}
-			
-			if(savePath.equals("${antman.save}")) {
-				savePath = "save";
-			}
-			
-			//On crée les répertoire si ceux-ci n'éxistent pas déja
-			File md = new File(mapsPath);
-			if (!md.exists() || !md.getCanonicalFile().isDirectory()) {
-				md.mkdirs();
-			}
-			
-			File sd = new File(savePath);
-			if (!sd.exists() || !sd.getCanonicalFile().isDirectory()) {
-				sd.mkdirs();
-			}
-			
-			//Sauvegarde d'un fond de carte (TEST)
-			int dimension_x = 20; //TODO REMOVE ME (TEST LINE)
-			int dimension_y = 20; //TODO REMOVE ME (TEST LINE)
-			Map<Integer[],Integer> obstacles = new HashMap<Integer[], Integer>(); //TODO REMOVE ME (TEST LINE)
-			obstacles.put(new Integer[]{3,5},1); //TODO REMOVE ME (TEST LINE)
-			obstacles.put(new Integer[]{2,5},1); //TODO REMOVE ME (TEST LINE)
-			obstacles.put(new Integer[]{3,4},1); //TODO REMOVE ME (TEST LINE)
-			saveMap(mapsPath+"/map.xml",dimension_x,dimension_y,obstacles);  //TODO REMOVE ME (TEST LINE)
-
-			LaunchFrame lf = new LaunchFrame(mapsPath, savePath); 
+			ConfigurationLoader.load(true);
+			new LaunchFrame(ConfigurationLoader.MAPS_PATH,ConfigurationLoader.SAVE_PATH); 
 			
 		} catch (Exception e) {
 			// TODO Bloc catch auto-généré

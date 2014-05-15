@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.ICE.PDC.antman.ConfigurationLoader;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.ICE.PDC.antman.model.events.RessourceQuantiteChangeeEvent;
 import org.apache.log4j.Logger;
@@ -31,7 +32,6 @@ public class Ouvriere extends Fourmi implements Serializable {
 	
 	private final int charge_max;
 	private List<Case> chemin_retour;
-	private int capacite;
 	private int charge;
 	private States etat;
 	
@@ -41,8 +41,11 @@ public class Ouvriere extends Fourmi implements Serializable {
 	public Ouvriere(Fourmiliere fourmiliere) {
 		super(fourmiliere);
 		setEtat(States.SUIVRE_PHEROMONES);
-		this.charge_max = 20;
+		this.charge_max = ConfigurationLoader.CHARGE_MAX_OUVRIERE;
 		this.chemin_retour = null;
+		this.setSante(ConfigurationLoader.SANTE_OUVRIERE);
+		this.setSante_max(ConfigurationLoader.SANTE_MAX_OUVRIERE);
+		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_OUVRIERE);
 	}
 
 	/** 
@@ -52,8 +55,11 @@ public class Ouvriere extends Fourmi implements Serializable {
 	public Ouvriere(Fourmiliere fourmiliere, Case _case) {
 		super(fourmiliere,_case);
 		setEtat(States.SUIVRE_PHEROMONES);
-		this.charge_max = 20;
+		this.charge_max = ConfigurationLoader.CHARGE_MAX_OUVRIERE;
 		this.chemin_retour = null;
+		this.setSante(ConfigurationLoader.SANTE_OUVRIERE);
+		this.setSante_max(ConfigurationLoader.SANTE_MAX_OUVRIERE);
+		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_OUVRIERE);
 	}
 
 	/** 
@@ -64,12 +70,15 @@ public class Ouvriere extends Fourmi implements Serializable {
 	public Ouvriere(Fourmiliere fourmiliere, Case _case, States etat) {
 		super(fourmiliere,_case);
 		setEtat( etat);
-		this.charge_max = 20;
+		this.charge_max = ConfigurationLoader.CHARGE_MAX_OUVRIERE;
 		this.chemin_retour = null;
+		this.setSante(ConfigurationLoader.SANTE_OUVRIERE);
+		this.setSante_max(ConfigurationLoader.SANTE_MAX_OUVRIERE);
+		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_OUVRIERE);
 	}
 
 	public void poserPheromones() {
-		this.get_case().ajouterPheromone(new Pheromone(this.getFourmiliere(),5));
+		this.get_case().ajouterPheromone(new Pheromone(this.getFourmiliere(),ConfigurationLoader.PHEROMONES_OUVRIERES));
 	}
 
 	public void recolterNouriture() {
@@ -234,20 +243,6 @@ public class Ouvriere extends Fourmi implements Serializable {
 	 */
 	public void setChemin_retour(List<Case> chemin_retour) {
 		this.chemin_retour = chemin_retour;
-	}
-
-	/** 
-	 * @return capacite
-	 */
-	public int getCapacite() {
-		return capacite;
-	}
-
-	/** 
-	 * @param capacite capacite à définir
-	 */
-	public void setCapacite(int capacite) {
-		this.capacite = capacite;
 	}
 
 	/** 

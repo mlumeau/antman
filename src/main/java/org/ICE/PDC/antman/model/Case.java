@@ -307,47 +307,14 @@ public class Case implements Serializable {
 	 * @param target
 	 * @return Le chemin sous la forme d'une Liste triée de cases
 	 */
-	public List<Case> getPathTo(Case target) {/*
-		List<Case> path = new ArrayList<Case>();
-		int x = this.getX();
-		int y = this.getY();
+	public List<Case> getPathTo(Case target) {
+		System.out.println(target.getX());
+		System.out.println(target.getY());
 		
-		while(target.getX() != x || target.getY() != y) {
-			
-			if(target.getX() > x) {
-				x++;
-			} else if (target.getX() < x) {
-				x--;
-			}
-			
-			if(target.getY() > y) {
-				y++;
-			} else if (target.getY() < y) {
-				y--;
-			}
-			
-			try {
-				Case c = this.getMonde().getCaseAt(x, y);
-				//Si la case contient un obstacle infranchissable on se déplace Aléatoirement sur une case sans obstacles
-				if(c.getNiveau_obstacle() > 0) {
-					List<Case> cases = this.getCasesInRadius(1);
-					int index = new Random().nextInt(cases.size());
-					path.add(cases.get(index));
-				} else {
-					path.add(c);
-				}
-			} catch (Exception e) {
-				//Unexpected Error
-				e.printStackTrace();
-			}
-			
-		}
-		
-		return path;*/
 		try {
 			return new PathFinding(this, target).findPath();
 		} catch (Exception e) {
-			logger.error("Fail to finding Path :"+e);
+			logger.error("Fail to finding Path :"+e.getCause());
 		}
 		return new ArrayList<Case>();
 	}

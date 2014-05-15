@@ -25,7 +25,7 @@ public abstract class Fourmi implements Serializable {
 	private Case last_position;
 	private Case _case;
 	private Fourmiliere fourmiliere;
-	private final int sante_max;
+	private int sante_max;
 	private int esperance_de_vie;
 	private int age;
 	private int sante;
@@ -38,10 +38,10 @@ public abstract class Fourmi implements Serializable {
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public Fourmi(Fourmiliere fourmiliere, Case _case) {
-		this.age = 0; //DEFAULT
-		this.esperance_de_vie = 20; //DEFAULT
-		this.sante = 20; //DEFAULT 
-		this.sante_max = this.sante; //DEFAULT 
+		this.age = 0; 
+		this.esperance_de_vie = 20; 
+		this.sante = 20;
+		this.sante_max = this.sante; 
 		this._case = _case;
 		this.fourmiliere = fourmiliere;
 		logger.debug("Fourmi crée : "+this);
@@ -133,6 +133,13 @@ public abstract class Fourmi implements Serializable {
 	 */
 	public int getSante_max() {
 		return this.sante_max;
+	}
+	
+	/** 
+	 * @param sante sante_max à définir
+	 */
+	public void setSante_max(int sante_max) {
+		this.sante_max = sante_max;
 	}
 	
 	/** 

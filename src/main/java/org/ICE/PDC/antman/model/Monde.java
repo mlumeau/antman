@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.List;
 
+import org.ICE.PDC.antman.ConfigurationLoader;
 import org.ICE.PDC.antman.model.events.FourmiAjouteeEvent;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.ICE.PDC.antman.model.events.FourmiPositionChangeeEvent;
@@ -88,7 +89,7 @@ public class Monde implements Serializable {
 
 		Case where = this.get_cases().get(new Random().nextInt(this._cases.size()));
 		
-		int quantite = this.abondance/(new Random().nextInt(5)+1);
+		int quantite = (this.abondance/(new Random().nextInt(5)+1))*ConfigurationLoader.ABONDANCE_MULTIPLICATOR;
 		
 		if(quantite > 0) {
 			where.ajouterRessource(new Ressource(quantite));
@@ -128,7 +129,7 @@ public class Monde implements Serializable {
 			
 			for(Pheromone ph : pheromones) {
 				
-				int puissFactor = 5-this.meteo/20;
+				int puissFactor = (100-this.meteo)/20*ConfigurationLoader.METEO_MULTIPLICATOR;;
 				
 				if(puissFactor < 1) {
 					puissFactor = 1;
@@ -305,8 +306,6 @@ public class Monde implements Serializable {
 	public void removeListener(MapListener listener) {
 		this.listeners.remove(listener);
 	}
-	
-	
 	
 	/** 
 	 * @return tour
