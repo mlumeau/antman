@@ -88,7 +88,7 @@ public interface MapListener {
 	 * @param e
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
-	public void PheromoneAjoutee(PheromoneAjouteeEvent e);
+	public void pheromoneAjoutee(PheromoneAjouteeEvent e);
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -96,7 +96,7 @@ public interface MapListener {
 	 * @param e
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
-	public void PheromoneSupprimee(PheromoneSupprimeeEvent e);
+	public void pheromoneSupprimee(PheromoneSupprimeeEvent e);
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -104,7 +104,7 @@ public interface MapListener {
 	 * @param e
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
-	public void PheromonePuissanceChangee(PheromonePuissanceChangeeEvent e);
+	public void pheromonePuissanceChangee(PheromonePuissanceChangeeEvent e);
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -112,7 +112,7 @@ public interface MapListener {
 	 * @param e
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
-	public void FourmiliereAjoutee(FourmiliereAjouteeEvent e);
+	public void fourmiliereAjoutee(FourmiliereAjouteeEvent e);
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -120,7 +120,7 @@ public interface MapListener {
 	 * @param e
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
-	public void FourmiliereSupprimee(FourmiliereSupprimeeEvent e);
+	public void fourmiliereSupprimee(FourmiliereSupprimeeEvent e);
 
 	/** 
 	 * <!-- begin-UML-doc -->
@@ -128,6 +128,6 @@ public interface MapListener {
 	 * @param e
 	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
-	public void FourmiliereRessourcesChangees(
+	public void fourmiliereRessourcesChangees(
 			FourmiliereRessourcesChangeesEvent e);
 }
