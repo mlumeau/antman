@@ -322,6 +322,8 @@ public class ConfigFrame extends WebFrame {
 
 				mf.setVisible(true);
 				mf.setDefaultCloseOperation(EXIT_ON_CLOSE);
+				mf.initMonde(m);
+				
 				dispose();
 				
 			}
@@ -404,6 +406,9 @@ public class ConfigFrame extends WebFrame {
 
 	public void setMonde(Monde m) {
 		this.m = m;
+
+    	frmModel.data.add(new Object[] {0, m.getDimensionX()/3, m.getDimensionY()/3, 45, 5, 6, 20, 100, Color.blue});
+    	frmModel.data.add(new Object[] {1, m.getDimensionX()/2, m.getDimensionX()/2, 45, 5, 6, 20, 100, Color.green});
 		
         try {
 			paintMap(m,frmModel);
@@ -446,8 +451,6 @@ public class ConfigFrame extends WebFrame {
         public final Object[] longValues = {0, 5, 5, 45, 5, 6, 20, 100, Color.blue};
         
         public FourmiliereTableModel(){
-        	data.add(new Object[] {0, 5, 5, 45, 5, 6, 20, 100, Color.blue});
-        	data.add(new Object[] {1, 10, 10, 45, 5, 6, 20, 100, Color.green});
         }
 
         public int getColumnCount ()

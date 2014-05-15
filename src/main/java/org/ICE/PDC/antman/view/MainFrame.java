@@ -6,6 +6,8 @@ package org.ICE.PDC.antman.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,6 +57,7 @@ import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.TourJoueEvent;
 import org.apache.log4j.Logger;
 
+import com.alee.extended.layout.TableLayout;
 import com.alee.extended.panel.WebCollapsiblePane;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.button.WebToggleButton;
@@ -64,6 +67,8 @@ import com.alee.laf.menu.WebMenuItem;
 import com.alee.laf.rootpane.WebFrame;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.slider.WebSlider;
+import java.awt.Component;
+import javax.swing.Box;
 
 /** 
  * <!-- begin-UML-doc -->
@@ -92,7 +97,9 @@ public class MainFrame extends WebFrame implements MapListener {
 	private WebSlider abondanceWebSlider;
 	private JPanel mondeInfoPanel;
 	private JPanel infoPanel;
+	private int indexFourmiliere=0;
 	
+	private HashMap<Fourmiliere,WebCollapsiblePane> fourmilierePanes;
 	private HashMap<Fourmiliere,Color> colors;
 
 	private JTextArea logTextArea;
@@ -105,6 +112,7 @@ public class MainFrame extends WebFrame implements MapListener {
 	public MainFrame() {
 		setTitle("Simulation");
 		colors=new HashMap<Fourmiliere, Color>();
+		fourmilierePanes=new HashMap<Fourmiliere, WebCollapsiblePane>();
 		
 		setSize(new Dimension(1024, 800));
 		setLocationByPlatform(true);
@@ -226,7 +234,14 @@ public class MainFrame extends WebFrame implements MapListener {
 		mainPanel.add(mondeInfoPanel, BorderLayout.NORTH);
 		mondeInfoPanel.setPreferredSize(new Dimension(10, 30));
 		mondeInfoPanel.setSize(new Dimension(0, 30));
+		mondeInfoPanel.setLayout(new BorderLayout(0, 0));
+		
+		JLabel mondeInfoLabel = new JLabel("");
+		mondeInfoPanel.add(mondeInfoLabel);
 		panel.add(mapPanel, BorderLayout.CENTER);
+		
+		JPanel panel_1 = new JPanel();
+		mapPanel.add(panel_1);
 		
 		WebScrollPane webScrollPane = new WebScrollPane(logTextArea);
 		splitPane.setRightComponent(webScrollPane);
@@ -237,9 +252,11 @@ public class MainFrame extends WebFrame implements MapListener {
 		mainSplitPane.setPreferredSize(new Dimension(150, 25));
 		getContentPane().add(mainSplitPane, BorderLayout.CENTER);
 		
+		WebScrollPane infoWebScrollPane = new WebScrollPane(infoPanel);
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 		
-		WebScrollPane infoWebScrollPane = new WebScrollPane(infoPanel);
+		Component glue = Box.createGlue();
+		infoPanel.add(glue);
 		infoWebScrollPane.setMinimumSize(new Dimension(150, 150));
 		
 		WebMenuBar webMenuBar = new WebMenuBar();
@@ -259,6 +276,7 @@ public class MainFrame extends WebFrame implements MapListener {
 
 		mainSplitPane.setLeftComponent(infoWebScrollPane);
 		mainSplitPane.setRightComponent(viewPanel);
+		
 		
 		/*-----------------*/
 		/*ACTION LISTENERS */
@@ -310,6 +328,41 @@ public class MainFrame extends WebFrame implements MapListener {
 		
 	}
 	
+	public void initMonde(Monde m){
+		for(Fourmiliere f : m.getFourmilieres()){
+			
+			FourmiliereInfoPanel fpc = new FourmiliereInfoPanel();
+			
+			WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+indexFourmiliere, fpc );
+			fp.setMaximumSize(new Dimension(Integer.MAX_VALUE,50));
+	        fp.setExpanded ( true );
+	        fp.getTitleComponent().setForeground(colors.get(f));
+
+			
+			int nbf=0;
+			int nbo=0;
+			int nbe=0;
+			
+			for(Fourmi fo : f.getFourmi()) {
+				if(fo instanceof Ouvriere)  {
+					nbo++;
+				} else if (fo instanceof Eclaireuse) {
+					nbe++;
+				}
+				nbf++;
+			}
+			
+			fpc.getTotalValue().setText(Integer.toString(nbf));
+			fpc.getOuvValue().setText(Integer.toString(nbo));
+    		fpc.getEclValue().setText(Integer.toString(nbe));
+    		fpc.getResValue().setText(Integer.toString(f.getRessources()));
+	        
+	        fourmilierePanes.put(f,fp);
+	        infoPanel.add(fp,infoPanel.getComponentCount()-1);
+	        
+	        indexFourmiliere++;
+		}
+	}
 	
 	
 	/*-----------------*/
@@ -352,10 +405,6 @@ public class MainFrame extends WebFrame implements MapListener {
 		try {
 	    	  
 		    	mapPanel.removeAll(); 
-		    	mondeInfoPanel.removeAll();
-		    	infoPanel.removeAll();
-		    	
-		    	JPanel infos = new JPanel();
 
 
 		    	 logger.info("Tour n°"+(_e.getTour())+" - Total fourmilieres : "+monde.getFourmilieres().size()+" - Total fourmis : "+monde.getTotalFourmis());
@@ -363,23 +412,10 @@ public class MainFrame extends WebFrame implements MapListener {
 		    	int ouvrieres = 0;
 		    	int eclaireuses = 0;
 		    	
-		    	int i=1;
-		    	
 		    	for(Fourmiliere f : monde.getFourmilieres()) {
-					if(colors.get(f)==null){
-						Random rand = new Random();
-						colors.put(f, new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
-					}
 		    		
-		    		JPanel fpc = new JPanel();
-		    		
-		    		WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+ i, fpc );
-		    		fp.setSize(150, 80);
-		            fp.setExpanded ( true );
-		            fp.getTitleComponent().setForeground(colors.get(f));
-		    		fpc.setLayout(new BoxLayout(fpc,BoxLayout.Y_AXIS));
-		    		
-		    		
+					FourmiliereInfoPanel fpc =  (FourmiliereInfoPanel) fourmilierePanes.get(f).getContent();
+					
 		    		int nbf=0;
 		    		int nbo=0;
 		    		int nbe=0;
@@ -397,14 +433,11 @@ public class MainFrame extends WebFrame implements MapListener {
 		    			nbf++;
 		    		}
 		    	
-		    		fpc.add(new JLabel("Total fourmis : " + nbf));
-		    		fpc.add(new JLabel("Ouvrières : " + nbo));
-		    		fpc.add(new JLabel("Éclaireuses : " + nbe));
-		    		fpc.add(new JLabel("Ressources : " + f.getRessources()));
+		    		fpc.getTotalValue().setText(Integer.toString(nbf));
+		    		fpc.getOuvValue().setText(Integer.toString(nbo));
+		    		fpc.getEclValue().setText(Integer.toString(nbe));
+		    		fpc.getResValue().setText(Integer.toString(f.getRessources()));
 		    		
-		    		infoPanel.add(fp);
-		    		
-		    		i++;
 		    	}
 		    	
 		    	String infosString = "TOUR n° "+_e.getTour()+
@@ -414,7 +447,7 @@ public class MainFrame extends WebFrame implements MapListener {
 						 " / Ouvrières : "+ouvrieres+
 						 " / Eclaireuses : "+eclaireuses+")";
 						 
-		    	infos.add(new JLabel(infosString));
+		    	((JLabel) mondeInfoPanel.getComponent(0)).setText(infosString);
 		    	
 		    	JPanel map = new JPanel(new GridLayout(monde.getDimensionX(),monde.getDimensionY()));
 		    	map.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
@@ -486,16 +519,9 @@ public class MainFrame extends WebFrame implements MapListener {
 				}
 				
 				mapPanel.add(map);
-				mondeInfoPanel.add(infos);
 				
 				mapPanel.repaint();
 				mapPanel.revalidate();
-				
-				mondeInfoPanel.repaint();
-				mondeInfoPanel.revalidate();
-				
-				infoPanel.repaint();
-				infoPanel.revalidate();
 				
 		      } catch (Exception e) {
 		    	  e.printStackTrace();
@@ -517,9 +543,10 @@ public class MainFrame extends WebFrame implements MapListener {
 	            	logTextArea.append(logText+"\n");
 	            }
 	        });
-		
 	}
-	
+		
+
+
 	public void fourmiPositionChangee(FourmiPositionChangeeEvent e) {
 		Fourmi f = e.getFourmi();
 		Case c = e.getFourmi().get_case();
@@ -531,6 +558,7 @@ public class MainFrame extends WebFrame implements MapListener {
 		this.addTextEvent("La fourmi "+f+"a changé d'état"); //TODO ADD STATE
 	}
 
+
 	public void fourmiAjoutee(FourmiAjouteeEvent e) {
 		Fourmi f = e.getFourmi();
 		this.addTextEvent("Une nouvelle fourmi "+f.getClass()+" a été ajoutée à la fourmiliere "+f.getFourmiliere());
@@ -539,6 +567,55 @@ public class MainFrame extends WebFrame implements MapListener {
 	public void fourmiSupprimee(FourmiSupprimeeEvent e) {
 		Fourmi f = e.getFourmi();
 		this.addTextEvent("La fourmi "+f+" est morte");
+	}
+	
+	public void fourmiliereAjoutee(FourmiliereAjouteeEvent e) {
+		
+		Case c = e.getFourmiliere().get_case();
+		this.addTextEvent("Une nouvelle fourmiliere a été ajoutée en "+c.getX()+"/"+c.getY());
+		Fourmiliere f = e.getFourmiliere();
+
+		Random rand = new Random();
+		colors.put(f, new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
+		
+		FourmiliereInfoPanel fpc = new FourmiliereInfoPanel();
+		
+		WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+indexFourmiliere, fpc );
+		fp.setMaximumSize(new Dimension(Integer.MAX_VALUE,50));
+        fp.setExpanded ( true );
+        fp.getTitleComponent().setForeground(colors.get(f));
+
+		int nbf=0;
+		int nbo=0;
+		int nbe=0;
+		
+		for(Fourmi fo : f.getFourmi()) {
+			if(fo instanceof Ouvriere)  {
+				nbo++;
+			} else if (fo instanceof Eclaireuse) {
+				nbe++;
+			}
+			nbf++;
+		}
+		
+		fpc.getTotalValue().setText(Integer.toString(nbf));
+		fpc.getOuvValue().setText(Integer.toString(nbo));
+		fpc.getEclValue().setText(Integer.toString(nbe));
+		fpc.getResValue().setText(Integer.toString(f.getRessources()));
+		
+        fourmilierePanes.put(f,fp);
+        infoPanel.add(fp,infoPanel.getComponentCount()-1);
+        
+		indexFourmiliere++;
+	}
+
+	public void fourmiliereSupprimee(FourmiliereSupprimeeEvent e) {
+		Fourmiliere f = e.getFourmiliere();
+        infoPanel.remove(fourmilierePanes.get(f));
+        colors.remove(f);
+		fourmilierePanes.remove(f);
+
+		this.addTextEvent("La fourmiliere "+e.getFourmiliere()+" a été supprimée");
 	}
 
 	public void ressourceAjoutee(RessourceAjouteeEvent e) {
@@ -553,28 +630,114 @@ public class MainFrame extends WebFrame implements MapListener {
 		//Nothing to do here
 	}
 
-	public void PheromoneAjoutee(PheromoneAjouteeEvent e) {
-		//Nothing to do here
+	public void pheromoneAjoutee(PheromoneAjouteeEvent e) {
+		// TODO Module de remplacement de méthode auto-généré
+		
 	}
 
-	public void PheromoneSupprimee(PheromoneSupprimeeEvent e) {
-		//Nothing to do here
+	public void pheromoneSupprimee(PheromoneSupprimeeEvent e) {
+		// TODO Module de remplacement de méthode auto-généré
+		
 	}
 
-	public void PheromonePuissanceChangee(PheromonePuissanceChangeeEvent e) {
-		//Nothing to do here
+	public void pheromonePuissanceChangee(PheromonePuissanceChangeeEvent e) {
+		// TODO Module de remplacement de méthode auto-généré
+		
 	}
 
-	public void FourmiliereAjoutee(FourmiliereAjouteeEvent e) {
-		Case c = e.getFourmiliere().get_case();
-		this.addTextEvent("Une nouvelle fourmiliere a été ajoutée en "+c.getX()+"/"+c.getY());
+	public void fourmiliereRessourcesChangees(
+			FourmiliereRessourcesChangeesEvent e) {
+		// TODO Module de remplacement de méthode auto-généré
+		
 	}
 
-	public void FourmiliereSupprimee(FourmiliereSupprimeeEvent e) {
-		this.addTextEvent("La fourmiliere "+e.getFourmiliere()+" a été supprimée");
-	}
+	class FourmiliereInfoPanel extends JPanel{
+		private static final long serialVersionUID = 6088887840869041715L;
+		private JLabel totalLabel;
+		private JLabel totalValue;
+		private JLabel ouvLabel;
+		private JLabel ouvValue;
+		private JLabel eclLabel;
+		private JLabel eclValue;
+		private JLabel resLabel;
+		private JLabel resValue;
+		
+		public JLabel getTotalValue() {
+			return totalValue;
+		}
 
-	public void FourmiliereRessourcesChangees(FourmiliereRessourcesChangeesEvent e) {
-		//Nothing to do here
+		public JLabel getOuvValue() {
+			return ouvValue;
+		}
+
+		public JLabel getEclValue() {
+			return eclValue;
+		}
+
+		public JLabel getResValue() {
+			return resValue;
+		}
+
+		public FourmiliereInfoPanel() {
+			
+			this.setLayout(new GridBagLayout());
+			
+			totalLabel = new JLabel(" Total fourmis : ");
+			ouvLabel = new JLabel(" Ouvrières : ");
+			eclLabel = new JLabel(" Éclaireuses : ");
+			resLabel = new JLabel(" Ressources : ");
+			
+			totalValue = new JLabel("0");
+			ouvValue = new JLabel("0");
+			eclValue = new JLabel("0");
+			resValue = new JLabel("0");
+			
+			GridBagConstraints c = new GridBagConstraints();
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx=0.5;
+			c.weighty=0.5;
+			
+			c.gridx=0;
+			c.gridy=0;
+			c.gridwidth=3;
+			this.add(totalLabel,c);
+
+			c.gridx=4;
+			c.gridy=0;
+			c.gridwidth=1;
+			this.add(totalValue,c);
+			
+			c.gridx=0;
+			c.gridy=1;
+			c.gridwidth=3;
+			this.add(ouvLabel,c);
+			
+			c.gridx=4;
+			c.gridy=1;
+			c.gridwidth=1;
+			this.add(ouvValue,c);
+			
+			c.gridx=0;
+			c.gridy=2;
+			c.gridwidth=3;
+			this.add(eclLabel,c);
+			
+			c.gridx=4;
+			c.gridy=2;
+			c.gridwidth=1;
+			this.add(eclValue,c);
+			
+			c.gridx=0;
+			c.gridy=3;
+			c.gridwidth=3;
+			this.add(resLabel,c);
+			
+			c.gridx=4;
+			c.gridy=3;
+			c.gridwidth=1;
+			this.add(resValue,c);
+		}
+		
+		
 	}
 }
