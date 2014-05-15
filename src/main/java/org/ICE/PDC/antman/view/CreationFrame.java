@@ -6,17 +6,23 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormatSymbols;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SpinnerNumberModel;
@@ -25,17 +31,35 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.ICE.PDC.antman.Launcher;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+
+import com.alee.extended.layout.VerticalFlowLayout;
+import com.alee.extended.panel.SingleAlignPanel;
+import com.alee.extended.window.WebPopOver;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.label.WebLabel;
+import com.alee.laf.optionpane.WebOptionPane;
 import com.alee.laf.rootpane.WebFrame;
 import com.alee.laf.slider.WebSlider;
 import com.alee.laf.spinner.WebSpinner;
+import com.alee.managers.notification.NotificationIcon;
+import com.alee.managers.notification.NotificationManager;
+import com.alee.managers.notification.NotificationOption;
 
 public class CreationFrame extends WebFrame {
 
-	public CreationFrame(String path) {
+	public CreationFrame(String maps, String save) {
+		setMinimumSize(new Dimension(720, 0));
+		
+		final String mapsPath = maps;
+		final String savePath = save;
+		
 		setLocationByPlatform(true);
-		setSize(new Dimension(699, 400));
+		setSize(new Dimension(700, 400));
 		
 		setTitle("Création d'une carte");
 		setResizable(true);
@@ -49,8 +73,8 @@ public class CreationFrame extends WebFrame {
 		webSpinner_1.setModel(new SpinnerNumberModel(new Integer(10), new Integer(0), null, new Integer(1)));
 
 		
-		int tailleX = (Integer) webSpinner.getValue();
-		int tailleY = (Integer) webSpinner_1.getValue();
+		final int tailleX = (Integer) webSpinner.getValue();
+		final int tailleY = (Integer) webSpinner_1.getValue();
 		
 
 		
@@ -261,11 +285,12 @@ public class CreationFrame extends WebFrame {
 		webSlider.setMinorTickSpacing(99);
 		webSlider.setMinimum(1);
 		webSlider.setMajorTickSpacing(99);
+		webSlider.setValue(20);
 		
 		
 		
 		final WebLabel webLabel = new WebLabel();
-		webLabel.setText("50");
+		webLabel.setText("20");
 		panel_2.add(webLabel);
 		
 		webSlider.addChangeListener(new ChangeListener() {
@@ -302,9 +327,55 @@ public class CreationFrame extends WebFrame {
 		getContentPane().add(panelSouth, BorderLayout.SOUTH);
 		
 		WebButton wbtnValider = new WebButton();
+		wbtnValider.setPreferredSize(new Dimension(160, 30));
+		wbtnValider.addActionListener(new ActionListener() {
+			
+			
+			public void actionPerformed(ActionEvent arg0) {
+				
+				//Sauvegarde d'un fond de carte 
+				int dimension_x = tailleX;
+				int dimension_y = tailleY; 
+				Map<Integer[],Integer> obstacles = new HashMap<Integer[], Integer>(); 
+				int cpt = 0;
+				for ( Component c : map.getComponents())
+				{
+					int posX = cpt%dimension_x; 
+					int posY = cpt/dimension_y; 
+					if(((Container) c).getComponent(0).getBackground().equals(Color.BLACK))
+					{
+						obstacles.put(new Integer[]{posX, posY},1);
+					}
+					
+					cpt++;
+				}
+				
+				String s = (String)JOptionPane.showInputDialog(
+	                    map,
+	                    "Nom de la carte",
+	                    "Customized Dialog",
+	                    JOptionPane.PLAIN_MESSAGE);
+
+				//If a string was returned, say so.
+				if ((s != null) && (s.length() > 0)) {
+				    
+					try {
+						Launcher.saveMap(mapsPath+"/"+s+".xml",dimension_x,dimension_y,obstacles);
+						
+						JOptionPane.showMessageDialog(map,"La carte a été enregistrée.");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}  //TODO REMOVE ME (TEST LINE)
+					
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(map,"Donnez un nom à votre carte.", "Erreur", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		panelSouth.add(wbtnValider);
-		wbtnValider.setPreferredWidth(200);
-		wbtnValider.setPreferredHeight(30);
 		
 		wbtnValider.setAlignmentX(Component.CENTER_ALIGNMENT);
 		wbtnValider.setText("Enregistrer");
@@ -323,7 +394,7 @@ public class CreationFrame extends WebFrame {
 				}
 			}
 		});
-		wbtnGnrerUneCarte.setPreferredSize(new Dimension(200, 30));
+		wbtnGnrerUneCarte.setPreferredSize(new Dimension(160, 30));
 		wbtnGnrerUneCarte.setText("Générer une carte aléatoire");
 		
 		WebButton wbtnRinitialiser = new WebButton();
@@ -338,8 +409,25 @@ public class CreationFrame extends WebFrame {
 				
 			}
 		});
-		wbtnRinitialiser.setPreferredSize(new Dimension(200, 30));
+		wbtnRinitialiser.setPreferredSize(new Dimension(160, 30));
 		wbtnRinitialiser.setText("Nettoyer la carte");
+		
+		WebButton wbtnRetournerAuMenu = new WebButton();
+		wbtnRetournerAuMenu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0ActionEvent) {
+				Component p = (Component)arg0ActionEvent.getSource(); 
+				while ( (p = p.getParent()) != null && !(p instanceof WebFrame) );
+				
+				CreationFrame cf = (CreationFrame)p; 
+				cf.dispose();
+				
+					LaunchFrame lf = new LaunchFrame(mapsPath, savePath); 
+					
+			}
+		});
+		wbtnRetournerAuMenu.setPreferredSize(new Dimension(160, 30));
+		wbtnRetournerAuMenu.setText("Retourner au menu");
+		panelSouth.add(wbtnRetournerAuMenu);
 	}
 
 	private static final long serialVersionUID = 1L;
