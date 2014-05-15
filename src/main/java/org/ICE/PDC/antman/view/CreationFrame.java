@@ -6,13 +6,11 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
@@ -32,23 +30,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.ICE.PDC.antman.Launcher;
-import org.jdom2.Document;
-import org.jdom2.Element;
-import org.jdom2.JDOMException;
-import org.jdom2.input.SAXBuilder;
 
-import com.alee.extended.layout.VerticalFlowLayout;
-import com.alee.extended.panel.SingleAlignPanel;
-import com.alee.extended.window.WebPopOver;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.label.WebLabel;
-import com.alee.laf.optionpane.WebOptionPane;
 import com.alee.laf.rootpane.WebFrame;
 import com.alee.laf.slider.WebSlider;
 import com.alee.laf.spinner.WebSpinner;
-import com.alee.managers.notification.NotificationIcon;
-import com.alee.managers.notification.NotificationManager;
-import com.alee.managers.notification.NotificationOption;
 
 public class CreationFrame extends WebFrame {
 
@@ -69,8 +56,8 @@ public class CreationFrame extends WebFrame {
 		final WebSpinner webSpinner_1 = new WebSpinner();
 		webSpinner_1.setPreferredSize(new Dimension(50, 26));
 
-		webSpinner.setModel(new SpinnerNumberModel(new Integer(10), new Integer(0), null, new Integer(1)));
-		webSpinner_1.setModel(new SpinnerNumberModel(new Integer(10), new Integer(0), null, new Integer(1)));
+		webSpinner.setModel(new SpinnerNumberModel(new Integer(15), new Integer(1), null, new Integer(1)));
+		webSpinner_1.setModel(new SpinnerNumberModel(new Integer(15), new Integer(1), null, new Integer(1)));
 
 		
 		final int tailleX = (Integer) webSpinner.getValue();
@@ -106,7 +93,7 @@ public class CreationFrame extends WebFrame {
 		
 		
 		mapPanel.add(map);
-		map.setLayout(new GridLayout(10, 10, 0, 0));
+		map.setLayout(new GridLayout(tailleX, tailleY, 0, 0));
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setAlignmentY(Component.BOTTOM_ALIGNMENT);
@@ -123,13 +110,13 @@ public class CreationFrame extends WebFrame {
 			    label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			    label.setOpaque(true);
 			    label.setSize(10,10);
-			    label.setBackground(Color.WHITE);
+			    
 			    p.setSize(10,10);
 			    p.addMouseListener((new MouseListener() {
 					
 					public void mouseClicked(MouseEvent arg0) {
 						if(label.getBackground().equals(Color.BLACK))
-							label.setBackground(Color.WHITE);
+							label.setBackground(null);
 						else
 							label.setBackground(Color.BLACK);
 						
@@ -185,6 +172,11 @@ public class CreationFrame extends WebFrame {
 		
 		panel_8.add(webSpinner);
 		
+		final WebLabel webLabel_3 = new WebLabel();
+		webLabel_3.setVisible(false);
+		webLabel_3.setText("15");
+		panel_8.add(webLabel_3);
+		
 		JPanel panel_9 = new JPanel();
 		FlowLayout flowLayout_3 = (FlowLayout) panel_9.getLayout();
 		flowLayout_3.setAlignment(FlowLayout.LEFT);
@@ -197,19 +189,28 @@ public class CreationFrame extends WebFrame {
 		
 		panel_9.add(webSpinner_1);
 		
+		final WebLabel webLabel_4 = new WebLabel();
+		webLabel_4.setVisible(false);
+		webLabel_4.setText("15");
+		panel_9.add(webLabel_4);
+		
 		JPanel panel_5 = new JPanel();
 		panel_6.add(panel_5);
 		FlowLayout flowLayout_4 = (FlowLayout) panel_5.getLayout();
 		flowLayout_4.setAlignment(FlowLayout.LEFT);
 		
 		WebButton wbtnNouvelleCarteVide = new WebButton();
+		
 		wbtnNouvelleCarteVide.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
 				map.setVisible(false);
 				map.removeAll();
 
 				int tailleX = (Integer) webSpinner.getValue();
+				webLabel_3.setText(""+tailleX);
 				int tailleY = (Integer) webSpinner_1.getValue();
+				webLabel_4.setText(""+tailleY);
 				map.setLayout(new GridLayout(tailleY, tailleX, 0, 0));
 				
 				for(int x=0; x<tailleX; x++) {
@@ -334,8 +335,8 @@ public class CreationFrame extends WebFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				//Sauvegarde d'un fond de carte 
-				int dimension_x = tailleX;
-				int dimension_y = tailleY; 
+				int dimension_x = Integer.parseInt(webLabel_3.getText());
+				int dimension_y = Integer.parseInt(webLabel_4.getText());
 				Map<Integer[],Integer> obstacles = new HashMap<Integer[], Integer>(); 
 				int cpt = 0;
 				for ( Component c : map.getComponents())
@@ -419,9 +420,9 @@ public class CreationFrame extends WebFrame {
 				while ( (p = p.getParent()) != null && !(p instanceof WebFrame) );
 				
 				CreationFrame cf = (CreationFrame)p; 
-				cf.dispose();
-				
-					LaunchFrame lf = new LaunchFrame(mapsPath, savePath); 
+				cf.setDefaultCloseOperation(EXIT_ON_CLOSE);
+				cf.dispose();	
+				new LaunchFrame(mapsPath, savePath); 
 					
 			}
 		});
