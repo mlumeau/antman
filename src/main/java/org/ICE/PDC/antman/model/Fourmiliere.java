@@ -49,7 +49,10 @@ public class Fourmiliere implements Serializable {
 		logger.debug("Fourmiliere crée : "+this);
 		_case.setFourmiliere(this); //Lie la case à la fourmiliere
 		monde.ajouterFourmiliere(this); //Lie le monde à la fourmiliere
-		monde.getEvents().get(monde.getTour()).add(new FourmiliereAjouteeEvent(monde.getTour(), new Date(), this));
+		
+		FourmiliereAjouteeEvent e = new FourmiliereAjouteeEvent(monde.getTour(), new Date(), this);
+		monde.getEvents().get(monde.getTour()).add(e);
+		monde.getListeners().FourmiliereAjoutee(e);
 	}
 	
 	@Override
@@ -74,10 +77,14 @@ public class Fourmiliere implements Serializable {
 	public void supprimerFourmi(Fourmi f) {
 		this.fourmi.remove(f);
 		
-		if(this.fourmi.size() == 0) {
+		if(this.fourmi.size() <= 0) {
 			this._case.setFourmiliere(null);
-			monde.getEvents().get(monde.getTour()).add(new FourmiliereSupprimeeEvent(monde.getTour(), new Date(), this));
 			this.getMonde().supprimerFourmiliere(this);
+			
+			FourmiliereSupprimeeEvent e = new FourmiliereSupprimeeEvent(monde.getTour(), new Date(), this);
+			monde.getEvents().get(monde.getTour()).add(e);
+			monde.getListeners().FourmiliereSupprimee(e);
+
 		}
 		
 		logger.debug("Fourmiliere ("+this.hashCode()+") Suppression de la Fourmi : "+f+" ");

@@ -68,9 +68,11 @@ public abstract class Fourmi implements Serializable {
 	}
 	
 	public void mourir() {
-		fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(new FourmiSupprimeeEvent(fourmiliere.getMonde().getTour(), new Date(),this));
 		this.get_case().supprimerFourmi(this);
 		this.getFourmiliere().supprimerFourmi(this);
+		FourmiSupprimeeEvent e = new FourmiSupprimeeEvent(fourmiliere.getMonde().getTour(), new Date(),this);
+		fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(e);
+		fourmiliere.getMonde().getListeners().fourmiSupprimee(e);
 	}
 	
 
@@ -179,8 +181,11 @@ public abstract class Fourmi implements Serializable {
 		
 		this._case = _case;
 		_case.ajouterFourmi(this);
-		if(old != null)
-		fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(new FourmiPositionChangeeEvent(fourmiliere.getMonde().getTour(), new Date(),this,old.getX(),old.getY()));
+		if(old != null) {
+			FourmiPositionChangeeEvent e = new FourmiPositionChangeeEvent(fourmiliere.getMonde().getTour(), new Date(),this,old.getX(),old.getY());
+			fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(e);
+			fourmiliere.getMonde().getListeners().fourmiPositionChangee(e);
+		}
 	}
 
 	/** 
