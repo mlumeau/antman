@@ -19,6 +19,7 @@ import org.ICE.PDC.antman.model.Monde;
 import org.ICE.PDC.antman.view.ConfigFrame;
 import org.ICE.PDC.antman.view.CreationFrame;
 import org.ICE.PDC.antman.view.MainFrame;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -37,6 +38,7 @@ public class Launcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		BasicConfigurator.configure();
 		WebLookAndFeel.install();
 
         WebLookAndFeel.setDecorateFrames ( true );
