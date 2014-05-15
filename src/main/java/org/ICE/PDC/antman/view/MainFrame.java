@@ -96,6 +96,8 @@ public class MainFrame extends WebFrame implements MapListener {
 	private JPanel infoPanel;
 	
 	private HashMap<Fourmiliere,Color> colors;
+
+	private JTextArea logTextArea;
 	
 	public MainFrame(HashMap<Fourmiliere, Color> c) {
 		this();
@@ -108,14 +110,15 @@ public class MainFrame extends WebFrame implements MapListener {
 		
 		setSize(new Dimension(1024, 800));
 		setLocationByPlatform(true);
-
-  	   TextAreaAppender appender = new TextAreaAppender ();
-  	   appender.setLayout(new SimpleLayout());
+	
+		/*
+	  	   TextAreaAppender appender = new TextAreaAppender ();
+	  	   appender.setLayout(new SimpleLayout());
   	   
-  	   Logger logRoot = Logger.getRootLogger();
-  	   logRoot.addAppender(appender);
-  	   logRoot.setLevel(Level.INFO);
-		
+	  	   Logger logRoot = Logger.getRootLogger();
+	  	   logRoot.addAppender(appender);
+	  	   logRoot.setLevel(Level.INFO);
+		*/
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		java.util.Hashtable<Integer,JLabel> vitesselabelTable = new java.util.Hashtable<Integer,JLabel>();  
@@ -129,12 +132,12 @@ public class MainFrame extends WebFrame implements MapListener {
 		abondancelabelTable.put(new Integer(1), new JLabel("Basse"));  
 		abondancelabelTable.put(new Integer(100), new JLabel("Haute"));  
 		
-		JTextArea logTextArea = new JTextArea();
+		this.logTextArea = new JTextArea();
 		logTextArea.setRows(10);
-		logTextArea.setEditable (false);
-		logTextArea.getCaret().setSelectionVisible(true);
-		logTextArea.getCaret().setVisible(true);
-		TextAreaAppender.setTextArea(logTextArea);
+		logTextArea.setEditable(false);
+		logTextArea.getCaret().setSelectionVisible(false);
+		logTextArea.getCaret().setVisible(false);
+		/*TextAreaAppender.setTextArea(logTextArea);*/
 		
 		JPanel viewPanel = new JPanel();
 		viewPanel.setLayout(new BorderLayout(0, 0));
@@ -331,29 +334,14 @@ public class MainFrame extends WebFrame implements MapListener {
 		return abondanceWebSlider;
 	}
 
-	/** 
-	 * @return mainFrameListener
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
+
 	public MainFrameListener getMainFrameListener() {
-		// begin-user-code
 		return mainFrameListener;
-		// end-user-code
 	}
 
-	/** 
-	 * @param mainFrameListener mainFrameListener � d�finir
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void setMainFrameListener(MainFrameListener mainFrameListener) {
-		// begin-user-code
 		this.mainFrameListener = mainFrameListener;
-		// end-user-code
 	}
-	
-	
-	
-	
 	
 	/*-----------------*/
 	/* EVENT LISTENERS */
@@ -499,7 +487,6 @@ public class MainFrame extends WebFrame implements MapListener {
 					
 				}
 				
-				
 				mapPanel.add(map);
 				mondeInfoPanel.add(infos);
 				
@@ -525,160 +512,67 @@ public class MainFrame extends WebFrame implements MapListener {
 			}
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#fourmiPositionChangee(FourmiPositionChangeeEvent _e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public void fourmiPositionChangee(FourmiPositionChangeeEvent _e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+	public void addTextEvent(String logText) {
+		this.logTextArea.append(logText);
+	}
+	
+	public void fourmiPositionChangee(FourmiPositionChangeeEvent e) {
+		System.err.println("TEST");
+		Fourmi f = e.getFourmi();
+		Case c = e.getFourmi().get_case();
+		this.addTextEvent("La fourmi "+f+" se déplace en "+c.getX()+"/"+c.getY());
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#fourmiEtatChange(FourmiEtatChangeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void fourmiEtatChange(FourmiEtatChangeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		Fourmi f = e.getFourmi();
+		this.addTextEvent("La fourmi "+f+"a changé d'état"); //TODO ADD STATE
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#fourmiAjoutee(FourmiAjouteeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
+
 	public void fourmiAjoutee(FourmiAjouteeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		Fourmi f = e.getFourmi();
+		this.addTextEvent("Une nouvelle fourmi "+f.getClass()+" a été ajoutée à la fourmiliere "+f.getFourmiliere());
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#fourmiSupprimee(FourmiSupprimeeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void fourmiSupprimee(FourmiSupprimeeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		Fourmi f = e.getFourmi();
+		this.addTextEvent("La fourmi "+f+" est morte");
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#ressourceAjoutee(RessourceAjouteeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void ressourceAjoutee(RessourceAjouteeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		this.addTextEvent("Ajout de "+e.getRessource().getQuantite()+" ressource(s)");
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#ressourceQuantiteChangee(RessourceQuantiteChangeeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void ressourceQuantiteChangee(RessourceQuantiteChangeeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		//Nothing to do here
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#ressourceSupprimee(RessourceSupprimeeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void ressourceSupprimee(RessourceSupprimeeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		//Nothing to do here
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#PheromoneAjoutee(PheromoneAjouteeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void PheromoneAjoutee(PheromoneAjouteeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		//Nothing to do here
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#PheromoneSupprimee(PheromoneSupprimeeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void PheromoneSupprimee(PheromoneSupprimeeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		//Nothing to do here
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#PheromonePuissanceChangee(PheromonePuissanceChangeeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void PheromonePuissanceChangee(PheromonePuissanceChangeeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		//Nothing to do here
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#FourmiliereAjoutee(FourmiliereAjouteeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void FourmiliereAjoutee(FourmiliereAjouteeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		Case c = e.getFourmiliere().get_case();
+		this.addTextEvent("Une nouvelle fourmiliere a été ajoutée en "+c.getX()+"/"+c.getY());
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#FourmiliereSupprimee(FourmiliereSupprimeeEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
 	public void FourmiliereSupprimee(FourmiliereSupprimeeEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+		this.addTextEvent("La fourmiliere "+e.getFourmiliere()+" a été supprimée");
 	}
 
-	/** 
-	 * (non-Javadoc)
-	 * @see MapListener#FourmiliereRessourcesChangees(FourmiliereRessourcesChangeesEvent e)
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
-	public void FourmiliereRessourcesChangees(
-			FourmiliereRessourcesChangeesEvent e) {
-		// begin-user-code
-		// TODO Module de remplacement de m�thode auto-g�n�r�
-
-		// end-user-code
+	public void FourmiliereRessourcesChangees(FourmiliereRessourcesChangeesEvent e) {
+		//Nothing to do here
 	}
 }
