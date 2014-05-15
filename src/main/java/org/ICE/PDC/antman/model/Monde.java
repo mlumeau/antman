@@ -113,7 +113,7 @@ public class Monde implements Serializable {
 			
 			for(Pheromone ph : pheromones) {
 				
-				int puissFactor = this.meteo/20;
+				int puissFactor = 5-this.meteo/20;
 				
 				if(puissFactor < 1) {
 					puissFactor = 1;
@@ -121,7 +121,7 @@ public class Monde implements Serializable {
 				
 				ph.diminuerPuissance(puissFactor);
 				
-				if(ph.getPuissance() == 0) {
+				if(ph.getPuissance() <= 0) {
 					c.supprimerPheromone(ph);
 				}
 				
