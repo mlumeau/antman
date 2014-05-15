@@ -187,7 +187,7 @@ public class Launcher {
 				
 			} else if (launchChoice == "Créer une nouvelle carte") {
 				
-				CreationFrame cf = new CreationFrame();
+				CreationFrame cf = new CreationFrame(mapsPath);
 				cf.setVisible(true);
 				cf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				
