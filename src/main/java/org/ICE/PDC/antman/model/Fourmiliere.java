@@ -50,9 +50,8 @@ public class Fourmiliere implements Serializable {
 		_case.setFourmiliere(this); //Lie la case à la fourmiliere
 		monde.ajouterFourmiliere(this); //Lie le monde à la fourmiliere
 		
-		FourmiliereAjouteeEvent e = new FourmiliereAjouteeEvent(monde.getTour(), new Date(), this);
-		monde.getEvents().get(monde.getTour()).add(e);
-		monde.getListeners().FourmiliereAjoutee(e);
+		//Ajout de l'évennement FourmiliereAjouteeEvent
+		this.getMonde().fireEvent(new FourmiliereAjouteeEvent(monde.getTour(), new Date(), this));
 	}
 	
 	@Override
@@ -81,9 +80,8 @@ public class Fourmiliere implements Serializable {
 			this._case.setFourmiliere(null);
 			this.getMonde().supprimerFourmiliere(this);
 			
-			FourmiliereSupprimeeEvent e = new FourmiliereSupprimeeEvent(monde.getTour(), new Date(), this);
-			monde.getEvents().get(monde.getTour()).add(e);
-			monde.getListeners().FourmiliereSupprimee(e);
+			//Ajout de l'évennement FourmiliereSupprimeeEvent
+			this.getMonde().fireEvent(new FourmiliereSupprimeeEvent(monde.getTour(), new Date(), this));
 
 		}
 		
@@ -152,7 +150,9 @@ public class Fourmiliere implements Serializable {
 	public void setRessources(int ressources) {
 		int old = this.ressources;		
 		this.ressources = ressources;
-		monde.getEvents().get(monde.getTour()).add(new FourmiliereRessourcesChangeesEvent(monde.getTour(), new Date(), this,old));
+		
+		//Ajout de l'évennement FourmiliereRessourcesChangeesEvent
+		this.getMonde().fireEvent(new FourmiliereRessourcesChangeesEvent(monde.getTour(), new Date(), this,old));
 	}
 
 	/** 

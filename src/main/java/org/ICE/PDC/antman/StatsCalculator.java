@@ -34,6 +34,10 @@ public class StatsCalculator {
 
 			for(MapEvent e : monde.getEvents().get(i)) {
 
+				Monde mondeAtI = monde;
+				
+				//TODO GET MONDE	
+				
 				fourmilieresAjoutees.put(i,new HashSet<Fourmiliere>());
 				fourmilieresSupprimees.put(i,new HashSet<Fourmiliere>());
 				

@@ -148,6 +148,9 @@ public class Reine extends Fourmi implements Serializable {
 	public void setEtat(States etat) {
 		States old = this.etat;
 		this.etat = etat;
-		getFourmiliere().getMonde().getEvents().get(getFourmiliere().getMonde().getTour()).add(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, old));
+		
+		//Ajout de l'évennement FourmiEtatChangeEvent
+		this.getFourmiliere().getMonde().fireEvent(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, old));
+		
 	}
 }

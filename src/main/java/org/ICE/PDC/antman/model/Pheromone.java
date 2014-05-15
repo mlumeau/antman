@@ -46,8 +46,9 @@ public class Pheromone implements Serializable  {
 	public void diminuerPuissance(int puissance) {
 		int old = this.getPuissance();
 		this.setPuissance(this.getPuissance()-puissance);
-		this.fourmiliere.getMonde().getEvents().get(this.fourmiliere.getMonde().getTour()).add(new PheromonePuissanceChangeeEvent(this.fourmiliere.getMonde().getTour(), new Date(),this,old));
 		
+		//Ajout de l'évennement PheromonePuissanceChangeeEvent
+		this.getFourmiliere().getMonde().fireEvent(new PheromonePuissanceChangeeEvent(this.fourmiliere.getMonde().getTour(), new Date(),this,old));
 	}
 	
 	/** 

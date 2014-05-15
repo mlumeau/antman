@@ -90,8 +90,11 @@ public class Ouvriere extends Fourmi implements Serializable {
 					this.setCharge(this.getCharge_max());
 				}			
 			}
-			if(old != null)
-			this.getFourmiliere().getMonde().getEvents().get(this.getFourmiliere().getMonde().getTour()).add(new RessourceQuantiteChangeeEvent(this.getFourmiliere().getMonde().getTour(), new Date(), r, old));
+			if(old != null) {
+				//Ajout de l'évennement RessourceQuantiteChangeeEvent
+				RessourceQuantiteChangeeEvent e = new RessourceQuantiteChangeeEvent(this.getFourmiliere().getMonde().getTour(), new Date(), r, old);
+				this.getFourmiliere().getMonde().getEvents().get(this.getFourmiliere().getMonde().getTour()).add(e);
+			}
 		}
 	}
 
@@ -274,7 +277,10 @@ public class Ouvriere extends Fourmi implements Serializable {
 	public void setEtat(States etat) {
 		States old = this.etat;
 		this.etat = etat;
-		getFourmiliere().getMonde().getEvents().get(getFourmiliere().getMonde().getTour()).add(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, old));
+		
+		//Ajout de l'évennement FourmiEtatChangeEvent
+		this.getFourmiliere().getMonde().fireEvent(new FourmiEtatChangeEvent(getFourmiliere().getMonde().getTour(), new Date(),this, old));
+		
 	}
 
 }

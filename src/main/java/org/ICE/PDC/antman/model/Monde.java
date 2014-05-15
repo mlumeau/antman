@@ -10,7 +10,20 @@ import java.util.Random;
 import java.util.Set;
 import java.util.List;
 
+import org.ICE.PDC.antman.model.events.FourmiAjouteeEvent;
+import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
+import org.ICE.PDC.antman.model.events.FourmiPositionChangeeEvent;
+import org.ICE.PDC.antman.model.events.FourmiSupprimeeEvent;
+import org.ICE.PDC.antman.model.events.FourmiliereAjouteeEvent;
+import org.ICE.PDC.antman.model.events.FourmiliereRessourcesChangeesEvent;
+import org.ICE.PDC.antman.model.events.FourmiliereSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.MapEvent;
+import org.ICE.PDC.antman.model.events.PheromoneAjouteeEvent;
+import org.ICE.PDC.antman.model.events.PheromonePuissanceChangeeEvent;
+import org.ICE.PDC.antman.model.events.PheromoneSupprimeeEvent;
+import org.ICE.PDC.antman.model.events.RessourceAjouteeEvent;
+import org.ICE.PDC.antman.model.events.RessourceQuantiteChangeeEvent;
+import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.TourJoueEvent;
 import org.apache.log4j.Logger;
 
@@ -21,7 +34,7 @@ public class Monde implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private static Logger logger = Logger.getLogger(Monde.class);
-	private MapListener listener;
+	private List<MapListener> listeners;
 	private List<Case> _cases;
 	private Set<Case> obstacles;
 	private Set<Fourmiliere> fourmilieres;
@@ -42,6 +55,7 @@ public class Monde implements Serializable {
 	 */
 	public Monde(int dimension_x, int dimension_y, int meteo, int abondance) {
 		
+		this.listeners = new ArrayList<MapListener>();
 		this.fourmilieres = new HashSet<Fourmiliere>();
 		this.dimension_x = dimension_x;
 		this.dimension_y = dimension_y;
@@ -151,8 +165,7 @@ public class Monde implements Serializable {
 			
 		}
 		
-		TourJoueEvent e = new TourJoueEvent(tour,new Date(),this);
-		this.getListeners().tourJoue(e);
+		this.fireEvent(new TourJoueEvent(tour,new Date(),this));
 
 	}
 
@@ -274,16 +287,26 @@ public class Monde implements Serializable {
 	/** 
 	 * @return listeners
 	 */
-	public MapListener getListeners() {
-		return listener;
+	public List<MapListener> getListeners() {
+		return listeners;
 	}
 
 	/** 
 	 * @param listeners listeners à définir
 	 */
-	public void setListeners(MapListener listener) {
-		this.listener = listener;
+	public void setListeners(List<MapListener> listener) {
+		this.listeners = listener;
 	}
+	
+	public void addListener(MapListener listener) {
+		this.listeners.add(listener);
+	}
+	
+	public void removeListener(MapListener listener) {
+		this.listeners.remove(listener);
+	}
+	
+	
 	
 	/** 
 	 * @return tour
@@ -306,6 +329,63 @@ public class Monde implements Serializable {
 	
 	public int getDimensionY() {
 		return this.dimension_y;
+	}
+	
+	public void fireEvent(MapEvent e) {
+		/*
+		//Ajout de l'event à la liste d'events
+		if(!(e instanceof TourJoueEvent)) {
+			this.events.get(this.getTour()).add(e);
+		}*/
+		
+		//Transmition de l'event aux listeners
+		for(MapListener listener : this.getListeners()) {
+			
+			if(e instanceof TourJoueEvent) {
+				listener.tourJoue((TourJoueEvent) e);
+				
+			} else if(e instanceof FourmiAjouteeEvent) {
+				listener.fourmiAjoutee((FourmiAjouteeEvent) e);
+				
+			} else if (e instanceof FourmiSupprimeeEvent) {
+				listener.fourmiSupprimee((FourmiSupprimeeEvent) e);
+				
+			} else if (e instanceof FourmiEtatChangeEvent) {
+				listener.fourmiEtatChange((FourmiEtatChangeEvent) e);
+				
+			} else if (e instanceof FourmiPositionChangeeEvent) {
+				listener.fourmiPositionChangee((FourmiPositionChangeeEvent) e);
+				
+			} else if (e instanceof FourmiliereSupprimeeEvent) {
+				listener.FourmiliereSupprimee((FourmiliereSupprimeeEvent) e);
+				
+			} else if (e instanceof FourmiliereAjouteeEvent) {
+				listener.FourmiliereAjoutee((FourmiliereAjouteeEvent) e);
+				
+			} else if (e instanceof FourmiliereRessourcesChangeesEvent) {
+				listener.FourmiliereRessourcesChangees((FourmiliereRessourcesChangeesEvent) e);
+				
+			} else if (e instanceof PheromoneAjouteeEvent) {
+				listener.PheromoneAjoutee((PheromoneAjouteeEvent) e);
+				
+			} else if (e instanceof PheromoneSupprimeeEvent) {
+				listener.PheromoneSupprimee((PheromoneSupprimeeEvent) e);
+				
+			} else if (e instanceof PheromonePuissanceChangeeEvent) {
+				listener.PheromonePuissanceChangee((PheromonePuissanceChangeeEvent) e);
+				
+			} else if (e instanceof RessourceAjouteeEvent) {
+				listener.ressourceAjoutee((RessourceAjouteeEvent) e);
+				
+			} else if (e instanceof RessourceSupprimeeEvent) {
+				listener.ressourceSupprimee((RessourceSupprimeeEvent) e);
+				
+			} else if (e instanceof RessourceQuantiteChangeeEvent) {
+				listener.ressourceQuantiteChangee((RessourceQuantiteChangeeEvent) e);
+			}
+			
+		}
+
 	}
 	
 }

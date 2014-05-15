@@ -22,13 +22,13 @@ import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import net.miginfocom.swing.MigLayout;
 
 import org.ICE.PDC.antman.Launcher;
-import org.ICE.PDC.antman.TextAreaAppender;
 import org.ICE.PDC.antman.model.Case;
 import org.ICE.PDC.antman.model.Eclaireuse;
 import org.ICE.PDC.antman.model.Fourmi;
@@ -53,9 +53,7 @@ import org.ICE.PDC.antman.model.events.RessourceAjouteeEvent;
 import org.ICE.PDC.antman.model.events.RessourceQuantiteChangeeEvent;
 import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.TourJoueEvent;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
 
 import com.alee.extended.panel.WebCollapsiblePane;
 import com.alee.laf.button.WebButton;
@@ -512,12 +510,17 @@ public class MainFrame extends WebFrame implements MapListener {
 			}
 	}
 
-	public void addTextEvent(String logText) {
-		this.logTextArea.append(logText);
+	public void addTextEvent(final String logText) {
+		
+		 SwingUtilities.invokeLater(new Runnable() {
+	            public void run() {
+	            	logTextArea.append(logText+"\n");
+	            }
+	        });
+		
 	}
 	
 	public void fourmiPositionChangee(FourmiPositionChangeeEvent e) {
-		System.err.println("TEST");
 		Fourmi f = e.getFourmi();
 		Case c = e.getFourmi().get_case();
 		this.addTextEvent("La fourmi "+f+" se déplace en "+c.getX()+"/"+c.getY());
@@ -527,7 +530,6 @@ public class MainFrame extends WebFrame implements MapListener {
 		Fourmi f = e.getFourmi();
 		this.addTextEvent("La fourmi "+f+"a changé d'état"); //TODO ADD STATE
 	}
-
 
 	public void fourmiAjoutee(FourmiAjouteeEvent e) {
 		Fourmi f = e.getFourmi();

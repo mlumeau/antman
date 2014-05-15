@@ -47,7 +47,9 @@ public abstract class Fourmi implements Serializable {
 		logger.debug("Fourmi crée : "+this);
 		_case.ajouterFourmi(this); //Lie la case à la Fourmi
 		fourmiliere.ajouterFourmi(this); //Lie la fourmiliere à la Fourmi
-		fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(new FourmiAjouteeEvent(fourmiliere.getMonde().getTour(), new Date(), this));
+		
+		//Ajout de l'évennement FourmiAjouteeEvent
+		this.getFourmiliere().getMonde().fireEvent(new FourmiAjouteeEvent(fourmiliere.getMonde().getTour(), new Date(), this));
 	}
 
 	/** 
@@ -70,9 +72,9 @@ public abstract class Fourmi implements Serializable {
 	public void mourir() {
 		this.get_case().supprimerFourmi(this);
 		this.getFourmiliere().supprimerFourmi(this);
-		FourmiSupprimeeEvent e = new FourmiSupprimeeEvent(fourmiliere.getMonde().getTour(), new Date(),this);
-		fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(e);
-		fourmiliere.getMonde().getListeners().fourmiSupprimee(e);
+		
+		//Ajout de l'évennement FourmiSupprimeeEvent
+		this.getFourmiliere().getMonde().fireEvent(new FourmiSupprimeeEvent(fourmiliere.getMonde().getTour(), new Date(),this));
 	}
 	
 
@@ -182,9 +184,8 @@ public abstract class Fourmi implements Serializable {
 		this._case = _case;
 		_case.ajouterFourmi(this);
 		if(old != null) {
-			FourmiPositionChangeeEvent e = new FourmiPositionChangeeEvent(fourmiliere.getMonde().getTour(), new Date(),this,old.getX(),old.getY());
-			fourmiliere.getMonde().getEvents().get(fourmiliere.getMonde().getTour()).add(e);
-			fourmiliere.getMonde().getListeners().fourmiPositionChangee(e);
+			//Ajout de l'évennement FourmiPositionChangeeEvent
+			this.getFourmiliere().getMonde().fireEvent(new FourmiPositionChangeeEvent(this.fourmiliere.getMonde().getTour(), new Date(),this,old.getX(),old.getY()));
 		}
 	}
 
