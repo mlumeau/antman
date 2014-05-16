@@ -119,6 +119,12 @@ public class PathFinding {
 	
 	private List<Case> retrouver_chemin() throws Exception{
 		List<Case> path = new ArrayList<Case>();
+		
+		/*Si la fourmi est déja sur la fourmiliere le chemin de retour est vide*/
+		if(depart.equals(arrivee)) {
+			return path;
+		}
+		
 	    /* l'arrivée est le dernier élément de la liste fermée */
 	    noeud tmp = liste_fermee.get(monde.getCaseAt(arrivee.getX(),arrivee.getY()));
 	    path.add(monde.getCaseAt(arrivee.getX(),arrivee.getY()));

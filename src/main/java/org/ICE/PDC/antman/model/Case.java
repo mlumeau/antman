@@ -57,24 +57,33 @@ public class Case implements Serializable {
 		String ressources = "[";
 		
 		for(Ressource r : this.getRessources()) {
+			if(!ressources.isEmpty()) ressources+=", ";
 			ressources+= r;
 		}
 		
-		ressources += "]";
+		ressources = "["+ressources+"]";
 		
-		String fourmis = "[";
+		String fourmis = "";
 		
 		for(Fourmi f : this.getFourmis()) {
-			ressources+= f;
+			if(!fourmis.isEmpty()) fourmis+=", ";
+			fourmis+= f.hashCode();
 		}
 		
-		fourmis += "]";
+		fourmis = "["+fourmis+"]";
+		
+		String fourmiliere = "";
+		
+		if(this.getFourmiliere() != null) {
+			fourmiliere = Integer.toString(this.getFourmiliere().hashCode());
+		}
 		
 		return "(Case) - "+this.hashCode()+" -> {X : "+this.getX()+
 				" , Y : "+this.getY()+
 				" , Niveau_obstacle : "+this.getNiveau_obstacle()+
 				" , Ressources : "+ressources+
-				" , Fourmis : "+fourmis+"}";
+				" , Fourmis : "+fourmis+"}"+
+				", Fourmiliere : "+fourmiliere;
 	}
 	
 
@@ -302,15 +311,11 @@ public class Case implements Serializable {
 
 	/**
 	 * Permet de trouver le chemin le plus optimisé entre la case courante et une autre case
-	 * V2 : Evitement des obstacles avec un déplacemnt aleatoire
 	 * V3 : A* pathfinding
 	 * @param target
 	 * @return Le chemin sous la forme d'une Liste triée de cases
 	 */
 	public List<Case> getPathTo(Case target) {
-		System.out.println(target.getX());
-		System.out.println(target.getY());
-		
 		try {
 			return new PathFinding(this, target).findPath();
 		} catch (Exception e) {
