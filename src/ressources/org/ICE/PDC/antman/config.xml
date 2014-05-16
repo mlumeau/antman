@@ -6,7 +6,7 @@
 	<savePath>${antman.save}</savePath>
 	
 	<meteo_multiplicator>1</meteo_multiplicator>
-	<vitesse_multiplicator>1000</vitesse_multiplicator>
+	<vitesse_multiplicator>10</vitesse_multiplicator>
 	<abondance_multiplicator>1</abondance_multiplicator>
 	
 	<fourmis>

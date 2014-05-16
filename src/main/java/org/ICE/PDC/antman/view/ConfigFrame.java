@@ -23,6 +23,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -41,12 +43,14 @@ import org.ICE.PDC.antman.model.Reine;
 import org.ICE.PDC.antman.model.Ressource;
 
 import com.alee.extended.colorchooser.WebColorChooserField;
+import com.alee.laf.WebBorders;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.panel.WebPanel;
 import com.alee.laf.rootpane.WebFrame;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.slider.WebSlider;
 import com.alee.laf.table.WebTable;
+import com.alee.utils.laf.WeblafBorder;
 
 public class ConfigFrame extends WebFrame {
 	private static final long serialVersionUID = -6522556577077046520L;
@@ -335,7 +339,7 @@ public class ConfigFrame extends WebFrame {
 	}
 	
 	public void paintMap(Monde monde, FourmiliereTableModel model) throws Exception{
-		JPanel map = new JPanel(new GridLayout(monde.getDimensionX(),monde.getDimensionY()));
+		JPanel map = new JPanel(new GridLayout(monde.getDimensionX(),monde.getDimensionY(),2,2));
     	map.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
     	
     	lblTaille.setText("Dimensions: "+monde.getDimensionX()+ "x"+monde.getDimensionY());
@@ -348,43 +352,9 @@ public class ConfigFrame extends WebFrame {
 				final JLabel label = new JLabel("", SwingConstants.CENTER);
 			    label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			    label.setOpaque(true);
-			    label.setSize(10,10);
 			    
 				if(current.getNiveau_obstacle() > 0) {
-					label.setBackground(Color.WHITE);
-				}
-				
-				if(current.getRessources().size() > 0) {
-					label.setBackground(Color.YELLOW);
-					
-					int q = 0;
-					
-					for(Ressource r : current.getRessources()) {
-						q+= r.getQuantite();
-					}
-					
-					label.setText(String.valueOf(q));
-					
-				} else if (current.getPheromones().size() > 0) {
-				
-					int ph = 0;
-					
-					for(Pheromone p : current.getPheromones()) {
-						
-						ph+= p.getPuissance();
-					}
-				
-					if(ph != 0) {
-						
-						int gb = 0;
-						
-						if((10*ph) < 255) {
-							gb = 255 - (10*ph);
-						}
-						
-						label.setBackground(new Color(255,gb,gb));
-					}
-					
+					label.setBackground(Color.BLACK);
 				}
 				
 				map.add(label);
@@ -445,7 +415,7 @@ public class ConfigFrame extends WebFrame {
 	class FourmiliereTableModel extends AbstractTableModel
     {
 		private static final long serialVersionUID = -236812648575778836L;
-		private String[] columnNames = { "#", "PosX", "PosY", "Taille max.", "Fécondité/tour", "Nb fourmis", "% éclaireuses", "Ressources départ","Couleur" };
+		private String[] columnNames = { "#", "PosX", "PosY", "Taille crit.", "Fécondité/tour", "Nb fourmis", "% éclaireuses", "Ressources départ","Couleur" };
         private ArrayList<Object[]> data = new ArrayList<Object[]>();
 
         public final Object[] longValues = {0, 5, 5, 45, 5, 6, 20, 100, Color.blue};
