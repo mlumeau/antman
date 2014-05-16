@@ -4,4 +4,34 @@
 	<mapsPath>${antman.maps}</mapsPath>
 	<!-- Path for the saves folder (default : APP_PATH/save -->
 	<savePath>${antman.save}</savePath>
+	
+	<meteo_multiplicator>1</meteo_multiplicator>
+	<vitesse_multiplicator>1000</vitesse_multiplicator>
+	<abondance_multiplicator>1</abondance_multiplicator>
+	
+	<fourmis>
+		<ouvriere>
+			<esperance_vie>20</esperance_vie>
+			<sante>20</sante>
+			<sante_max>20</sante_max>
+			<charge_max>20</charge_max>
+			<pheromones>5</pheromones>
+		</ouvriere>
+		
+		<eclaireuse>
+			<esperance_vie>20</esperance_vie>
+			<sante>20</sante>
+			<sante_max>20</sante_max>
+			<pheromones>10</pheromones>
+		</eclaireuse>
+			
+		<reine>
+			<esperance_vie>9999</esperance_vie>
+			<sante>20</sante>
+			<sante_max>20</sante_max>
+			<chances_naissance>10</chances_naissance>
+			<chances_installation>10</chances_installation>
+		</reine>
+	</fourmis>
+	
 </antman>
