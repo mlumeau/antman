@@ -15,9 +15,6 @@ import com.alee.laf.rootpane.WebFrame;
 
 public class LaunchFrame extends WebFrame{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public LaunchFrame( String mapsPath, String savePath)
@@ -36,7 +33,7 @@ public class LaunchFrame extends WebFrame{
                 "");
 
 		if(launchChoice == "Nouvelle simulation") {
-			//Chose a map :
+			
 			//SELECTION D'UN FOND DE CARTE
 			List<String> availablesFiles = new ArrayList<String>();
 			
@@ -48,7 +45,6 @@ public class LaunchFrame extends WebFrame{
 			
 			if(availablesFiles.size() > 0) {
 			
-				//TODO IMPROVE GUI ?
 				String mapName = (String)WebOptionPane.showInputDialog( 
 	                    null,
 	                    "Choisissez une carte à charger:\n",
@@ -73,52 +69,6 @@ public class LaunchFrame extends WebFrame{
 				
 				cf.setVisible(true);
 				cf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				
-				/*
-				//TODO CETTE PARTIE DOIT ETRE EXCECUTEE A PARTIR DE CONFIGFRAME
-				logger.info("Paramétrage de la simulation ...");
-				int meteo = 50;
-				int abondance = 100;
-
-				logger.info("Initialisation du monde ...");
-				monde.setMeteo(meteo);
-				monde.setAbondance(abondance);
-
-				logger.info("Initialisation des fourmilieres ...");
-				//TODO <BOUCLE> POUR CHAQUE FOURMILIERE DEFINIE
-				int fecondite = 5;
-				int taille_max = 45;
-				int ressources = 100;
-				int x = 5;
-				int y = 5;
-				int nbOuvrieres = 3;
-				int nbEclaireuses = 3;
-				//int ratioEclaireuses = 10; //TODO USE OR NOT ???
-
-				Fourmiliere f1 = new Fourmiliere(monde,monde.getCaseAt(x,y),fecondite,taille_max,ressources);
-
-				logger.info("Initialisation des fourmis ...");
-				//Ajout de la reine
-				new Reine(f1);
-				//Ajout des fourmis
-				for(int i = 0;i<nbOuvrieres;i++) {
-					new Ouvriere(f1);
-				}
-				for(int i = 0;i<nbEclaireuses;i++) {
-					new Eclaireuse(f1);
-				}
-				//</BOUCLE>
-
-				logger.info("Paramétrage terminé !");
-				//SAUVEGARDE (TEST)
-				saveContext(savePath+"/monde.antman", monde); //TODO REMOVE ME (TEST LINE)
-				
-				//INITIALIZE MAIN FRAME
-				MainFrame mf = new MainFrame();
-				MainCtrl ctrl = new MainCtrl(monde);
-				ctrl.setMainFrame(mf);
-				mf.setVisible(true);
-				mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
 				
 			} else {
 				//Affichage d'un message d'erreur
@@ -147,7 +97,6 @@ public class LaunchFrame extends WebFrame{
 			
 			if(availablesFiles.size() > 0) {
 				
-				//TODO IMPROVE GUI ?
 				String saveName = (String)WebOptionPane.showInputDialog( 
 	                    null,
 	                    "Choisissez une simulation à charger:\n",
@@ -159,7 +108,7 @@ public class LaunchFrame extends WebFrame{
 
 				String mapFilePath = savePath+"/"+saveName;
 				
-				Monde monde = Launcher.loadContext(mapFilePath); //TODO REMOVE ME (TEST LINE)
+				Monde monde = Launcher.loadContext(mapFilePath); 
 				
 				//INITIALIZE MAIN FRAME
 				MainFrame mf = new MainFrame();
@@ -179,7 +128,6 @@ public class LaunchFrame extends WebFrame{
 			
 		}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

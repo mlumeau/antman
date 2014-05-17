@@ -16,40 +16,10 @@ public class MainCtrl implements MainFrameListener {
     private int abondance = 0;
 	private long executionTime = 0;
 	private boolean isPlaying = false;
-	private final Thread thread;
+	private Thread thread;
     
 	public MainCtrl(Monde monde){
 		this.monde = monde;
-		
-		this.thread = new Thread(new Runnable() {
-			
-			public void run() {
-				
-				while(true) {
-					
-					try {
-
-						if(vitesse != 0) {
-						
-							//On attend au moins X secondes entre chaque tour
-							if(((4-vitesse)*1000)/ConfigurationLoader.VITESSE_MULTIPLICATOR-executionTime > 0 ) {
-								Thread.sleep(((4-vitesse)*1000)/ConfigurationLoader.VITESSE_MULTIPLICATOR-executionTime);
-							}
-						
-							jouerTour();
-						
-						}
-						
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					
-				}
-				
-			}
-			
-		});
-		
 	}
 	
 	/** 
@@ -72,8 +42,33 @@ public class MainCtrl implements MainFrameListener {
 		
 		this.vitesse = v;
 
-		if (!this.thread.isAlive()) {
+		if ((this.thread == null || !this.thread.isAlive()) && this.vitesse > 0) {
+			
+			this.thread = new Thread(new Runnable() {
+				
+				public void run() {
+					
+					try {
+						while(vitesse > 0) {
+							//On attend au moins X secondes entre chaque tour
+							if(((4-vitesse)*1000)/ConfigurationLoader.VITESSE_MULTIPLICATOR-executionTime > 0 ) {
+								Thread.sleep(((4-vitesse)*1000)/ConfigurationLoader.VITESSE_MULTIPLICATOR-executionTime);
+							}
+
+							jouerTour();
+						}
+						
+					} catch (Exception e) {
+						Thread.currentThread().interrupt();
+					}
+					
+				}
+				
+			});
+			
 			this.thread.start();
+		} else {
+			this.thread.interrupt();
 		}
 		
 	}

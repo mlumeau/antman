@@ -30,7 +30,11 @@ public class Reine extends Fourmi implements Serializable {
 
 	public void pondre() {
 		
-		int naissances = new Random().nextInt(this.getFourmiliere().getFecondite());
+		int naissances = 0;
+		
+		if(this.getFourmiliere().getFecondite() > 0) {
+			naissances = new Random().nextInt(this.getFourmiliere().getFecondite());
+		}
 		
 		for(int i=0; i<naissances; i++) {
 			

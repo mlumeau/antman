@@ -34,14 +34,6 @@ public class StatsCalculator {
 
 			for(MapEvent e : monde.getEvents().get(i)) {
 
-				Monde mondeAtI = monde;
-				
-				
-				
-				
-				
-				//TODO GET MONDE	
-				
 				fourmilieresAjoutees.put(i,new HashSet<Fourmiliere>());
 				fourmilieresSupprimees.put(i,new HashSet<Fourmiliere>());
 				
@@ -113,8 +105,8 @@ public class StatsCalculator {
 		
 		Set<Fourmiliere> ajoutees = this.fourmilieresAjoutees.get(tour);
 		
-		if (ajoutees == null || ajoutees.size() == 0) {
-			return null;
+		if (ajoutees == null) {
+			return new HashSet<Fourmiliere>();
 		} else {
 			return ajoutees;
 		}
@@ -129,8 +121,8 @@ public class StatsCalculator {
 		
 		Set<Fourmiliere> supprimees = this.fourmilieresSupprimees.get(tour);
 		
-		if (supprimees == null || supprimees.size() == 0) {
-			return null;
+		if (supprimees == null) {
+			return new HashSet<Fourmiliere>();
 		} else {
 			return supprimees;
 		}

@@ -9,8 +9,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.text.DecimalFormatSymbols;
 import java.util.HashMap;
@@ -112,7 +112,7 @@ public class CreationFrame extends WebFrame {
 			    label.setSize(10,10);
 			    
 			    p.setSize(10,10);
-			    p.addMouseListener((new MouseListener() {
+			    p.addMouseListener((new MouseAdapter() {
 					
 					public void mouseClicked(MouseEvent arg0) {
 						if(label.getBackground().equals(Color.BLACK))
@@ -122,25 +122,6 @@ public class CreationFrame extends WebFrame {
 						
 					}
 
-					public void mouseEntered(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					public void mouseExited(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					public void mousePressed(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					public void mouseReleased(MouseEvent arg0) {
-						// TODO Auto-generated method stub
-						
-					}
 				}));
 				p.add(label); 
 				map.add(p);
@@ -225,7 +206,7 @@ public class CreationFrame extends WebFrame {
 					    label.setSize(10,10);
 					    label.setBackground(Color.WHITE);
 					    p.setSize(10,10);
-					    p.addMouseListener((new MouseListener() {
+					    p.addMouseListener((new MouseAdapter() {
 							
 							public void mouseClicked(MouseEvent arg0) {
 								if(label.getBackground().equals(Color.BLACK))
@@ -235,25 +216,6 @@ public class CreationFrame extends WebFrame {
 								
 							}
 
-							public void mouseEntered(MouseEvent arg0) {
-								// TODO Auto-generated method stub
-								
-							}
-
-							public void mouseExited(MouseEvent arg0) {
-								// TODO Auto-generated method stub
-								
-							}
-
-							public void mousePressed(MouseEvent arg0) {
-								// TODO Auto-generated method stub
-								
-							}
-
-							public void mouseReleased(MouseEvent arg0) {
-								// TODO Auto-generated method stub
-								
-							}
 						}));
 						p.add(label); 
 						map.add(p);
@@ -362,12 +324,10 @@ public class CreationFrame extends WebFrame {
 				    
 					try {
 						Launcher.saveMap(mapsPath+"/"+s+".xml",dimension_x,dimension_y,obstacles);
-						
 						JOptionPane.showMessageDialog(map,"La carte a été enregistrée.");
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}  //TODO REMOVE ME (TEST LINE)
+					}  
 					
 				}
 				else

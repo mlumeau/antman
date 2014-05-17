@@ -23,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
-import javax.swing.RepaintManager;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
@@ -58,7 +57,6 @@ import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.TourJoueEvent;
 import org.apache.log4j.Logger;
 
-import com.alee.extended.layout.TableLayout;
 import com.alee.extended.panel.WebCollapsiblePane;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.button.WebToggleButton;
@@ -120,15 +118,6 @@ public class MainFrame extends WebFrame implements MapListener {
 		setSize(new Dimension(1024, 800));
 		setLocationByPlatform(true);
 	
-		/*
-	  	   TextAreaAppender appender = new TextAreaAppender ();
-	  	   appender.setLayout(new SimpleLayout());
-  	   
-	  	   Logger logRoot = Logger.getRootLogger();
-	  	   logRoot.addAppender(appender);
-	  	   logRoot.setLevel(Level.INFO);
-		*/
-		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		java.util.Hashtable<Integer,JLabel> vitesselabelTable = new java.util.Hashtable<Integer,JLabel>();  
 	    vitesselabelTable.put(new Integer(1), new JLabel("Lent"));  
@@ -146,7 +135,6 @@ public class MainFrame extends WebFrame implements MapListener {
 		logTextArea.setEditable(false);
 		logTextArea.getCaret().setSelectionVisible(false);
 		logTextArea.getCaret().setVisible(false);
-		/*TextAreaAppender.setTextArea(logTextArea);*/
 		
 		JPanel viewPanel = new JPanel();
 		viewPanel.setLayout(new BorderLayout(0, 0));
@@ -526,8 +514,14 @@ public class MainFrame extends WebFrame implements MapListener {
 					wbtnJouerTour.setEnabled(true);
 					
 					if(monde.getTotalFourmis()==0){
+						//Arret de la simmulation
 						mainFrameListener.setVitesse(0);
-						wbtglbtnModeAutomatique.setSelected(false);
+						//Ouverture de la fenêtre de statistiques
+						StatisticsFrame sf = new StatisticsFrame(monde);
+						sf.setVisible(true);
+						sf.setDefaultCloseOperation(EXIT_ON_CLOSE);
+						//Fermeture de la fenêtre principale
+						dispose();
 					}
 			}
 		});
@@ -553,7 +547,7 @@ public class MainFrame extends WebFrame implements MapListener {
 
 	public void fourmiEtatChange(FourmiEtatChangeEvent e) {
 		Fourmi f = e.getFourmi();
-		this.addTextEvent("La fourmi "+f+"a changé d'état"); //TODO ADD STATE
+		this.addTextEvent("La fourmi "+f+"a changé d'état"); 
 	}
 
 
@@ -621,7 +615,7 @@ public class MainFrame extends WebFrame implements MapListener {
 	}
 
 	public void ressourceQuantiteChangee(RessourceQuantiteChangeeEvent e) {
-
+		//Nothing to do here
 	}
 
 	public void ressourceSupprimee(RessourceSupprimeeEvent e) {
@@ -629,24 +623,23 @@ public class MainFrame extends WebFrame implements MapListener {
 	}
 
 	public void pheromoneAjoutee(PheromoneAjouteeEvent e) {
-		// TODO Module de remplacement de méthode auto-généré
+		//Nothing to do here
 		
 	}
 
 	public void pheromoneSupprimee(PheromoneSupprimeeEvent e) {
-		// TODO Module de remplacement de méthode auto-généré
+		//Nothing to do here
 		
 	}
 
 	public void pheromonePuissanceChangee(PheromonePuissanceChangeeEvent e) {
-		// TODO Module de remplacement de méthode auto-généré
+		//Nothing to do here
 		
 	}
 
 	public void fourmiliereRessourcesChangees(
 			FourmiliereRessourcesChangeesEvent e) {
-		// TODO Module de remplacement de méthode auto-généré
-		
+		//Nothing to do here
 	}
 
 	class FourmiliereInfoPanel extends JPanel{

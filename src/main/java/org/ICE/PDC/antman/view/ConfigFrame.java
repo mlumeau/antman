@@ -23,8 +23,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
@@ -38,19 +36,15 @@ import org.ICE.PDC.antman.controller.MainCtrl;
 import org.ICE.PDC.antman.model.Case;
 import org.ICE.PDC.antman.model.Fourmiliere;
 import org.ICE.PDC.antman.model.Monde;
-import org.ICE.PDC.antman.model.Pheromone;
 import org.ICE.PDC.antman.model.Reine;
-import org.ICE.PDC.antman.model.Ressource;
 
 import com.alee.extended.colorchooser.WebColorChooserField;
-import com.alee.laf.WebBorders;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.panel.WebPanel;
 import com.alee.laf.rootpane.WebFrame;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.slider.WebSlider;
 import com.alee.laf.table.WebTable;
-import com.alee.utils.laf.WeblafBorder;
 
 public class ConfigFrame extends WebFrame {
 	private static final long serialVersionUID = -6522556577077046520L;
@@ -308,7 +302,6 @@ public class ConfigFrame extends WebFrame {
 						colors.put(f, (Color)frm[8]);
 						
 					} catch (Exception e) {
-						// TODO Bloc catch auto-généré
 						e.printStackTrace();
 					}
 				}
@@ -327,7 +320,6 @@ public class ConfigFrame extends WebFrame {
 				mf.setVisible(true);
 				mf.setDefaultCloseOperation(EXIT_ON_CLOSE);
 				mf.initMonde(m);
-				
 				dispose();
 				
 			}
@@ -383,7 +375,6 @@ public class ConfigFrame extends WebFrame {
         try {
 			paintMap(m,frmModel);
 		} catch (Exception e) {
-			// TODO Bloc catch auto-généré
 			e.printStackTrace();
 		}
 	}
@@ -464,7 +455,6 @@ public class ConfigFrame extends WebFrame {
             try {
 				paintMap(m, frmModel);
 			} catch (Exception e) {
-				// TODO Bloc catch auto-généré
 				e.printStackTrace();
 			}
         }
@@ -478,7 +468,6 @@ public class ConfigFrame extends WebFrame {
             try {
 				paintMap(m, frmModel);
 			} catch (Exception e) {
-				// TODO Bloc catch auto-généré
 				e.printStackTrace();
 			}
         }
@@ -496,7 +485,6 @@ public class ConfigFrame extends WebFrame {
             try {
 				paintMap(m, frmModel);
 			} catch (Exception e) {
-				// TODO Bloc catch auto-généré
 				e.printStackTrace();
 			}
             
@@ -525,7 +513,6 @@ public class ConfigFrame extends WebFrame {
 		}
 
 		public Object getCellEditorValue() {
-			// TODO Module de remplacement de méthode auto-généré
 			return simpleColorChooser.getColor();
 		}
 

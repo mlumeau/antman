@@ -308,7 +308,7 @@ public class Case implements Serializable {
 		logger.debug("Case ("+this.hashCode()+") - Cases dans un rayon de "+radius+" : "+log);
 		return matched;
 	}
-
+	
 	/**
 	 * Permet de trouver le chemin le plus optimisé entre la case courante et une autre case
 	 * V3 : A* pathfinding

@@ -44,7 +44,6 @@ public class Monde implements Serializable {
 	private int abondance;
 	private Map<Integer,List<MapEvent>> events;
 	private int tour;
-	private Monde old_state;
 	private int dimension_x;
 	private int dimension_y;
 	

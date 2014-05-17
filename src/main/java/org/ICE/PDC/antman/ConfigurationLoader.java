@@ -56,7 +56,7 @@ public class ConfigurationLoader {
 			ConfigurationLoader.MAPS_PATH = mapsPath;
 		}
 		
-		if(savePath != null && savePath.equals("${antman.save}")) {
+		if(savePath != null && !savePath.equals("${antman.save}")) {
 			ConfigurationLoader.SAVE_PATH = savePath;
 		}
 		

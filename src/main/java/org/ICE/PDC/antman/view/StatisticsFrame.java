@@ -5,6 +5,8 @@ package org.ICE.PDC.antman.view;
 
 import javax.swing.JFrame;
 
+import org.ICE.PDC.antman.model.Monde;
+
 /** 
  * <!-- begin-UML-doc -->
  * <!-- end-UML-doc -->
@@ -14,5 +16,9 @@ import javax.swing.JFrame;
 public class StatisticsFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	public StatisticsFrame(Monde monde) {
+		
+	}
 	
 }

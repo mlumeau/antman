@@ -93,9 +93,10 @@ public class PathFinding {
 	private Case meilleur_noeud(HashMap<Case, noeud> l){
 	    float m_coutf = 0;
 	    Case m_noeud = null;
-	    Iterator it = l.entrySet().iterator();
+	    Iterator<?> it = l.entrySet().iterator();
 	    while (it.hasNext()) {
-	        Map.Entry pairs = (Map.Entry)it.next();
+	        @SuppressWarnings("rawtypes")
+			Map.Entry pairs = (Map.Entry)it.next();
 	        if(m_noeud == null){
 	        	m_coutf = ((noeud)pairs.getValue()).cout_f;
 	        	m_noeud = ((Case)pairs.getKey());
