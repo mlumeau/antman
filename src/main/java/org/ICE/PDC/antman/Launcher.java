@@ -11,8 +11,8 @@ import java.util.Map;
 
 import org.ICE.PDC.antman.model.Monde;
 import org.ICE.PDC.antman.view.LaunchFrame;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
@@ -33,8 +33,10 @@ public class Launcher {
 		
 		//Correction d'un bug de org.jdom2. see :  https://coderwall.com/p/kqsrrw
 		System.setProperty("javax.xml.parsers.SAXParserFactory", "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
-				
-		BasicConfigurator.configure();
+		
+		//Configuration de log4j	
+		PropertyConfigurator.configure(new File("src/ressources/log4j.properties").getAbsolutePath());
+		
 		WebLookAndFeel.install();
 
         WebLookAndFeel.setDecorateFrames ( true );

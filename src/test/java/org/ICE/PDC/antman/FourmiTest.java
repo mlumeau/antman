@@ -16,6 +16,7 @@ public class FourmiTest {
 	@Before
 	public void setUp() throws Exception
 	{
+		
 		int dimension_x = 10;
 		int dimension_y = 10;
 		int meteo = 50;

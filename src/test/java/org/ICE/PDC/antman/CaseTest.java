@@ -24,22 +24,45 @@ import org.junit.Test;
 */
 public class CaseTest {
 	
-	private Case c; 
+	private Case c;
+	private Monde map; 
 	
 	@Before
     public void setUp() throws Exception {
-		int dimension_x = 10;
-		int dimension_y = 10;
-		int meteo = 50;
-		int abondance = 2;
-		Monde map = new Monde(dimension_x, dimension_y, meteo, abondance);
 		
-		c = map.getCaseAt(5, 5);
+		/*
+		 * Map pour la version 3 du pathFinding (A*)
+		 * F : Emplacement de la fourmi
+		 * R : Emplacement des ressources
+		 * X : Emplacement des obstacles
+		 *
+		 *     |---|---|---|---|---|
+		 *     |F/R|   |   |   | R |
+		 *     |---|---|---|---|---|
+		 *     | X | X | X |   |   |
+		 *     |---|---|---|---|---|
+		 *     | X | R | X |   |   |
+		 *     |---|---|---|---|---|
+		 *     |   |   | X |   |   |
+		 *     |---|---|---|---|---|
+		 *     |   |   |   |   |   |
+		 *     |---|---|---|---|---|
+		 *     
+		 */
 
-		map.getCaseAt(4, 6).setNiveau_obstacle(55);
-		map.getCaseAt(4, 7).setNiveau_obstacle(55);
-		map.getCaseAt(5, 7).setNiveau_obstacle(55);
-		map.getCaseAt(6, 7).setNiveau_obstacle(55);
+		int dimension_x = 5;
+		int dimension_y = 5;
+
+		map = new Monde(dimension_x, dimension_y, 0, 0);
+		
+		c = map.getCaseAt(0,0);
+
+		map.getCaseAt(0, 1).setNiveau_obstacle(1);
+		map.getCaseAt(1, 1).setNiveau_obstacle(1);
+		map.getCaseAt(2, 1).setNiveau_obstacle(1);
+		map.getCaseAt(0, 2).setNiveau_obstacle(1);
+		map.getCaseAt(2, 2).setNiveau_obstacle(1);
+		map.getCaseAt(2, 3).setNiveau_obstacle(1);
 		
     }
 	
@@ -57,42 +80,52 @@ public class CaseTest {
 	}
 	
 	@Test
-	public void pathTest()
+	public void pathTest() throws Exception
 	{
-		Case cTest = new Case(c.getMonde(),5,9); 
+		Case cTest = new Case(c.getMonde(),0,0); 
 		List<Case> res = c.getPathTo(cTest);
 		
-		assertEquals("Path de taille incorrecte", 4,res.size());
+		assertEquals("Path de taille incorrecte", 0,res.size());
+		
+		cTest = new Case(c.getMonde(),1,2); 
+		res = c.getPathTo(cTest);
+		
+		assertEquals("Path de taille incorrecte", 8,res.size());
 
-		assertEquals(6, res.get(0).getX()); 
-		assertEquals(7, res.get(1).getX()); 
-		assertEquals(6, res.get(2).getX()); 
-		assertEquals(5, res.get(3).getX()); 
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(1, 0)));
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(2, 0)));
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(3, 1)));
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(3, 2)));
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(3, 3)));
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(2, 4)));
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(1, 3)));
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(1, 2)));
 		
-		assertEquals(6, res.get(0).getY()); 
-		assertEquals(7, res.get(1).getY()); 
-		assertEquals(8, res.get(2).getY()); 
-		assertEquals(9, res.get(3).getY()); 
+		cTest = new Case(c.getMonde(),4,0); 
+		res = c.getPathTo(cTest);
 		
-		res = c.getPathTo(new Case(c.getMonde(),6,6));		
-		assertEquals("Path de taille incorrecte", 1,res.size());
+		assertEquals("Path de taille incorrecte", 4,res.size());
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(1, 0)));
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(2, 0)));
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(3, 0)));
+		assertTrue("Path incorrect",res.contains(map.getCaseAt(4, 0)));
 
 	}
 	
+	
 	@Test 
-	public void caseInRadiusTest()
+	public void caseInRadiusTest() throws Exception
 	{
 		List<Case> res = c.getCasesInRadius(1); 
-		assertEquals("Radius de taille incorrecte", 7, res.size()); 
+		assertEquals("Radius de taille incorrecte", 1, res.size()); 
+		assertTrue("Radius incorrect",res.contains(map.getCaseAt(1, 0)));
+		
 		res = c.getCasesInRadius(2); 
-		assertEquals("Radius de taille incorrecte", 20, res.size()); 
+		assertEquals("Radius de taille incorrecte", 3, res.size()); 
+		assertTrue("Radius incorrect",res.contains(map.getCaseAt(1, 0)));
+		assertTrue("Radius incorrect",res.contains(map.getCaseAt(2, 0)));
+		assertTrue("Radius incorrect",res.contains(map.getCaseAt(1, 2)));
 		
-		Case cTest = new Case(c.getMonde(),9,9); 
-		res = cTest.getCasesInRadius(1); 
-		assertEquals("Radius de taille incorrecte en bord de map", 3, res.size()); 
-		
-		res = cTest.getCasesInRadius(2); 
-		assertEquals("Radius de taille incorrecte en bord de map", 8, res.size()); 
 	}
 	
 }
