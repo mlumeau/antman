@@ -40,13 +40,13 @@ import com.alee.laf.spinner.WebSpinner;
 public class CreationFrame extends WebFrame {
 
 	public CreationFrame(String maps, String save) {
-		setMinimumSize(new Dimension(720, 0));
+		setMinimumSize(new Dimension(800, 0));
 		
 		final String mapsPath = maps;
 		final String savePath = save;
 		
 		setLocationByPlatform(true);
-		setSize(new Dimension(700, 400));
+		setSize(new Dimension(800, 400));
 		
 		setTitle("Création d'une carte");
 		setResizable(true);
@@ -239,7 +239,7 @@ public class CreationFrame extends WebFrame {
 		panelRight.add(panel_2);
 		
 		WebLabel wblblFacteursDobstacle = new WebLabel();
-		wblblFacteursDobstacle.setText("Facteurs d'obstacle : ");
+		wblblFacteursDobstacle.setText("Facteur d'obstacles : ");
 		panel_2.add(wblblFacteursDobstacle);
 		
 		final WebSlider webSlider = new WebSlider();
@@ -290,7 +290,7 @@ public class CreationFrame extends WebFrame {
 		getContentPane().add(panelSouth, BorderLayout.SOUTH);
 		
 		WebButton wbtnValider = new WebButton();
-		wbtnValider.setPreferredSize(new Dimension(160, 30));
+		wbtnValider.setPreferredSize(new Dimension(170, 30));
 		wbtnValider.addActionListener(new ActionListener() {
 			
 			
@@ -307,7 +307,8 @@ public class CreationFrame extends WebFrame {
 					int posY = cpt/dimension_y; 
 					if(((Container) c).getComponent(0).getBackground().equals(Color.BLACK))
 					{
-						obstacles.put(new Integer[]{posX, posY},1);
+						//HOTFIX INVERSION COORDONNEES
+						obstacles.put(new Integer[]{posY, posX},1);
 					}
 					
 					cpt++;
@@ -355,7 +356,7 @@ public class CreationFrame extends WebFrame {
 				}
 			}
 		});
-		wbtnGnrerUneCarte.setPreferredSize(new Dimension(160, 30));
+		wbtnGnrerUneCarte.setPreferredSize(new Dimension(170, 30));
 		wbtnGnrerUneCarte.setText("Générer une carte aléatoire");
 		
 		WebButton wbtnRinitialiser = new WebButton();
@@ -370,7 +371,7 @@ public class CreationFrame extends WebFrame {
 				
 			}
 		});
-		wbtnRinitialiser.setPreferredSize(new Dimension(160, 30));
+		wbtnRinitialiser.setPreferredSize(new Dimension(170, 30));
 		wbtnRinitialiser.setText("Nettoyer la carte");
 		
 		WebButton wbtnRetournerAuMenu = new WebButton();
@@ -386,7 +387,7 @@ public class CreationFrame extends WebFrame {
 					
 			}
 		});
-		wbtnRetournerAuMenu.setPreferredSize(new Dimension(160, 30));
+		wbtnRetournerAuMenu.setPreferredSize(new Dimension(170, 30));
 		wbtnRetournerAuMenu.setText("Retourner au menu");
 		panelSouth.add(wbtnRetournerAuMenu);
 	}
