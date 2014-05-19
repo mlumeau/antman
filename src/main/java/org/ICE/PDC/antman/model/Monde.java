@@ -46,6 +46,7 @@ public class Monde implements Serializable {
 	private int tour;
 	private int dimension_x;
 	private int dimension_y;
+	private List<Case> ressources_spawns;
 	
 	/** 
 	 * @param longueur
@@ -86,7 +87,36 @@ public class Monde implements Serializable {
 
 	public void creerRessources() {
 
-		Case where = this.get_cases().get(new Random().nextInt(this._cases.size()));
+		if(this.ressources_spawns == null) {
+			this.ressources_spawns = new ArrayList<Case>();
+			
+			List<Case> availables = new ArrayList<Case>();
+			
+			//Suppression des obstacles
+			for(Case c : this.get_cases()) {
+				if(c.getNiveau_obstacle() == 0) {
+					availables.add(c);
+				}
+			}
+			
+			if(ConfigurationLoader.MAX_RESSOURCES_SPAWNS < availables.size()) {
+			
+			for(int i=0;i<ConfigurationLoader.MAX_RESSOURCES_SPAWNS;i++) {
+				
+				if(availables.size() > 0) {
+					Case c = availables.get(new Random().nextInt(availables.size()));
+					availables.remove(c);
+					this.ressources_spawns.add(c);
+				}
+				
+			}
+			
+			} else {
+				this.ressources_spawns = availables;
+			}
+		}
+		
+		Case where = this.ressources_spawns.get(new Random().nextInt(this.ressources_spawns.size()));
 		
 		int quantite = (this.abondance/(new Random().nextInt(5)+1))*ConfigurationLoader.ABONDANCE_MULTIPLICATOR;
 		

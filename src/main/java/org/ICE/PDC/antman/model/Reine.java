@@ -36,27 +36,34 @@ public class Reine extends Fourmi implements Serializable {
 			naissances = new Random().nextInt(this.getFourmiliere().getFecondite());
 		}
 		
+		if(ConfigurationLoader.LIMIT_FOURMIS_NUMBER && this.getFourmiliere().getTotalFourmis()+naissances >= this.getFourmiliere().getTaille_max()) {
+			naissances = this.getFourmiliere().getTaille_max()-this.getFourmiliere().getTotalFourmis();
+		}
+		
 		for(int i=0; i<naissances; i++) {
 			
 			int rand = new Random().nextInt(100);
 			
+			//On crée aléatoirement une ouvriere ou une éclaireuse
 			if(rand >= this.getFourmiliere().get_tauxEclaireuses()) {
 				new Ouvriere(this.getFourmiliere());
+				
 			} else {
 				new Eclaireuse(this.getFourmiliere());
 			}
 			
-			//Si la fourmiliere a atteind sa taille maximum, alors il est possible de creer une nouvelle reine
-			//(Une reine se creera en moyenne tout les 10 tours)
-			if(this.getFourmiliere().getTotalFourmis() >= this.getFourmiliere().getTaille_max()) {
-				
-				if(rand < ConfigurationLoader.CHANCES_NAISSANCE_REINES) {
-					new Reine(this.getFourmiliere()).setEtat(States.RECHERCHE_EMPLACEMENT);
-				}
-				
-			}
-
 		}
+		
+		//Si la fourmiliere a atteind sa taille maximum, alors il est possible de creer une nouvelle reine
+		if(this.getFourmiliere().getTotalFourmis() >= this.getFourmiliere().getTaille_max()
+			&& (ConfigurationLoader.MAX_FOURMILIERES > this.getFourmiliere().getMonde().getFourmilieres().size())) {
+		
+			if(new Random().nextInt(100) < ConfigurationLoader.CHANCES_NAISSANCE_REINES) {
+				new Reine(this.getFourmiliere()).setEtat(States.RECHERCHE_EMPLACEMENT);
+			}
+			
+		}
+
 	}
 
 	/** 
@@ -125,17 +132,15 @@ public class Reine extends Fourmi implements Serializable {
 						this.seDeplacerAlea();
 						
 						//L'emplacement ne doit pas déja contenir une fourmiliere
-						if(this.get_case().getFourmiliere() == null) {
+						if(this.get_case().getFourmiliere() == null && ConfigurationLoader.MAX_FOURMILIERES > this.getFourmiliere().getMonde().getFourmilieres().size()) {
 							
-							int rand = new Random().nextInt(100);
-							
-							if(rand < ConfigurationLoader.CHANCES_INSTALLATION_REINES) {
+							if(new Random().nextInt(100) < ConfigurationLoader.CHANCES_INSTALLATION_REINES) {
 								Fourmiliere f = new Fourmiliere(this.getFourmiliere().getMonde(),this.get_case(),this.getFourmiliere().getFecondite(), this.getFourmiliere().getTaille_max(),0,this.getFourmiliere().get_tauxEclaireuses());
 								this.setFourmiliere(f);
 								this.setEtat(States.INSTALEE);
 								logger.info("La Reine ("+this.hashCode()+") a fondé une nouvelle fourmiliere");
 							}
-
+							
 						}
 						
 					break;

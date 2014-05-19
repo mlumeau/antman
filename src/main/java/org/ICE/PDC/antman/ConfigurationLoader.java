@@ -38,6 +38,9 @@ public class ConfigurationLoader {
 	public static int METEO_MULTIPLICATOR = 1;
 	public static int VITESSE_MULTIPLICATOR = 1;
 	public static int ABONDANCE_MULTIPLICATOR = 1;
+	public static int MAX_FOURMILIERES = 10;
+	public static int MAX_RESSOURCES_SPAWNS = 10;
+	public static boolean LIMIT_FOURMIS_NUMBER = true;
 	
 	public static void load(boolean createMissingDirs) throws JDOMException, IOException {
 		
@@ -77,6 +80,24 @@ public class ConfigurationLoader {
 		
 		if(abondance_multiplicator != null) {
 			ConfigurationLoader.ABONDANCE_MULTIPLICATOR = Integer.valueOf(abondance_multiplicator);
+		}
+		
+		String max_fourmilieres = rootNode.getChildText("max_fourmilieres");
+		
+		if(max_fourmilieres != null) {
+			ConfigurationLoader.MAX_FOURMILIERES = Integer.valueOf(max_fourmilieres);
+		}
+		
+		String max_ressources_spawns = rootNode.getChildText("max_ressources_spawns");
+		
+		if(max_ressources_spawns != null) {
+			ConfigurationLoader.MAX_RESSOURCES_SPAWNS = Integer.valueOf(max_ressources_spawns);
+		}
+		
+		String limit_fourmis_number = rootNode.getChildText("limit_fourmis_number");
+		
+		if(limit_fourmis_number != null) {
+			ConfigurationLoader.LIMIT_FOURMIS_NUMBER = Boolean.valueOf(limit_fourmis_number);
 		}
 		
 		//OUVRIERE

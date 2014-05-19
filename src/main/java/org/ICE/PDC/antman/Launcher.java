@@ -49,7 +49,6 @@ public class Launcher {
 			new LaunchFrame(ConfigurationLoader.MAPS_PATH,ConfigurationLoader.SAVE_PATH); 
 			
 		} catch (Exception e) {
-			// TODO Bloc catch auto-généré
 			e.printStackTrace();
 		}
 
