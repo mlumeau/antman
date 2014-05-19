@@ -1,6 +1,5 @@
 package org.ICE.PDC.antman.model;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,7 +11,6 @@ import java.util.Set;
 import java.util.List;
 
 import org.ICE.PDC.antman.ConfigurationLoader;
-import org.ICE.PDC.antman.Launcher;
 import org.ICE.PDC.antman.model.events.FourmiAjouteeEvent;
 import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.ICE.PDC.antman.model.events.FourmiPositionChangeeEvent;
@@ -35,7 +33,7 @@ import org.apache.log4j.Logger;
  */
 public class Monde implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 583350775373768197L;
 	private static Logger logger = Logger.getLogger(Monde.class);
 	private transient List<MapListener> listeners;
 	private List<Case> _cases;
@@ -88,14 +86,7 @@ public class Monde implements Serializable {
 	
 
 	public void creerRessources() {
-		System.out.println("Serialization try");
-		try {
-			Launcher.saveContext("save",this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("End");
+		
 		if(this.ressources_spawns == null) {
 			this.ressources_spawns = new ArrayList<Case>();
 			

@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 
 public class Reine extends Fourmi implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4942844918143927908L;
 	private static Logger logger = Logger.getLogger(Reine.class);
 	
 	public enum States {

@@ -10,7 +10,7 @@ import org.ICE.PDC.antman.model.Fourmi;
 
 public class FourmiSupprimeeEvent extends FourmiEvent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2489921704997204630L;
 
 	public FourmiSupprimeeEvent(int tour, Date datetime, Fourmi fourmi) {
 		super(tour, datetime, fourmi);

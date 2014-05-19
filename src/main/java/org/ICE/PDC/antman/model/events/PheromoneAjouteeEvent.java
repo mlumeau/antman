@@ -16,7 +16,7 @@ import org.ICE.PDC.antman.model.Pheromone;
  */
 public class PheromoneAjouteeEvent extends PheromoneEvent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -3737558789533447451L;
 
 	public PheromoneAjouteeEvent(int tour, Date datetime, Pheromone pheromone) {
 		super(tour, datetime, pheromone);

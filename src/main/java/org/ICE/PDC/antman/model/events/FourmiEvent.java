@@ -10,7 +10,7 @@ import org.ICE.PDC.antman.model.Fourmi;
 
 public abstract class FourmiEvent extends MapEvent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6890248323954519724L;
 	private final Fourmi fourmi;
 	
 	public FourmiEvent(int tour, Date datetime, Fourmi fourmi) {

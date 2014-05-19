@@ -10,7 +10,7 @@ import org.ICE.PDC.antman.model.Pheromone;
 
 public class PheromonePuissanceChangeeEvent extends PheromoneEvent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -472610599944380516L;
 	private final int old_puissance;
 
 	

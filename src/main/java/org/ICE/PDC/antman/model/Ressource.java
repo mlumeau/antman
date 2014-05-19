@@ -6,7 +6,8 @@ import org.apache.log4j.Logger;
 
 public class Ressource implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5373067628319412719L;
+
 	private static Logger logger = Logger.getLogger(Ressource.class);
 	
 	private int quantite;

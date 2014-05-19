@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
  */
 public class Case implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1397721472047296408L;
 
 	private static Logger logger = Logger.getLogger(Case.class);
 	

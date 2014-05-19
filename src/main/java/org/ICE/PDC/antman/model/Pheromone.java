@@ -11,7 +11,8 @@ import org.apache.log4j.Logger;
 
 public class Pheromone implements Serializable  {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7338644874597093851L;
+
 	private static Logger logger = Logger.getLogger(Pheromone.class);
 
 	private Fourmiliere fourmiliere;

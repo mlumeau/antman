@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
  */
 public class Ouvriere extends Fourmi implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3587116224753560973L;
 	private static Logger logger = Logger.getLogger(Ouvriere.class);
 	
 	public enum States {

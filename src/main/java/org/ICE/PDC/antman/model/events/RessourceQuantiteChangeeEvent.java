@@ -10,7 +10,7 @@ import org.ICE.PDC.antman.model.Ressource;
 
 public class RessourceQuantiteChangeeEvent extends RessourceEvent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3890545665466339677L;
 	private final int old_quantite;
 	
 	

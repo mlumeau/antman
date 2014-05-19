@@ -5,7 +5,7 @@ import java.util.Date;
 
 public abstract class MapEvent implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -6753438529038374656L;
 	private final Date time;
 	private final int tour;
 	

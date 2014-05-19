@@ -15,7 +15,9 @@ import org.apache.log4j.Logger;
  */
 public class Eclaireuse extends Fourmi implements Serializable  {
 	
-	private static final long serialVersionUID = 1L;
+	
+	private static final long serialVersionUID = -3767003284851778910L;
+	
 	private static Logger logger = Logger.getLogger(Eclaireuse.class);
 	
 	public enum States {

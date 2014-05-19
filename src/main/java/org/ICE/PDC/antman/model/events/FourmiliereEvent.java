@@ -10,7 +10,7 @@ import org.ICE.PDC.antman.model.Fourmiliere;
 
 public class FourmiliereEvent extends MapEvent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5832488405203054606L;
 	private final Fourmiliere fourmiliere;
 
 	public FourmiliereEvent(int tour, Date datetime,Fourmiliere fourmiliere) {

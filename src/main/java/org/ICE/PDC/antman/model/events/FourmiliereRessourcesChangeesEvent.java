@@ -11,7 +11,7 @@ import org.ICE.PDC.antman.model.Fourmiliere;
 
 public class FourmiliereRessourcesChangeesEvent extends FourmiliereEvent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6813847798215741576L;
 	private final int old_ressources;
 	
 	public FourmiliereRessourcesChangeesEvent(int tour, Date datetime,Fourmiliere fourmiliere,int old_ressources) {

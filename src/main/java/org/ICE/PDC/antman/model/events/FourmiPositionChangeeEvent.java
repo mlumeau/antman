@@ -11,7 +11,7 @@ import org.ICE.PDC.antman.model.Fourmi;
 
 public class FourmiPositionChangeeEvent extends FourmiEvent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1730432913592456432L;
 	private final int old_position_x;
 	private final int old_position_y;
 	

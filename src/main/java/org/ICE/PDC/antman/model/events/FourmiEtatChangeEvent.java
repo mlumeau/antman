@@ -16,7 +16,7 @@ import org.ICE.PDC.antman.model.Fourmi;
  */
 public class FourmiEtatChangeEvent extends FourmiEvent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4814932261492896325L;
 	private final Object old_etat;
 	
 	public FourmiEtatChangeEvent(int tour, Date datetime, Fourmi fourmi,Object old_etat) {

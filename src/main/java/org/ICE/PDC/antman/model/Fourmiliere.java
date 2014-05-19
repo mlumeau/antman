@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 public class Fourmiliere implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 4220263983772569337L;
 	private static Logger logger = Logger.getLogger(Fourmiliere.class);
 	private Monde monde;
 	private Set<Fourmi> fourmi;

@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
  */
 public abstract class Fourmi implements Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -8157920655219441612L;
 
 	private static Logger logger = Logger.getLogger(Fourmi.class);
 	

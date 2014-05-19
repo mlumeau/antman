@@ -10,7 +10,7 @@ import org.ICE.PDC.antman.model.Ressource;
 
 public abstract class RessourceEvent extends MapEvent implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2685784378674906335L;
 	private final Ressource ressource;
 	
 	public RessourceEvent(int tour, Date datetime,Ressource ressource) {
