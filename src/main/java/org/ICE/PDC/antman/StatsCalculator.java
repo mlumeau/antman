@@ -65,7 +65,6 @@ public class StatsCalculator {
 				
 				if(e instanceof FourmiliereAjouteeEvent) {
 					this.fourmilieresAjoutees.get(i).add(((FourmiliereAjouteeEvent)e).getFourmiliere());
-					populationTicks.put(((FourmiliereAjouteeEvent)e).getFourmiliere(),new ArrayList<Integer>());
 				}
 				else if (e instanceof FourmiliereSupprimeeEvent) {
 					this.fourmilieresSupprimees.get(i).add(((FourmiliereSupprimeeEvent)e).getFourmiliere());
@@ -85,6 +84,10 @@ public class StatsCalculator {
 				else if (e instanceof FourmiAjouteeEvent) {
 					this.fourmisAjoutees.get(i).add(((FourmiAjouteeEvent)e).getFourmi());
 					if(population.get(((FourmiAjouteeEvent)e).getFourmi().getFourmiliere()) == null){
+						populationTicks.put(((FourmiAjouteeEvent)e).getFourmi().getFourmiliere(),new ArrayList<Integer>());
+						for(int j = 0; j <= monde.getTour() ; j++) {
+							populationTicks.get(((FourmiAjouteeEvent)e).getFourmi().getFourmiliere()).add(0);
+						}
 						populationTicks.get(((FourmiAjouteeEvent)e).getFourmi().getFourmiliere()).add(i,1); 	
 						population.put(((FourmiAjouteeEvent)e).getFourmi().getFourmiliere(),1);
 					}else{
@@ -95,6 +98,10 @@ public class StatsCalculator {
 				else if (e instanceof FourmiSupprimeeEvent) {
 					this.fourmisSupprimees.get(i).add(((FourmiSupprimeeEvent)e).getFourmi());
 					if(population.get(((FourmiSupprimeeEvent)e).getFourmi().getFourmiliere()) == null){
+						populationTicks.put(((FourmiSupprimeeEvent)e).getFourmi().getFourmiliere(),new ArrayList<Integer>());
+						for(int j = 0; j <= monde.getTour() ; j++) {
+							populationTicks.get(((FourmiSupprimeeEvent)e).getFourmi().getFourmiliere()).add(0);
+						}
 						populationTicks.get(((FourmiSupprimeeEvent)e).getFourmi().getFourmiliere()).add(i,1); 
 						population.put(((FourmiSupprimeeEvent)e).getFourmi().getFourmiliere(),0);
 					}else{
