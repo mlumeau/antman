@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -167,7 +169,7 @@ public class MainFrame extends WebFrame implements MapListener {
 		JLabel speedLabel = new JLabel("Vitesse mode auto");
 		controlPanel.add(speedLabel, "cell 3 0");
 		
-		JLabel meteoLabel = new JLabel("M\u00E9t\u00E9o");
+		JLabel meteoLabel = new JLabel("Météo");
 		controlPanel.add(meteoLabel, "cell 6 0");
 		
 		JLabel abondanceLabel = new JLabel("Abondance");
@@ -266,7 +268,7 @@ public class MainFrame extends WebFrame implements MapListener {
 		WebMenuItem wbmntmSave = new WebMenuItem();
 		wbmntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String filename=WebOptionPane.showInputDialog(this, "Donnez un nom pour cette simulation:");
+				String filename=WebOptionPane.showInputDialog("Donnez un nom pour cette simulation:");
 				try {
 					Launcher.saveContext(ConfigurationLoader.SAVE_PATH+File.separator+filename, monde);
 				} catch (IOException e1) {
@@ -431,13 +433,14 @@ public class MainFrame extends WebFrame implements MapListener {
 				    			if(fo instanceof Ouvriere)  {
 				    				ouvrieres++;
 				    				nbo++;
+					    			nbf++;
 				    			} else if (fo instanceof Eclaireuse) {
 				    				eclaireuses++;
 				    				nbe++;
+					    			nbf++;
 				    			} else if (fo instanceof Reine) {
 				    				reines++;
 				    			}
-				    			nbf++;
 				    		}
 				    	
 				    		fpc.getTotalValue().setText(Integer.toString(nbf));
@@ -535,7 +538,6 @@ public class MainFrame extends WebFrame implements MapListener {
 						//Ouverture de la fenÃªtre de statistiques
 						StatisticsFrame sf = new StatisticsFrame(monde);
 						sf.setVisible(true);
-						sf.setDefaultCloseOperation(EXIT_ON_CLOSE);
 						//Fermeture de la fenÃªtre principale
 						dispose();
 					}

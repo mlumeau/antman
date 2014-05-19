@@ -23,7 +23,10 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Set;
 
 import com.alee.laf.button.WebButton;
 import com.alee.laf.rootpane.WebFrame;
@@ -34,13 +37,14 @@ import com.alee.laf.rootpane.WebFrame;
  * @author S219
  * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
  */
-public class StatisticsFrame extends JFrame {
+public class StatisticsFrame extends WebFrame {
 
 	private static final long serialVersionUID = 1L;
 	private Monde monde;
 	
 	
 	public StatisticsFrame(Monde m) {
+		setTitle("Résultats");
 		monde=m;
 		
 		setSize(new Dimension(800, 600));
@@ -58,11 +62,20 @@ public class StatisticsFrame extends JFrame {
     				Component p = (Component)arg0.getSource(); 
     				while ( (p = p.getParent()) != null && !(p instanceof WebFrame) );
     				
-    				CreationFrame cf = (CreationFrame)p; 
-    				cf.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    				cf.dispose();	
+    				StatisticsFrame sf = (StatisticsFrame) p; 
+    				sf.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    				sf.dispose();	
     				new LaunchFrame(); 
 	        	}
+	        });
+	        this.addWindowListener(new WindowAdapter()
+	        {
+	            @Override
+	            public void windowClosing(WindowEvent e){
+    				setDefaultCloseOperation(EXIT_ON_CLOSE);
+    				dispose();	
+    				new LaunchFrame(); 
+	            }
 	        });
 	        wbtnFermer.setText("Fermer");
 	        panel.add(wbtnFermer);
@@ -78,7 +91,7 @@ public class StatisticsFrame extends JFrame {
 	    XYDataset dataset = createDataset();
 	 
 	    JFreeChart chart = ChartFactory.createXYLineChart(chartTitle, xAxisLabel, yAxisLabel, dataset, PlotOrientation.VERTICAL, true,true, false);
-	 
+	    chart.setAntiAlias(true);
 	    return new ChartPanel(chart);
     }
  
@@ -90,15 +103,16 @@ public class StatisticsFrame extends JFrame {
     	StatsCalculator sc = new StatsCalculator(monde);
     	
     	int i=0;
+    	Object[] fourms =  sc.getPopulationTicks().keySet().toArray();
     	
-    	for (Fourmiliere f : monde.getFourmilieres()){
-    		ArrayList<Integer> pop = sc.getPopulationTicks().get(f);
+    	while (i<5 && i<fourms.length){
+    		ArrayList<Integer> pop = sc.getPopulationTicks().get((Fourmiliere)fourms[i]);
     	    XYSeries serie = new XYSeries("Fourmiliere "+ i);
     	    
     		for(int j=0 ; j<pop.size();j++){
     			serie.add(j,pop.get(j));
     		}
-    		
+    		dataset.addSeries(serie);
     		i++;
     	}
     	
