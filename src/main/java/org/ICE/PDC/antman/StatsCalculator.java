@@ -65,7 +65,6 @@ public class StatsCalculator {
 				
 				if(e instanceof FourmiliereAjouteeEvent) {
 					this.fourmilieresAjoutees.get(i).add(((FourmiliereAjouteeEvent)e).getFourmiliere());
-					populationTicks.put(((FourmiliereAjouteeEvent)e).getFourmiliere(),new ArrayList<Integer>());
 				}
 				else if (e instanceof FourmiliereSupprimeeEvent) {
 					this.fourmilieresSupprimees.get(i).add(((FourmiliereSupprimeeEvent)e).getFourmiliere());
