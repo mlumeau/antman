@@ -30,6 +30,7 @@ import javax.swing.event.ChangeListener;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.ICE.PDC.antman.ConfigurationLoader;
 import org.ICE.PDC.antman.Launcher;
 import org.ICE.PDC.antman.model.Case;
 import org.ICE.PDC.antman.model.Eclaireuse;
@@ -63,10 +64,15 @@ import com.alee.laf.button.WebToggleButton;
 import com.alee.laf.menu.WebMenu;
 import com.alee.laf.menu.WebMenuBar;
 import com.alee.laf.menu.WebMenuItem;
+import com.alee.laf.optionpane.WebOptionPane;
+import com.alee.laf.rootpane.WebDialog;
 import com.alee.laf.rootpane.WebFrame;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.slider.WebSlider;
 import java.awt.Component;
+import java.io.File;
+import java.io.IOException;
+
 import javax.swing.Box;
 
 /** 
@@ -103,6 +109,8 @@ public class MainFrame extends WebFrame implements MapListener {
 
 	private JTextArea logTextArea;
 
+	private Monde monde;
+	
 	private JPanel map;
 	
 	public MainFrame(HashMap<Fourmiliere, Color> c) {
@@ -159,7 +167,7 @@ public class MainFrame extends WebFrame implements MapListener {
 		JLabel speedLabel = new JLabel("Vitesse mode auto");
 		controlPanel.add(speedLabel, "cell 3 0");
 		
-		JLabel meteoLabel = new JLabel("MÃ©tÃ©o");
+		JLabel meteoLabel = new JLabel("M\u00E9t\u00E9o");
 		controlPanel.add(meteoLabel, "cell 6 0");
 		
 		JLabel abondanceLabel = new JLabel("Abondance");
@@ -255,13 +263,20 @@ public class MainFrame extends WebFrame implements MapListener {
 		wbmnFichier.setText("Fichier");
 		webMenuBar.add(wbmnFichier);
 		
-		WebMenu wbmnSimulation = new WebMenu();
-		wbmnSimulation.setText("Simulation");
-		webMenuBar.add(wbmnSimulation);
-		
-		WebMenuItem wbmntmHelp = new WebMenuItem();
-		wbmntmHelp.setText("Help");
-		webMenuBar.add(wbmntmHelp);
+		WebMenuItem wbmntmSave = new WebMenuItem();
+		wbmntmSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String filename=WebOptionPane.showInputDialog(this, "Donnez un nom pour cette simulation:");
+				try {
+					Launcher.saveContext(ConfigurationLoader.SAVE_PATH+File.separator+filename, monde);
+				} catch (IOException e1) {
+					// TODO Bloc catch auto-généré
+					e1.printStackTrace();
+				}
+			}
+		});
+		wbmntmSave.setText("Sauvegarder la simulation");
+		wbmnFichier.add(wbmntmSave);
 
 		mainSplitPane.setLeftComponent(infoWebScrollPane);
 		mainSplitPane.setRightComponent(viewPanel);
@@ -318,11 +333,12 @@ public class MainFrame extends WebFrame implements MapListener {
 	}
 	
 	public void initMonde(Monde m){
+		monde = m;
 		for(Fourmiliere f : m.getFourmilieres()){
 			
 			FourmiliereInfoPanel fpc = new FourmiliereInfoPanel();
 			
-			WebCollapsiblePane fp = new WebCollapsiblePane ("FourmiliÃ¨re "+indexFourmiliere, fpc );
+			WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+indexFourmiliere, fpc );
 			fp.setMaximumSize(new Dimension(Integer.MAX_VALUE,50));
 	        fp.setExpanded ( true );
 	        fp.getTitleComponent().setForeground(colors.get(f));
@@ -398,7 +414,7 @@ public class MainFrame extends WebFrame implements MapListener {
 				try {
 						map.removeAll();
 					
-				    	 logger.info("Tour nÂ°"+(_e.getTour())+" - Total fourmilieres : "+monde.getFourmilieres().size()+" - Total fourmis : "+monde.getTotalFourmis());
+				    	 logger.info("Tour n°"+(_e.getTour())+" - Total fourmilieres : "+monde.getFourmilieres().size()+" - Total fourmis : "+monde.getTotalFourmis());
 				    	int reines = 0;
 				    	int ouvrieres = 0;
 				    	int eclaireuses = 0;
@@ -431,11 +447,11 @@ public class MainFrame extends WebFrame implements MapListener {
 				    		
 				    	}
 				    	
-				    	String infosString = "TOUR nÂ° "+_e.getTour()+
-								 " -- FourmiliÃ¨res : "+monde.getFourmilieres().size()+
+				    	String infosString = "TOUR n° "+_e.getTour()+
+								 " -- Fourmilières : "+monde.getFourmilieres().size()+
 								 " - Fourmis : "+monde.getTotalFourmis()+
 								 "  (Reines : "+reines+
-								 " / OuvriÃ¨res : "+ouvrieres+
+								 " / Ouvrières : "+ouvrieres+
 								 " / Eclaireuses : "+eclaireuses+")";
 								 
 				    	((JLabel) mondeInfoPanel.getComponent(0)).setText(infosString);
@@ -542,18 +558,18 @@ public class MainFrame extends WebFrame implements MapListener {
 	public void fourmiPositionChangee(FourmiPositionChangeeEvent e) {
 		Fourmi f = e.getFourmi();
 		Case c = e.getFourmi().get_case();
-		this.addTextEvent("La fourmi "+f+" se dÃ©place en "+c.getX()+"/"+c.getY());
+		this.addTextEvent("La fourmi "+f+" se déplace en "+c.getX()+"/"+c.getY());
 	}
 
 	public void fourmiEtatChange(FourmiEtatChangeEvent e) {
 		Fourmi f = e.getFourmi();
-		this.addTextEvent("La fourmi "+f+"a changÃ© d'Ã©tat"); 
+		this.addTextEvent("La fourmi "+f+"a changé d'état"); 
 	}
 
 
 	public void fourmiAjoutee(FourmiAjouteeEvent e) {
 		Fourmi f = e.getFourmi();
-		this.addTextEvent("Une nouvelle fourmi "+f.getClass()+" a Ã©tÃ© ajoutÃ©e Ã  la fourmiliere "+f.getFourmiliere());
+		this.addTextEvent("Une nouvelle fourmi "+f.getClass()+" a été ajoutée à la fourmiliere "+f.getFourmiliere());
 	}
 
 	public void fourmiSupprimee(FourmiSupprimeeEvent e) {
@@ -564,7 +580,7 @@ public class MainFrame extends WebFrame implements MapListener {
 	public void fourmiliereAjoutee(FourmiliereAjouteeEvent e) {
 		
 		Case c = e.getFourmiliere().get_case();
-		this.addTextEvent("Une nouvelle fourmiliere a Ã©tÃ© ajoutÃ©e en "+c.getX()+"/"+c.getY());
+		this.addTextEvent("Une nouvelle fourmiliere a été ajoutée en "+c.getX()+"/"+c.getY());
 		Fourmiliere f = e.getFourmiliere();
 
 		Random rand = new Random();
@@ -572,7 +588,7 @@ public class MainFrame extends WebFrame implements MapListener {
 		
 		FourmiliereInfoPanel fpc = new FourmiliereInfoPanel();
 		
-		WebCollapsiblePane fp = new WebCollapsiblePane ("FourmiliÃ¨re "+indexFourmiliere, fpc );
+		WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+indexFourmiliere, fpc );
 		fp.setMaximumSize(new Dimension(Integer.MAX_VALUE,50));
         fp.setExpanded ( true );
         fp.getTitleComponent().setForeground(colors.get(f));
@@ -674,8 +690,8 @@ public class MainFrame extends WebFrame implements MapListener {
 			this.setLayout(new GridBagLayout());
 			
 			totalLabel = new JLabel(" Total fourmis : ");
-			ouvLabel = new JLabel(" OuvriÃ¨res : ");
-			eclLabel = new JLabel(" Ã‰claireuses : ");
+			ouvLabel = new JLabel(" Ouvrières : ");
+			eclLabel = new JLabel(" Éclaireuses : ");
 			resLabel = new JLabel(" Ressources : ");
 			
 			totalValue = new JLabel("0");
