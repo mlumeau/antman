@@ -67,8 +67,6 @@ public class MainCtrl implements MainFrameListener {
 			});
 			
 			this.thread.start();
-		} else {
-			this.thread.interrupt();
 		}
 		
 	}

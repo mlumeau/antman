@@ -3,7 +3,6 @@
  */
 package org.ICE.PDC.antman.view;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.ICE.PDC.antman.StatsCalculator;
@@ -20,13 +19,11 @@ import org.jfree.data.xy.XYSeriesCollection;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Set;
 
 import com.alee.laf.button.WebButton;
 import com.alee.laf.rootpane.WebFrame;
@@ -44,7 +41,7 @@ public class StatisticsFrame extends WebFrame {
 	
 	
 	public StatisticsFrame(Monde m) {
-		setTitle("Résultats");
+		setTitle("Rï¿½sultats");
 		monde=m;
 		
 		setSize(new Dimension(800, 600));
@@ -84,9 +81,9 @@ public class StatisticsFrame extends WebFrame {
 	private JPanel createChartPanel() {
         // creates a line chart object
         // returns the chart panel
-		String chartTitle = "RÉSULTATS DE LA SIMULATION";
+		String chartTitle = "Rï¿½SULTATS DE LA SIMULATION";
 	    String xAxisLabel = "TOUR";
-	    String yAxisLabel = "POPULATION DES FOURMILIÈRES";
+	    String yAxisLabel = "POPULATION DES FOURMILIï¿½RES";
 	 
 	    XYDataset dataset = createDataset();
 	 

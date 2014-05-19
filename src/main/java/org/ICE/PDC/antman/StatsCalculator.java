@@ -3,11 +3,8 @@ package org.ICE.PDC.antman;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.ICE.PDC.antman.model.Case;
 import org.ICE.PDC.antman.model.Fourmi;
 import org.ICE.PDC.antman.model.Fourmiliere;
 import org.ICE.PDC.antman.model.Monde;
@@ -22,7 +19,6 @@ import org.ICE.PDC.antman.model.events.PheromoneAjouteeEvent;
 import org.ICE.PDC.antman.model.events.PheromoneSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.RessourceAjouteeEvent;
 import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
-import org.ICE.PDC.antman.model.events.TourJoueEvent;
 
 /**
  * Permet de récupérer les statistiques d'une partie à partir d'un objet monde
@@ -30,7 +26,6 @@ import org.ICE.PDC.antman.model.events.TourJoueEvent;
  */
 public class StatsCalculator {
 
-	private Monde monde;
 	private ArrayList<Set<Fourmiliere>> fourmilieresAjoutees = new ArrayList<Set<Fourmiliere>>();
 	private ArrayList<Set<Fourmiliere>> fourmilieresSupprimees = new ArrayList<Set<Fourmiliere>>();
 	private ArrayList<Set<Ressource>> ressourcesAjoutees =  new ArrayList<Set<Ressource>>();	
@@ -46,7 +41,7 @@ public class StatsCalculator {
 	 * @param monde
 	 */
 	public StatsCalculator(Monde monde) {
-		this.monde = monde;	
+
 		populationTicks = new HashMap<Fourmiliere, ArrayList<Integer>>();
 		population = new HashMap<Fourmiliere, Integer>();	
 		for(int i = 0; i <= monde.getTour() ; i++) {
