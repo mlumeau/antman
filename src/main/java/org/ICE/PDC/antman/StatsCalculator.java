@@ -46,21 +46,22 @@ public class StatsCalculator {
 	 * @param monde
 	 */
 	public StatsCalculator(Monde monde) {
-		this.monde = monde;
+		this.monde = monde;	
+		populationTicks = new HashMap<Fourmiliere, ArrayList<Integer>>();
+		population = new HashMap<Fourmiliere, Integer>();	
+		for(int i = 0; i <= monde.getTour() ; i++) {
+			fourmilieresAjoutees.add(new HashSet<Fourmiliere>());
+			fourmilieresSupprimees.add(new HashSet<Fourmiliere>());
+			ressourcesAjoutees.add(new HashSet<Ressource>());
+			ressourcesSupprimees.add(new HashSet<Ressource>());
+			pheromonesAjoutees.add(new HashSet<Pheromone>());
+			pheromonesSupprimees.add(new HashSet<Pheromone>());
+			fourmisAjoutees.add(new HashSet<Fourmi>());
+			fourmisSupprimees.add(new HashSet<Fourmi>());
+		}
 		for(int i = 0; i <= monde.getTour() ; i++) {
 
-			for(MapEvent e : monde.getEvents().get(i)) {
-
-				fourmilieresAjoutees.add(i,new HashSet<Fourmiliere>());
-				fourmilieresSupprimees.add(i,new HashSet<Fourmiliere>());
-				ressourcesAjoutees.add(i,new HashSet<Ressource>());
-				ressourcesSupprimees.add(i,new HashSet<Ressource>());
-				pheromonesAjoutees.add(i,new HashSet<Pheromone>());
-				pheromonesSupprimees.add(i,new HashSet<Pheromone>());
-				fourmisAjoutees.add(i,new HashSet<Fourmi>());
-				fourmisSupprimees.add(i,new HashSet<Fourmi>());
-				populationTicks = new HashMap<Fourmiliere, ArrayList<Integer>>();
-				population = new HashMap<Fourmiliere, Integer>();				
+			for(MapEvent e : monde.getEvents().get(i)) {		
 				
 				if(e instanceof FourmiliereAjouteeEvent) {
 					this.fourmilieresAjoutees.get(i).add(((FourmiliereAjouteeEvent)e).getFourmiliere());
