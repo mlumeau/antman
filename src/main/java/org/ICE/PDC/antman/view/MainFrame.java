@@ -295,7 +295,7 @@ public class MainFrame extends WebFrame implements MapListener {
 				//On Lance un new Thread car les SwingUtilities.invokeAndWait ne peuvent pas être Run depuis l'EDT
 				new Thread(new Runnable() {
 					public void run() {
-						monde.jouerTour();
+						mainFrameListener.jouerTour();
 					}
 				}).start();
 			}
@@ -320,7 +320,9 @@ public class MainFrame extends WebFrame implements MapListener {
 
 		vitesseWebSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				mainFrameListener.setVitesse(vitesseWebSlider.getValue());
+				if(wbtglbtnModeAutomatique.isSelected()) {
+					mainFrameListener.setVitesse(vitesseWebSlider.getValue());
+				}
 			}
 		});
 		
@@ -347,7 +349,7 @@ public class MainFrame extends WebFrame implements MapListener {
 					
 					FourmiliereInfoPanel fpc = new FourmiliereInfoPanel();
 					
-					WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmili�re "+indexFourmiliere, fpc );
+					WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+indexFourmiliere, fpc );
 					fp.setMaximumSize(new Dimension(Integer.MAX_VALUE,50));
 			        fp.setExpanded ( true );
 			        fp.getTitleComponent().setForeground(colors.get(f));
@@ -423,7 +425,7 @@ public class MainFrame extends WebFrame implements MapListener {
 					
 					try {
 							map.removeAll();
-					    	logger.info("Tour n°"+(_e.getTour())+" - Total fourmilieres : "+monde.getFourmilieres().size()+" - Total fourmis : "+monde.getTotalFourmis());
+					    	logger.info("Tour n°"+(_e.getTour())+" - Total fourmilières : "+monde.getFourmilieres().size()+" - Total fourmis : "+monde.getTotalFourmis());
 					    	int reines = 0;
 					    	int ouvrieres = 0;
 					    	int eclaireuses = 0;
@@ -579,28 +581,39 @@ public class MainFrame extends WebFrame implements MapListener {
 	public void fourmiPositionChangee(FourmiPositionChangeeEvent e) {
 		Fourmi f = e.getFourmi();
 		Case c = e.getFourmi().get_case();
-		this.addTextEvent("La fourmi "+f+" se déplace en "+c.getX()+"/"+c.getY());
+		this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+e.getOld_position_x()+"/"+e.getOld_position_y()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") se déplace en "+c.getX()+"/"+c.getY());
 	}
 
 	public void fourmiEtatChange(FourmiEtatChangeEvent e) {
 		Fourmi f = e.getFourmi();
-		this.addTextEvent("La fourmi "+f+"a changé d'état"); 
+		String etat = "";
+		
+		if(f instanceof Ouvriere) {
+			etat = ((Ouvriere) f).getEtat().name();
+		} else if (f instanceof Eclaireuse) {
+			etat = ((Eclaireuse) f).getEtat().name();
+		} else if (f instanceof Reine) {
+			etat = ((Reine) f).getEtat().name();
+		}
+		
+		this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+f.get_case().getX()+"/"+f.get_case().getY()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") a changé d'état - Nouvel état : "+etat); 
+		
 	}
 
 	public void fourmiAjoutee(FourmiAjouteeEvent e) {
 		Fourmi f = e.getFourmi();
-		this.addTextEvent("Une nouvelle fourmi "+f.getClass()+" a été ajoutée à la fourmiliere "+f.getFourmiliere());
+		this.addTextEvent("Tour n°"+e.getTour()+" - Une nouvelle fourmi de type "+f.getClass().getSimpleName()+" a été ajoutée à "+fourmilierePanes.get(f.getFourmiliere()).getTitle());
 	}
 
 	public void fourmiSupprimee(FourmiSupprimeeEvent e) {
 		Fourmi f = e.getFourmi();
-		this.addTextEvent("La fourmi "+f+" est morte");
+		this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+f.get_case().getX()+"/"+f.get_case().getY()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") est morte");
 	}
 	
 	public void fourmiliereAjoutee(final FourmiliereAjouteeEvent e) {
 		
 		Case c = e.getFourmiliere().get_case();
-		this.addTextEvent("Une nouvelle fourmiliere a été ajoutée en "+c.getX()+"/"+c.getY());
+		this.addTextEvent("Tour n°"+e.getTour()+" - Une nouvelle fourmilière (Fourmilière "+indexFourmiliere+") a été ajoutée en "+c.getX()+"/"+c.getY());
 		
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
@@ -654,7 +667,7 @@ public class MainFrame extends WebFrame implements MapListener {
 	}
 
 	public void fourmiliereSupprimee(final FourmiliereSupprimeeEvent e) {
-		this.addTextEvent("La fourmiliere "+e.getFourmiliere()+" a été supprimée");
+		this.addTextEvent("Tour n°"+e.getTour()+" - La fourmiliere ("+fourmilierePanes.get(e.getFourmiliere()).getTitle()+") a été supprimée");
 		
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
@@ -675,36 +688,15 @@ public class MainFrame extends WebFrame implements MapListener {
 	}
 
 	public void ressourceAjoutee(RessourceAjouteeEvent e) {
-		this.addTextEvent("Ajout de "+e.getRessource().getQuantite()+" ressource(s)");
+		this.addTextEvent("Tour n°"+e.getTour()+" - Ajout de "+e.getRessource().getQuantite()+" ressource(s)");
 	}
 
-	public void ressourceQuantiteChangee(RessourceQuantiteChangeeEvent e) {
-		//Nothing to do here
-	}
-
-	public void ressourceSupprimee(RessourceSupprimeeEvent e) {
-		//Nothing to do here
-	}
-
-	public void pheromoneAjoutee(PheromoneAjouteeEvent e) {
-		//Nothing to do here
-		
-	}
-
-	public void pheromoneSupprimee(PheromoneSupprimeeEvent e) {
-		//Nothing to do here
-		
-	}
-
-	public void pheromonePuissanceChangee(PheromonePuissanceChangeeEvent e) {
-		//Nothing to do here
-		
-	}
-
-	public void fourmiliereRessourcesChangees(
-			FourmiliereRessourcesChangeesEvent e) {
-		//Nothing to do here
-	}
+	public void ressourceQuantiteChangee(RessourceQuantiteChangeeEvent e) {}
+	public void ressourceSupprimee(RessourceSupprimeeEvent e) {}
+	public void pheromoneAjoutee(PheromoneAjouteeEvent e) {}
+	public void pheromoneSupprimee(PheromoneSupprimeeEvent e) {}
+	public void pheromonePuissanceChangee(PheromonePuissanceChangeeEvent e) {}
+	public void fourmiliereRessourcesChangees(FourmiliereRessourcesChangeesEvent e) {}
 
 	class FourmiliereInfoPanel extends JPanel{
 		private static final long serialVersionUID = 6088887840869041715L;

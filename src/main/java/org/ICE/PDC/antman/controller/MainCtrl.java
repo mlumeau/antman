@@ -86,9 +86,7 @@ public class MainCtrl implements MainFrameListener {
 			this.isPlaying = true;
 			
 			long startTime = System.currentTimeMillis();
-			
-			this.monde.jouerTour();
-			
+
 			if(this.abondanceSet) {
 				this.monde.setAbondance(this.abondance);
 				this.abondanceSet = false;
@@ -98,6 +96,8 @@ public class MainCtrl implements MainFrameListener {
 				this.monde.setMeteo(this.meteo);
 				this.meteoSet = false;
 			}
+
+			this.monde.jouerTour();
 			
 			this.executionTime  = System.currentTimeMillis()-startTime;
 			
