@@ -580,13 +580,13 @@ public class MainFrame extends WebFrame implements MapListener {
 	}
 
 	public void addTextEvent(final String logText) {
-		
+		Runnable addTextThread=new Runnable() {
+	        public void run() {
+	        	logTextArea.append(logText+"\n");
+	        }
+	  };
 		 try {
-			SwingUtilities.invokeAndWait(new Runnable() {
-			        public void run() {
-			        	logTextArea.append(logText+"\n");
-			        }
-			  });
+			SwingUtilities.invokeAndWait(addTextThread);
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {
@@ -598,7 +598,7 @@ public class MainFrame extends WebFrame implements MapListener {
 	public void fourmiPositionChangee(FourmiPositionChangeeEvent e) {
 		Fourmi f = e.getFourmi();
 		Case c = e.getFourmi().get_case();
-		this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+e.getOld_position_x()+"/"+e.getOld_position_y()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") se déplace en "+c.getX()+"/"+c.getY());
+		//this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+e.getOld_position_x()+"/"+e.getOld_position_y()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") se déplace en "+c.getX()+"/"+c.getY());
 	}
 
 	public void fourmiEtatChange(FourmiEtatChangeEvent e) {
@@ -613,7 +613,7 @@ public class MainFrame extends WebFrame implements MapListener {
 			etat = ((Reine) f).getEtat().name();
 		}
 		
-		this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+f.get_case().getX()+"/"+f.get_case().getY()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") a changé d'état - Nouvel état : "+etat); 
+		//this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+f.get_case().getX()+"/"+f.get_case().getY()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") a changé d'état - Nouvel état : "+etat); 
 		
 	}
 

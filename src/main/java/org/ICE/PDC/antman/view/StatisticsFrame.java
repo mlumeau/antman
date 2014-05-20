@@ -41,7 +41,7 @@ public class StatisticsFrame extends WebFrame {
 	
 	
 	public StatisticsFrame(Monde m) {
-		setTitle("R�sultats");
+		setTitle("Résultats");
 		monde=m;
 		
 		setSize(new Dimension(800, 600));
@@ -81,9 +81,9 @@ public class StatisticsFrame extends WebFrame {
 	private JPanel createChartPanel() {
         // creates a line chart object
         // returns the chart panel
-		String chartTitle = "R�SULTATS DE LA SIMULATION";
+		String chartTitle = "RÉSULTATS DE LA SIMULATION";
 	    String xAxisLabel = "TOUR";
-	    String yAxisLabel = "POPULATION DES FOURMILI�RES";
+	    String yAxisLabel = "POPULATION DES FOURMILIÈRES";
 	 
 	    XYDataset dataset = createDataset();
 	 
@@ -106,8 +106,8 @@ public class StatisticsFrame extends WebFrame {
     		ArrayList<Integer> pop = sc.getPopulationTicks().get((Fourmiliere)fourms[i]);
     	    XYSeries serie = new XYSeries("Fourmiliere "+ i);
     	    
-    		for(int j=0 ; j<pop.size();j++){
-    			serie.add(j,pop.get(j));
+    		for(int j=0 ; j<=monde.getTour();j++){
+    			serie.add(j,pop.get(j),true);
     		}
     		dataset.addSeries(serie);
     		i++;

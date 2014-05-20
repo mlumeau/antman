@@ -56,6 +56,7 @@ public class Monde implements Serializable {
 	 */
 	public Monde(int dimension_x, int dimension_y, int meteo, int abondance) {
 		
+		this.listeners = new ArrayList<MapListener>();
 		this.fourmilieres = new HashSet<Fourmiliere>();
 		this.dimension_x = dimension_x;
 		this.dimension_y = dimension_y;
