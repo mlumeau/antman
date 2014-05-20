@@ -71,10 +71,13 @@ public abstract class Fourmi implements Serializable {
 	
 	public void mourir() {
 		this.get_case().supprimerFourmi(this);
-		this.getFourmiliere().supprimerFourmi(this);
 		
 		//Ajout de l'évennement FourmiSupprimeeEvent
 		this.getFourmiliere().getMonde().fireEvent(new FourmiSupprimeeEvent(fourmiliere.getMonde().getTour(), new Date(),this));
+
+		//Suppression de la fourmi de la fourmiliere
+		this.getFourmiliere().supprimerFourmi(this);
+		
 	}
 	
 

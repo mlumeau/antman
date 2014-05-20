@@ -209,7 +209,7 @@ public class MainFrame extends WebFrame implements MapListener {
 		meteoWebSlider = new WebSlider();
 		meteoWebSlider.setMinorTickSpacing(99);
 		meteoWebSlider.setMajorTickSpacing (99);
-		meteoWebSlider.setMinimum(1);
+		meteoWebSlider.setMinimum(0);
 		meteoWebSlider.setPaintTicks (true);  
 		meteoWebSlider.setPaintLabels (true);   
 		meteoWebSlider.setLabelTable(meteolabelTable);
@@ -218,7 +218,7 @@ public class MainFrame extends WebFrame implements MapListener {
 		abondanceWebSlider = new WebSlider();
 		abondanceWebSlider.setMinorTickSpacing(99);
 		abondanceWebSlider.setMajorTickSpacing (99);
-		abondanceWebSlider.setMinimum(1);
+		abondanceWebSlider.setMinimum(0);
 		abondanceWebSlider.setPaintTicks (true);  
 		abondanceWebSlider.setPaintLabels (true);   
 		abondanceWebSlider.setLabelTable(abondancelabelTable);
@@ -326,7 +326,6 @@ public class MainFrame extends WebFrame implements MapListener {
 			}
 		});
 		
-			
 		
 		abondanceWebSlider.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
@@ -667,17 +666,16 @@ public class MainFrame extends WebFrame implements MapListener {
 	}
 
 	public void fourmiliereSupprimee(final FourmiliereSupprimeeEvent e) {
-		this.addTextEvent("Tour n°"+e.getTour()+" - La fourmiliere ("+fourmilierePanes.get(e.getFourmiliere()).getTitle()+") a été supprimée");
+		final Fourmiliere f = e.getFourmiliere();
+		
+		this.addTextEvent("Tour n°"+e.getTour()+" - La fourmiliere ("+fourmilierePanes.get(f).getTitle()+") a été supprimée");
 		
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
-				
 				public void run() {
-			
-			Fourmiliere f = e.getFourmiliere();
-			infoPanel.remove(fourmilierePanes.get(f));
-			colors.remove(f);
-			fourmilierePanes.remove(f);
+					infoPanel.remove(fourmilierePanes.get(f));
+					colors.remove(f);
+					fourmilierePanes.remove(f);
 				}});
 		} catch (InvocationTargetException e1) {
 			e1.printStackTrace();

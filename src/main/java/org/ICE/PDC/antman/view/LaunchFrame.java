@@ -22,11 +22,11 @@ public class LaunchFrame extends WebFrame{
 	{
 		
 		try{
-		Object[] possibilities = {"Nouvelle simulation", "Créer une nouvelle carte", "Charger une simulation"};
+		Object[] possibilities = {"Nouvelle simulation", "CrÃ©er une nouvelle carte", "Charger une simulation"};
 
 		String launchChoice = (String)WebOptionPane.showInputDialog( 
                 null,
-                "Bienvenue dans Antman Simulator 2014 ©",
+                "Bienvenue dans Antman Simulator 2014",
                 "Antman Simulator",
                 WebOptionPane.PLAIN_MESSAGE,
                 null,
@@ -48,8 +48,8 @@ public class LaunchFrame extends WebFrame{
 			
 				String mapName = (String)WebOptionPane.showInputDialog( 
 	                    null,
-	                    "Choisissez une carte à charger:\n",
-	                    "Séléction de la carte",
+	                    "Choisissez une carte Ã  charger:\n",
+	                    "SÃ©lection de la carte",
 	                    WebOptionPane.PLAIN_MESSAGE,
 	                    null,
 	                    availablesFiles.toArray(),
@@ -74,12 +74,12 @@ public class LaunchFrame extends WebFrame{
 			} else {
 				//Affichage d'un message d'erreur
 				WebOptionPane.showMessageDialog(null,
-				    "Aucune carte trouvée. Vous devez d'abord créer une carte avant de créer une simulation.",
+				    "Aucune carte trouvÃ©e. Vous devez d'abord crÃ©er une carte avant de crÃ©er une simulation.",
 				    "Antman simulator",
 				    WebOptionPane.ERROR_MESSAGE);
 			}
 			
-		} else if (launchChoice == "Créer une nouvelle carte") {
+		} else if (launchChoice == "CrÃ©er une nouvelle carte") {
 			
 			CreationFrame cf = new CreationFrame(mapsPath, savePath);
 			cf.setVisible(true);
@@ -100,7 +100,7 @@ public class LaunchFrame extends WebFrame{
 				
 				String saveName = (String)WebOptionPane.showInputDialog( 
 	                    null,
-	                    "Choisissez une simulation à charger:\n",
+	                    "Choisissez une simulation Ã  charger:\n",
 	                    "SÃ©lÃ©ction de la simulation",
 	                    WebOptionPane.PLAIN_MESSAGE,
 	                    null,
@@ -121,7 +121,7 @@ public class LaunchFrame extends WebFrame{
 			} else {
 				//Affichage d'un message d'erreur
 				WebOptionPane.showMessageDialog(null,
-					"Aucune simulation trouvée. Vous devez d'abord créer une simulation.",
+					"Aucune simulation trouvï¿½e. Vous devez d'abord crÃ©er une simulation.",
 				    "Antman simulator",
 				    WebOptionPane.ERROR_MESSAGE);
 				
