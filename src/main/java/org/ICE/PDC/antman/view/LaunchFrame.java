@@ -1,15 +1,20 @@
 package org.ICE.PDC.antman.view;
 
+import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.JFrame;
 
 import org.ICE.PDC.antman.ConfigurationLoader;
 import org.ICE.PDC.antman.Launcher;
 import org.ICE.PDC.antman.controller.MainCtrl;
+import org.ICE.PDC.antman.model.Fourmiliere;
 import org.ICE.PDC.antman.model.Monde;
+import org.ICE.PDC.antman.model.Reine;
 
 import com.alee.laf.optionpane.WebOptionPane;
 import com.alee.laf.rootpane.WebFrame;
@@ -112,9 +117,20 @@ public class LaunchFrame extends WebFrame{
 				Monde monde = Launcher.loadContext(mapFilePath); 
 				
 				//INITIALIZE MAIN FRAME
-				MainFrame mf = new MainFrame();
+				HashMap<Fourmiliere, Color> colors = new HashMap<Fourmiliere, Color>();
+				Random rand = new Random();
+				
+				for(Fourmiliere f : monde.getFourmilieres()){
+					colors.put(f, new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
+				}
+				
+				
+				
+				MainFrame mf = new MainFrame(colors);
+				
 				MainCtrl ctrl = new MainCtrl(monde);
 				ctrl.setMainFrame(mf);
+				mf.initMonde(monde);
 				mf.setVisible(true);
 				mf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				

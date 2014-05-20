@@ -35,7 +35,7 @@ public class MainCtrl implements MainFrameListener {
 	public void setMainFrame(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		this.mainFrame.setMainFrameListener(this);
-		this.monde.addListener(this.mainFrame);
+ 
 	}
 
 	public void setVitesse(final int v) {

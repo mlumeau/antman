@@ -270,6 +270,8 @@ public class MainFrame extends WebFrame implements MapListener {
 			public void actionPerformed(ActionEvent e) {
 				String filename=WebOptionPane.showInputDialog("Donnez un nom pour cette simulation:");
 				try {
+					if(!filename.endsWith(".antman"))
+						filename += ".antman";
 					Launcher.saveContext(ConfigurationLoader.SAVE_PATH+File.separator+filename, monde);
 				} catch (IOException e1) {
 					e1.printStackTrace();
@@ -278,6 +280,22 @@ public class MainFrame extends WebFrame implements MapListener {
 		});
 		wbmntmSave.setText("Sauvegarder la simulation");
 		wbmnFichier.add(wbmntmSave);
+		
+		WebMenuItem wbmntmFinirSimulation = new WebMenuItem();
+		wbmntmFinirSimulation.setText("Finir simulation");
+		wbmntmFinirSimulation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Arret de la simmulation
+				mainFrameListener.setVitesse(0);
+				//Ouverture de la fenêtre de statistiques
+				StatisticsFrame sf = new StatisticsFrame(monde);
+				sf.setVisible(true);
+				sf.setDefaultCloseOperation(EXIT_ON_CLOSE);
+				//Fermeture de la fenêtre principale
+				dispose();
+			}
+		});
+		wbmnFichier.add(wbmntmFinirSimulation);
 
 		mainSplitPane.setLeftComponent(infoWebScrollPane);
 		mainSplitPane.setRightComponent(viewPanel);
