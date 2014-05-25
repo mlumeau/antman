@@ -37,8 +37,15 @@ import com.alee.laf.rootpane.WebFrame;
 import com.alee.laf.slider.WebSlider;
 import com.alee.laf.spinner.WebSpinner;
 
+/**
+ * Fenêtre permettant de créer un fond de carte
+ */
 public class CreationFrame extends WebFrame {
 
+	/**
+	 * @param maps - Chemin du dossier de sauvegarde des fonds de carte
+	 * @param save - Chemin du dossier de sauvegarde des parties
+	 */
 	public CreationFrame(String maps, String save) {
 		setMinimumSize(new Dimension(800, 0));
 		

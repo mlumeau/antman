@@ -7,43 +7,49 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.ICE.PDC.antman.PathFinding;
 import org.ICE.PDC.antman.model.events.PheromoneAjouteeEvent;
 import org.ICE.PDC.antman.model.events.PheromoneSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.RessourceAjouteeEvent;
 import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
+import org.ICE.PDC.antman.utils.PathFinding;
 import org.apache.log4j.Logger;
 
 /** 
- * Une case du terrain
+ * Représente une case du terrain
  */
 public class Case implements Serializable {
 	
 	private static final long serialVersionUID = 1397721472047296408L;
-
 	private static Logger logger = Logger.getLogger(Case.class);
 	
+	/**Niveau d'obstacle de la case. Plus le niveau est élevé plus l'obstacle est important*/
 	private int niveau_obstacle;
+	/**Abscisse de la case dans le monde*/
 	private int x;
+	/**Ordonnée de la case dans le monde*/
 	private int y;
+	/**Listes des ressources présentes sur case*/
 	private Set<Ressource> ressources;
+	/**Liste des phéromones présentes sur case*/
 	private Set<Pheromone> pheromones;
+	/**Liste des fourmis présentes sur case*/
 	private Set<Fourmi> fourmis;
+	/**Fourmilière de la case (null si aucune fourmilière n'est présente)*/
 	private Fourmiliere fourmiliere;
+	/**Monde de référence de la case*/
 	private Monde monde;
 	
 	/**
-	 * @param monde
-	 * @param x
-	 * @param y
+	 * @param monde - Monde de référence de la case
+	 * @param x - Abscisse de la case dans le monde
+	 * @param y - Ordonnée de la case dans le monde
 	 */
 	public Case(Monde monde,int x, int y) {
 		this.ressources = new HashSet<Ressource>();
 		this.fourmis = new HashSet<Fourmi>();
 		this.pheromones = new HashSet<Pheromone>();
-		//NB : Pour les cases seulement le lien avec le Monde est fait directement dans le contructeur Monde(...)
+		//NB : Pour les cases seulement le lien avec le Monde est fait directement dans le constructeur Monde(...)
 		this.monde = monde; 
-		//TODO add non existence control here?
 		this.x = x;
 		this.y = y;
 		this.niveau_obstacle = 0;
@@ -91,17 +97,15 @@ public class Case implements Serializable {
 	 * @return niveau_obstacle
 	 */
 	public int getNiveau_obstacle() {
-		// begin-user-code
 		return niveau_obstacle;
-		// end-user-code
 	}
 
 	/** 
-	 * @param niveau_obstacle niveau_obstacle � d�finir
+	 * @param niveau_obstacle niveau_obstacle à définir
 	 */
 	public void setNiveau_obstacle(int niveau_obstacle) {
 		this.niveau_obstacle = niveau_obstacle;
-		logger.debug("Niveau d'obstacle de la case ("+x+","+y+") reglé à "+niveau_obstacle);
+		logger.debug("Niveau d'obstacle de la case ("+x+","+y+") réglé à "+niveau_obstacle);
 	}
 
 	/** 
@@ -134,14 +138,14 @@ public class Case implements Serializable {
 	}
 
 	/** 
-	 * @return pheromones
+	 * @return phéromones
 	 */
 	public Set<Pheromone> getPheromones() {
 		return pheromones;
 	}
 
 	/** 
-	 * @param pheromone pheromones à définir
+	 * @param pheromone phéromones à définir
 	 */
 	public void setPheromones(Set<Pheromone> pheromones) {
 		this.pheromones = pheromones;
@@ -158,15 +162,11 @@ public class Case implements Serializable {
 	 * @param monde monde à définir
 	 */
 	public void setMonde(Monde monde) {
-		// begin-user-code
 		this.monde = monde;
-		// end-user-code
 	}
-
 
 	/** 
 	 * @return fourmis
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public Set<Fourmi> getFourmis() {
 		return fourmis;
@@ -194,14 +194,14 @@ public class Case implements Serializable {
 	}
 
 	/** 
-	 * @return fourmiliere
+	 * @return fourmilière
 	 */
 	public Fourmiliere getFourmiliere() {
 		return fourmiliere;
 	}
 
 	/** 
-	 * @param fourmiliere fourmiliere à définir
+	 * @param fourmiliere fourmilière à définir
 	 */
 	public void setFourmiliere(Fourmiliere fourmiliere) {
 		this.fourmiliere = fourmiliere;
@@ -209,38 +209,16 @@ public class Case implements Serializable {
 	}
 
 	/** 
+	 * Ajoute une fourmi à la case
 	 * @param f
 	 */
 	public void ajouterFourmi(Fourmi f) {
 		this.fourmis.add(f);
 		logger.debug("Case ("+this.hashCode()+") Ajout de la Fourmi : "+f+" ");
 	}
-
+	
 	/** 
-	 * @param r
-	 */
-	public void ajouterRessource(Ressource r) {
-		this.ressources.add(r);
-		
-		//Ajout de l'évennement RessourceAjouteeEvent
-		this.monde.fireEvent(new RessourceAjouteeEvent(this.monde.getTour(), new Date(),r));
-		
-		logger.debug("Case ("+this.hashCode()+") Ajout de la Ressource : "+r+" ");
-	}
-
-	/** 
-	 * @param ph
-	 */
-	public void ajouterPheromone(Pheromone ph) {
-		this.pheromones.add(ph);
-		
-		//Ajout de l'évennement RessourceAjouteeEvent
-		this.monde.fireEvent(new PheromoneAjouteeEvent(this.monde.getTour(), new Date(),ph));
-
-		logger.debug("Case ("+this.hashCode()+") Ajout de Pheromones : "+ph+" ");
-	}
-
-	/** 
+	 * Supprime une fourmi de la case
 	 * @param f
 	 */
 	public void supprimerFourmi(Fourmi f) {
@@ -249,33 +227,53 @@ public class Case implements Serializable {
 	}
 
 	/** 
+	 * Ajoute une ressource à la case - Fire l'event RessourceAjouteeEvent
+	 * @param r
+	 */
+	public void ajouterRessource(Ressource r) {
+		this.ressources.add(r);
+		//Ajout de l'évennement RessourceAjouteeEvent
+		this.monde.fireEvent(new RessourceAjouteeEvent(this.monde.getTour(), new Date(),r));
+		logger.debug("Case ("+this.hashCode()+") Ajout de la Ressource : "+r+" ");
+	}
+	
+	/** 
+	 * Supprime une ressource de la case - Fire l'event RessourceSupprimeeEvent
 	 * @param _r
 	 */
 	public void supprimerRessource(Ressource r) {
 		this.ressources.remove(r);
-		
 		//Ajout de l'évennement RessourceSupprimeeEvent
 		this.monde.fireEvent(new RessourceSupprimeeEvent(this.monde.getTour(), new Date(),r));
-
 		logger.debug("Case ("+this.hashCode()+") Suppression de la Ressource : "+r+" ");
 	}
 
 	/** 
+	 * Ajoute une phéromone à la case - Fire l'event PheromoneAjouteeEvent
+	 * @param ph
+	 */
+	public void ajouterPheromone(Pheromone ph) {
+		this.pheromones.add(ph);
+		//Ajout de l'évennement RessourceAjouteeEvent
+		this.monde.fireEvent(new PheromoneAjouteeEvent(this.monde.getTour(), new Date(),ph));
+		logger.debug("Case ("+this.hashCode()+") Ajout de Phéromones : "+ph+" ");
+	}
+
+	/** 
+	 * Supprime une phéromone de la case - Fire l'event PheromoneSupprimeeEvent
 	 * @param ph
 	 */
 	public void supprimerPheromone(Pheromone ph) {
 		this.pheromones.remove(ph);
-		
 		//Ajout de l'évennement PheromoneSupprimeeEvent
 		this.monde.fireEvent(new PheromoneSupprimeeEvent(this.monde.getTour(), new Date(),ph));
-		
-		logger.debug("Case ("+this.hashCode()+") Suppression de Pheromones : "+ph+" ");
+		logger.debug("Case ("+this.hashCode()+") Suppression de Phéromones : "+ph+" ");
 	}
 
 	/**
 	 * Retourne toutes les cases dans un rayon donné autour de la case courante qui ne contiennent pas d'obstacle infranchissable
 	 * @param radius
-	 * @return Les cases sous forme de liste ordonée 
+	 * @return Les cases sous forme de liste ordonnée 
 	 */
 	public List<Case> getCasesInRadius(int radius) {
 		
@@ -310,8 +308,8 @@ public class Case implements Serializable {
 	}
 	
 	/**
-	 * Permet de trouver le chemin le plus optimisé entre la case courante et une autre case
-	 * V3 : A* pathfinding
+	 * Permet de trouver le chemin le plus optimisé entre la case courante et une autre case<br/>
+	 * V3 : Utilisation de l'algorithme A* pour le PathFinding
 	 * @param target
 	 * @return Le chemin sous la forme d'une Liste triée de cases
 	 */

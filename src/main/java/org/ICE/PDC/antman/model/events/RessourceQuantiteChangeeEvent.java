@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.ICE.PDC.antman.model.events;
 
 import java.io.Serializable;
@@ -8,6 +5,9 @@ import java.util.Date;
 
 import org.ICE.PDC.antman.model.Ressource;
 
+/**
+ * Augmentation ou diminution de la quantité d'une ressource
+ */
 public class RessourceQuantiteChangeeEvent extends RessourceEvent implements Serializable {
 
 	private static final long serialVersionUID = 3890545665466339677L;

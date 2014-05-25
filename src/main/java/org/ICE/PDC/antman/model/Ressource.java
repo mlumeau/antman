@@ -4,12 +4,15 @@ import java.io.Serializable;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Une ressource pouvant servir de nourriture aux fourmis
+ */
 public class Ressource implements Serializable {
 	
 	private static final long serialVersionUID = -5373067628319412719L;
-
 	private static Logger logger = Logger.getLogger(Ressource.class);
 	
+	/**Quantité de la ressource*/
 	private int quantite;
 
 	/**
@@ -22,11 +25,11 @@ public class Ressource implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "(Ressource) - "+this.hashCode()+" -> {Quantite : "+this.getQuantite()+"}";
+		return "(Ressource) - "+this.hashCode()+" -> {Quantité : "+this.getQuantite()+"}";
 	}
 
 	/** 
-	 * @param quantite"
+	 * @param quantite
 	 */
 	public void diminuerQuantite(int quantite) {
 		this.setQuantite(this.getQuantite()-quantite);
@@ -47,7 +50,7 @@ public class Ressource implements Serializable {
 	}
 
 	/** 
-	 * @param quantite quantite à définir
+	 * @param quantite quantité à définir
 	 */
 	public void setQuantite(int quantite) {
 		this.quantite = quantite;

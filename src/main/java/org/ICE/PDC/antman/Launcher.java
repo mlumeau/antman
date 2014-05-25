@@ -21,7 +21,9 @@ import org.jdom2.output.XMLOutputter;
 
 import com.alee.laf.WebLookAndFeel;
 
-
+/**
+ * Programme principal de l'application Antman
+ */
 public class Launcher {
 
 	private static Logger logger = Logger.getLogger(Launcher.class);
@@ -54,6 +56,12 @@ public class Launcher {
 
 	}
 
+	/**
+	 * Permet de charger un fichier de fond de carte
+	 * @param filePath
+	 * @return la carte chargée
+	 * @throws Exception
+	 */
 	public static final Monde loadMap(String filePath) throws Exception {
 		//Lecture du fichier de fond de carte
 		/*
@@ -92,7 +100,14 @@ public class Launcher {
 	}
 
 
-
+    /**
+     * Permet de sauvegarder un fichier de fond de carte
+     * @param filePath
+     * @param dimension_x
+     * @param dimension_y
+     * @param obstacles
+     * @throws IOException
+     */
 	public static void saveMap(String filePath, int dimension_x, int dimension_y, Map<Integer[], Integer> obstacles) throws IOException {
 		//Enregistrement du fond de carte sous forme de fichier XML
 		/*
@@ -131,6 +146,12 @@ public class Launcher {
 	}
 
 
+	/**
+	 * Permet de sauvegarder une partie en cours
+	 * @param filePath
+	 * @param monde
+	 * @throws IOException
+	 */
 	public static void saveContext(String filePath,Monde monde) throws IOException {
 		FileOutputStream fout = new FileOutputStream(filePath);
 		ObjectOutputStream oos = new ObjectOutputStream(fout);
@@ -138,6 +159,13 @@ public class Launcher {
 		oos.close();
 	}
 
+	/**
+	 * Permet de charger un fichier de sauvegarde
+	 * @param filePath
+	 * @return le monde contenu dans le fichier choisi
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
 	public static Monde loadContext(String filePath) throws IOException, ClassNotFoundException {
 		FileInputStream fin = new FileInputStream(filePath);
 		ObjectInputStream ois = new ObjectInputStream(fin);

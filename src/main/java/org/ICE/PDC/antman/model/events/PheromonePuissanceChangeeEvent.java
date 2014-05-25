@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.ICE.PDC.antman.model.events;
 
 import java.io.Serializable;
@@ -8,6 +5,9 @@ import java.util.Date;
 
 import org.ICE.PDC.antman.model.Pheromone;
 
+/**
+ * Augmentation ou diminution de la puissance d'une phéromone
+ */
 public class PheromonePuissanceChangeeEvent extends PheromoneEvent implements Serializable {
 
 	private static final long serialVersionUID = -472610599944380516L;

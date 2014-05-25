@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.ICE.PDC.antman.model;
 
 import java.io.Serializable;
@@ -12,10 +9,11 @@ import org.apache.log4j.Logger;
 public class Pheromone implements Serializable  {
 	
 	private static final long serialVersionUID = 7338644874597093851L;
-
 	private static Logger logger = Logger.getLogger(Pheromone.class);
 
+	/**Fourmiliere de la fourmi ayant émis la phéromone*/
 	private Fourmiliere fourmiliere;
+	/**Puissance de la phéromone (celle-ci diminue à chaque tour*/
 	private int puissance;
 	
 	/**
@@ -25,16 +23,17 @@ public class Pheromone implements Serializable  {
 	public Pheromone(Fourmiliere fourmiliere,int puissance) {
 		this.fourmiliere = fourmiliere;
 		this.puissance = puissance;
-		logger.debug("Pheromone crée : "+this);
+		logger.debug("Phéromone crée : "+this);
 	}
 	
 	@Override
 	public String toString() {
-		return "(Pheromone) - "+this.hashCode()+" -> { Fourmiliere : "+this.getFourmiliere().hashCode()+
+		return "(Phéromone) - "+this.hashCode()+" -> { Fourmiliere : "+this.getFourmiliere().hashCode()+
 				" , Puissance : "+this.getPuissance()+"}";
 	}
 	
-	/** 
+	/**
+	 * Augmente la puissance d'une phéromone 
 	 * @param puissance
 	 */
 	public void augmenterPuissance(int puissance) {
@@ -42,12 +41,12 @@ public class Pheromone implements Serializable  {
 	}
 
 	/** 
+	 * Diminue la puissance d'une phéromone - Fire l'event PheromonePuissanceChangeeEvent
 	 * @param puissance
 	 */
 	public void diminuerPuissance(int puissance) {
 		int old = this.getPuissance();
 		this.setPuissance(this.getPuissance()-puissance);
-		
 		//Ajout de l'évennement PheromonePuissanceChangeeEvent
 		this.getFourmiliere().getMonde().fireEvent(new PheromonePuissanceChangeeEvent(this.fourmiliere.getMonde().getTour(), new Date(),this,old));
 	}

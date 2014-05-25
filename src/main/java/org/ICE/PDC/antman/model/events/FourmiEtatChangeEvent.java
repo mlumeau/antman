@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.ICE.PDC.antman.model.events;
 
 import java.io.Serializable;
@@ -8,11 +5,8 @@ import java.util.Date;
 
 import org.ICE.PDC.antman.model.Fourmi;
 
-/** 
- * <!-- begin-UML-doc -->
- * <!-- end-UML-doc -->
- * @author S219
- * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+/**
+ * Changement d'état d'une fourmi
  */
 public class FourmiEtatChangeEvent extends FourmiEvent implements Serializable {
 

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.ICE.PDC.antman.model.events;
 
 import java.io.Serializable;
@@ -8,7 +5,9 @@ import java.util.Date;
 
 import org.ICE.PDC.antman.model.Fourmiliere;
 
-
+/**
+ * Ajout ou Suppression de ressources dans une fourmilière
+ */
 public class FourmiliereRessourcesChangeesEvent extends FourmiliereEvent implements Serializable {
 
 	private static final long serialVersionUID = 6813847798215741576L;

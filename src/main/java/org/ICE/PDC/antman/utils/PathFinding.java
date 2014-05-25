@@ -1,4 +1,4 @@
-package org.ICE.PDC.antman;
+package org.ICE.PDC.antman.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,10 @@ import java.util.Map;
 import org.ICE.PDC.antman.model.Case;
 import org.ICE.PDC.antman.model.Monde;
 
+/**
+ * Classe de PathFinding<br/>
+ * Utilise l'algorithme A* pour calculer le chemin le plus optimisé entre deux cases
+ */
 public class PathFinding {
 	
 	class noeud{
@@ -36,7 +40,7 @@ public class PathFinding {
 	
 	private void ajouter_cases_adjacentes(Case n) throws Exception{
 	    noeud tmp = new noeud();
-	    /* on met tous les noeud adjacents dans la liste ouverte (+vérif) */
+	    /* on met tous les noeud adjacents dans la liste ouverte (+vérification) */
 	    for (int i=n.getX()-1; i<=n.getX()+1; i++){
 	        if ((i<0) || (i>=n.getMonde().getDimensionX()))  /* en dehors de l'image, on oublie */
 	            continue;
@@ -48,27 +52,27 @@ public class PathFinding {
 	                continue;
 	 
 	            if ( n.getMonde().getCaseAt(i,j).getNiveau_obstacle() > 0)
-	                /* obstace, terrain non franchissable, on oublie */
+	                /* obstacle, terrain non franchissable, on oublie */
 	                continue;
 	 
 	            Case it = n.getMonde().getCaseAt(i,j);
 	            if (!deja_present_dans_liste(it, liste_fermee)){
 	                /* le noeud n'est pas déjà présent dans la liste fermée */
 	 
-	                /* calcul du cout G du noeud en cours d'étude : cout du parent + distance jusqu'au parent */
+	                /* calcul du coût G du noeud en cours d'étude : coût du parent + distance jusqu'au parent */
 	            	if(liste_fermee.get(n) != null){
 	            		tmp.cout_g = liste_fermee.get(n).cout_g + distance(i,j,n.getX(),n.getY());  
 	            	}
 	            	else{
 	            		tmp.cout_g = distance(i,j,n.getX(),n.getY());
 	            	}
-	                /* calcul du cout H du noeud à la destination */
+	                /* calcul du coût H du noeud à la destination */
 	                tmp.cout_h = distance(i,j,arrivee.getX(),arrivee.getY());
 	                tmp.cout_f = tmp.cout_g + tmp.cout_h;
 	                tmp.parent = n;
 	 
 	                if (deja_present_dans_liste(it, liste_ouverte)){
-	                    /* le noeud est déjà présent dans la liste ouverte, il faut comparer les couts */
+	                    /* le noeud est déjà présent dans la liste ouverte, il faut comparer les coûts */
 	                    if (tmp.cout_f < liste_ouverte.get(it).cout_f){
 	                        /* si le nouveau chemin est meilleur, on met à jour */
 	                        liste_ouverte.put(it,tmp);
@@ -121,7 +125,7 @@ public class PathFinding {
 	private List<Case> retrouver_chemin() throws Exception{
 		List<Case> path = new ArrayList<Case>();
 		
-		/*Si la fourmi est déja sur la fourmiliere le chemin de retour est vide*/
+		/*Si la fourmi est déjà sur la fourmiliere le chemin de retour est vide*/
 		if(depart.equals(arrivee)) {
 			return path;
 		}
@@ -158,7 +162,7 @@ public class PathFinding {
 	    while(!((courant.getX() == arrivee.getX()) && (courant.getY() == arrivee.getY())) && (!liste_ouverte.isEmpty())){	 
 	        /* on cherche le meilleur noeud de la liste ouverte, on sait qu'elle n'est pas vide donc il existe */
 	        courant = meilleur_noeud(liste_ouverte);	 
-	        /* on le passe dans la liste fermee, il ne peut pas déjà y être */
+	        /* on le passe dans la liste fermée, il ne peut pas déjà y être */
 	        ajouter_liste_fermee(courant);	 
 	        /* on recommence la recherche des noeuds adjacents */
 	        ajouter_cases_adjacentes(courant);

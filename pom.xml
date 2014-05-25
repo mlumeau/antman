@@ -4,7 +4,7 @@
 
   <groupId>org.ICE.PDC</groupId>
   <artifactId>antman</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>antman</name>
@@ -56,7 +56,11 @@
 	<artifactId>jfreechart</artifactId>
 	<version>1.0.0</version>
 </dependency>
-            
+    <dependency>
+	<groupId>com.weblaf</groupId>
+	<artifactId>weblaf</artifactId>
+	<version>1.26</version>
+</dependency>
  </dependencies>
   
 	 <build>
@@ -66,7 +70,7 @@
 	      <configuration>
 	        <archive>
 	          <manifest>
-	            <mainClass>org.ICE.PDC.antman.App</mainClass>
+	            <mainClass>org.ICE.PDC.antman.Launcher</mainClass>
 	          </manifest>
 	        </archive>
 	        <descriptorRefs>
@@ -86,5 +90,12 @@
     </resources>
 	  
 	</build>
-   
+	
+	<repositories>
+	  <repository>
+	    <id>local-repo</id>
+	    <url>file://${basedir}/lib</url>
+	  </repository>
+	</repositories>
+
 </project>

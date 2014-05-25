@@ -10,17 +10,26 @@ import org.ICE.PDC.antman.model.events.FourmiliereRessourcesChangeesEvent;
 import org.ICE.PDC.antman.model.events.FourmiliereSupprimeeEvent;
 import org.apache.log4j.Logger;
 
-
+/**
+ * Représente une fourmilière
+ */
 public class Fourmiliere implements Serializable {
 	
 	private static final long serialVersionUID = 4220263983772569337L;
 	private static Logger logger = Logger.getLogger(Fourmiliere.class);
+	/**Monde de référence de la Fourmiliere*/
 	private Monde monde;
+	/**Liste des fourmis de la fourmilière*/
 	private Set<Fourmi> fourmi;
+	/**Fécondité de la fourmilière (maximum de fourmi pouvant être produite par tour)*/
 	private int fecondite;
+	/**Quantité de ressources de la fourmilière*/
 	private int ressources;
+	/**Taille maximum de la fourmilière (Aucune Reine ne peut être produite avant d'avoir atteint cette taille*/
 	private int taille_max;
+	/**Case de la fourmilière*/
 	private Case _case;
+	/**Taux d'éclaireuses de la fourmilière (en %)*/
 	private int tauxEclaireuses;
 	
 	/**
@@ -38,6 +47,15 @@ public class Fourmiliere implements Serializable {
 		this.monde = monde;
 	}
 
+	/**
+	 * Fire l'event FourmiliereAjouteeEvent
+	 * @param monde
+	 * @param c
+	 * @param fecondite
+	 * @param taille_max
+	 * @param ressources
+	 * @param tauxEclaireuses
+	 */
 	public Fourmiliere(Monde monde, Case c, int fecondite,int taille_max, int ressources,int tauxEclaireuses) {
 		this.fecondite = fecondite;
 		this.taille_max = taille_max;
@@ -49,7 +67,6 @@ public class Fourmiliere implements Serializable {
 		logger.debug("Fourmiliere crée : "+this);
 		_case.setFourmiliere(this); //Lie la case à la fourmiliere
 		monde.ajouterFourmiliere(this); //Lie le monde à la fourmiliere
-		
 		//Ajout de l'évennement FourmiliereAjouteeEvent
 		this.getMonde().fireEvent(new FourmiliereAjouteeEvent(monde.getTour(), new Date(), this));
 	}
@@ -63,6 +80,7 @@ public class Fourmiliere implements Serializable {
 	}
 	
 	/** 
+	 * Ajoute une fourmi à la fourmilière
 	 * @param f
 	 */
 	public void ajouterFourmi(Fourmi f) {
@@ -71,6 +89,8 @@ public class Fourmiliere implements Serializable {
 	}
 
 	/** 
+	 * Supprime une fourmi de la fourmilière <br/>
+	 * Fire l'event FourmiliereSupprimeeEvent (si il ne reste aucune fourmi dans la fourmilière)
 	 * @param f
 	 */
 	public void supprimerFourmi(Fourmi f) {
@@ -79,7 +99,6 @@ public class Fourmiliere implements Serializable {
 		if(this.fourmi.size() <= 0) {
 			this._case.setFourmiliere(null);
 			this.getMonde().supprimerFourmiliere(this);
-			
 			//Ajout de l'évennement FourmiliereSupprimeeEvent
 			this.getMonde().fireEvent(new FourmiliereSupprimeeEvent(monde.getTour(), new Date(), this));
 
@@ -131,7 +150,7 @@ public class Fourmiliere implements Serializable {
 	}
 
 	/** 
-	 * @param fecondite fecondite à définir
+	 * @param fecondite fécondité à définir
 	 */
 	public void setFecondite(int fecondite) {
 		this.fecondite = fecondite;
@@ -145,6 +164,7 @@ public class Fourmiliere implements Serializable {
 	}
 
 	/** 
+	 * Fire l'event FourmiliereRessourcesChangeesEvent
 	 * @param ressources ressources à définir
 	 */
 	public void setRessources(int ressources) {

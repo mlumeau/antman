@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import javax.swing.AbstractCellEditor;
@@ -32,6 +33,7 @@ import javax.swing.table.TableColumn;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.ICE.PDC.antman.ConfigurationLoader;
 import org.ICE.PDC.antman.controller.MainCtrl;
 import org.ICE.PDC.antman.model.Case;
 import org.ICE.PDC.antman.model.Fourmiliere;
@@ -40,12 +42,16 @@ import org.ICE.PDC.antman.model.Reine;
 
 import com.alee.extended.colorchooser.WebColorChooserField;
 import com.alee.laf.button.WebButton;
+import com.alee.laf.optionpane.WebOptionPane;
 import com.alee.laf.panel.WebPanel;
 import com.alee.laf.rootpane.WebFrame;
 import com.alee.laf.scroll.WebScrollPane;
 import com.alee.laf.slider.WebSlider;
 import com.alee.laf.table.WebTable;
 
+/**
+ * Fenêtre de configuration d'une simulation
+ */
 public class ConfigFrame extends WebFrame {
 	private static final long serialVersionUID = -6522556577077046520L;
 	private WebSlider vitesseWebSlider;
@@ -108,8 +114,6 @@ public class ConfigFrame extends WebFrame {
 		fourmilieresPanel.add(fourmControls, BorderLayout.SOUTH);
 		fourmControls.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 5));
 		
-		
-
 		mainSplitPane.setLeftComponent(mapPanel);
 		mapPanel.setLayout(new BorderLayout(0, 0));
 		
@@ -278,13 +282,12 @@ public class ConfigFrame extends WebFrame {
 		addFourmWebButton.setIcon(new ImageIcon(ConfigFrame.class.getResource("/com/alee/laf/tree/icons/expand.png")));
 		addFourmWebButton.setText("Ajouter une fourmilière");
 		fourmControls.add(addFourmWebButton);
-		
 
-		
 		WebButton wbtnLancerLaSimulation = new WebButton();
 		wbtnLancerLaSimulation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				//Creation des fourmis de départ & enregistrement des couleurs
 				colors = new HashMap<Fourmiliere, Color>();
 				
 				for(Object[] frm : frmModel.data){
@@ -306,20 +309,19 @@ public class ConfigFrame extends WebFrame {
 					}
 				}
 				
+				//Création & Affichage de la fenêtre principale
 				MainCtrl ctrl = new MainCtrl(m);
-				
-				MainFrame mf = new MainFrame(colors);
+				MainFrame mf = new MainFrame(ctrl,colors);
 				ctrl.setMainFrame(mf);
 				mf.getAbondanceWebSlider().setValue(abondanceWebSlider.getValue());
 				mf.getMeteoWebSlider().setValue(meteoWebSlider.getValue());
 				mf.getVitesseWebSlider().setValue(vitesseWebSlider.getValue());
 				mf.getMainFrameListener().setAbondance(abondanceWebSlider.getValue());
 				mf.getMainFrameListener().setMeteo(meteoWebSlider.getValue());
-				mf.getWbtglbtnModeAutomatique().doClick();
-
 				mf.setVisible(true);
 				mf.setDefaultCloseOperation(EXIT_ON_CLOSE);
 				mf.initMonde(m);
+				//Fermeture de la fenêtre de configuration
 				dispose();
 				
 			}
@@ -330,6 +332,12 @@ public class ConfigFrame extends WebFrame {
 
 	}
 	
+	/**
+	 * Dessine graphiquement un objet monde
+	 * @param monde
+	 * @param model
+	 * @throws Exception
+	 */
 	public void paintMap(Monde monde, FourmiliereTableModel model) throws Exception{
 		JPanel map = new JPanel(new GridLayout(monde.getDimensionX(),monde.getDimensionY(),2,2));
     	map.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
@@ -366,11 +374,32 @@ public class ConfigFrame extends WebFrame {
 		return m;
 	}
 
+	/**
+	 * Défini le monde à utiliser et crée des fourmilières par défaut
+	 * @param m
+	 */
 	public void setMonde(Monde m) {
 		this.m = m;
-
-    	frmModel.data.add(new Object[] {0, m.getDimensionX()/3, m.getDimensionY()/3, 45, 5, 6, 20, 100, Color.blue});
-    	frmModel.data.add(new Object[] {1, m.getDimensionX()/2, m.getDimensionX()/2, 45, 5, 6, 20, 100, Color.green});
+		
+		List<Case> cases_libres = new ArrayList<Case>();
+		
+		for(Case c : this.m.get_cases()) {
+			if(c.getNiveau_obstacle() == 0) {
+				cases_libres.add(c);
+			}
+		}
+		
+		if(cases_libres.size() > 0 && ConfigurationLoader.MAX_FOURMILIERES >=1) {
+			Case c = cases_libres.get(new Random().nextInt(cases_libres.size()));
+			cases_libres.remove(c);
+			frmModel.data.add(new Object[] {1, c.getY(), c.getX(), 45, 5, 6, 20, 100, Color.green});
+		}
+		
+		if(cases_libres.size() > 0 && ConfigurationLoader.MAX_FOURMILIERES >=2) {
+			Case c = cases_libres.get(new Random().nextInt(cases_libres.size()));
+			cases_libres.remove(c);
+			frmModel.data.add(new Object[] {0, c.getY(), c.getX(), 45, 5, 6, 20, 100, Color.blue});
+		}
 		
         try {
 			paintMap(m,frmModel);
@@ -379,6 +408,9 @@ public class ConfigFrame extends WebFrame {
 		}
 	}
 
+	/**
+	 * @param table
+	 */
 	private void initColumnSizes ( JTable table )
     {
 		FourmiliereTableModel model = ( FourmiliereTableModel ) table.getModel ();
@@ -403,6 +435,9 @@ public class ConfigFrame extends WebFrame {
         }
     }
 	
+	/**
+	 * Classe correspondant au tableau de fourmilières
+	 */
 	class FourmiliereTableModel extends AbstractTableModel
     {
 		private static final long serialVersionUID = -236812648575778836L;
@@ -450,26 +485,130 @@ public class ConfigFrame extends WebFrame {
         @Override
         public void setValueAt ( Object value, int row, int col )
         {
-        	data.get(row)[ col ] = value;
-            fireTableCellUpdated ( row, col );
-            try {
-				paintMap(m, frmModel);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+        	//On vérifie de ne pas écraser une autre fourmiliere ou de ne pas tomber sur un obstacle
+        	boolean valid = true;
+        	
+        	if(col == 1 || col == 2) {
+	        	
+	        	int x = 0;
+	        	int y = 0;
+	        	
+	        	//Y modifié
+	        	if(col == 1) {
+	        		x = (Integer)data.get(row)[ 2 ];
+	        		y = (Integer)value;
+	        	}
+	        	
+	        	//X modifié
+	        	if(col == 2) {
+	        		x = (Integer)value;
+	        		y = (Integer)data.get(row)[ 1 ];
+	        	}
+	        	
+	        	//Vérification fourmiliere
+				for(Object[] d : data) {
+					if((Integer)d[2] == x && (Integer)d[1] == y) {
+						valid = false;
+					}
+				}
+				
+				if(!valid) {
+					//Affichage d'un message d'erreur
+					WebOptionPane.showMessageDialog(null,
+						"Impossible de déplacer la fourmilière ici.\nUne autre fourmiliere existe déjà à cet emplacement",
+					    "Antman simulator",
+					    WebOptionPane.ERROR_MESSAGE);
+					
+				} else {
+				
+					//Vérification obstacle
+					try {
+						int obstacle = m.getCaseAt(x, y).getNiveau_obstacle();
+						
+						if(obstacle > 0) {
+							//Affichage d'un message d'erreur
+							WebOptionPane.showMessageDialog(null,
+								"Impossible de déplacer la fourmilière ici.\nUn obstacle occupe cet emplacement",
+							    "Antman simulator",
+							    WebOptionPane.ERROR_MESSAGE);
+							valid = false;
+						}
+						
+					} catch (Exception e) {
+						
+						//Affichage d'un message d'erreur
+						WebOptionPane.showMessageDialog(null,
+							"Impossible de déplacer la fourmilière ici.\nCase inexistante",
+						    "Antman simulator",
+						    WebOptionPane.ERROR_MESSAGE);
+						valid = false;
+						
+					}
+				
+				}
+	        	
+        	}
+        	
+        	if(valid) {
+	        	data.get(row)[ col ] = value;
+	            fireTableCellUpdated ( row, col );
+	            try {
+					paintMap(m, frmModel);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+        	}
+        	
         }
         
         public void addRow(){
-        	Random rand=new Random();
-        	data.add(new Object[]{data.size(), rand.nextInt(m.getDimensionY()), rand.nextInt(m.getDimensionX()), 45, 5, 6, 50, 100, new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat())});
-
-            fireTableDataChanged();
-
-            try {
-				paintMap(m, frmModel);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+        	
+        	if(ConfigurationLoader.MAX_FOURMILIERES > data.size()) {
+        	
+	        	List<Case> cases_libres = new ArrayList<Case>();
+	    		
+	    		for(Case c : m.get_cases()) {
+	    			if(c.getNiveau_obstacle() == 0) {
+	    				boolean libre = true;
+	    				
+	    				for(Object[] d : data) {
+	    					if((Integer)d[2] == c.getX() && (Integer)d[1] == c.getY()) {
+	    						libre = false;
+	    					}
+	    				}
+	    				
+	    				if(libre)  {
+	    					cases_libres.add(c);
+	    				}
+	    			}
+	    		}
+	    		
+	    		if(cases_libres.size() > 0) {
+	    			Random rand=new Random();
+		    		Case c = cases_libres.get(rand.nextInt(cases_libres.size()));
+		        	data.add(new Object[]{data.size(), c.getY(), c.getX(), 45, 5, 6, 50, 100, new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat())});
+		            fireTableDataChanged();
+		
+		            try {
+						paintMap(m, frmModel);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+	    		} else {
+	    			//Affichage d'un message d'erreur
+					WebOptionPane.showMessageDialog(null,
+						"Impossible d'ajouter une nouvelle fourmilière.\nTout les emplacements sont occupés",
+					    "Antman simulator",
+					    WebOptionPane.ERROR_MESSAGE);
+	    		}
+        	} else {
+        		//Affichage d'un message d'erreur
+				WebOptionPane.showMessageDialog(null,
+					"Impossible d'ajouter une nouvelle fourmilière.\nNombre maximum de fourmilières atteint (Modifiez le fichier config.xml pour autoriser plus de fourmilières)",
+				    "Antman simulator",
+				    WebOptionPane.ERROR_MESSAGE);
+        	}
+    		
         }
         
         public void removeRow(int n){

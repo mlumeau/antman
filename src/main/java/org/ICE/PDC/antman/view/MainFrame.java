@@ -1,6 +1,3 @@
-/**
- * 
- */
 package org.ICE.PDC.antman.view;
 
 import java.awt.BorderLayout;
@@ -76,23 +73,15 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.Box;
 
-/** 
- * <!-- begin-UML-doc -->
- * <!-- end-UML-doc -->
- * @author S219
- * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+/**
+ * Fenêtre principale de l'application - Permet de jouer une simulation
  */
-
 public class MainFrame extends WebFrame implements MapListener {
 	
 	
 	private static final long serialVersionUID = 1L;
 	
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
-	 */
+	/**Référence vers le contrôleur*/
 	private MainFrameListener mainFrameListener;
 	private JPanel mapPanel;
 	private WebButton wbtnJouerTour;
@@ -114,16 +103,24 @@ public class MainFrame extends WebFrame implements MapListener {
 	
 	private JPanel map;
 	
-	public MainFrame(HashMap<Fourmiliere, Color> c) {
-		this();
+	/**
+	 * @param mainFrameListener - Contrôleur
+	 * @param c - couleurs des fourmilières (définies dans la fenêtre de configuration)
+	 */
+	public MainFrame(MainFrameListener mainFrameListener, HashMap<Fourmiliere, Color> c) {
+		this(mainFrameListener);
 		colors=c;
 	}
 	
-	public MainFrame() {
+	/**
+	 * @param mFL - Contrôleur
+	 */
+	public MainFrame(MainFrameListener mFL) {
 		
 		setTitle("Simulation");
-		colors=new HashMap<Fourmiliere, Color>();
-		fourmilierePanes=new HashMap<Fourmiliere, WebCollapsiblePane>();
+		this.colors=new HashMap<Fourmiliere, Color>();
+		this.fourmilierePanes=new HashMap<Fourmiliere, WebCollapsiblePane>();
+		this.mainFrameListener = mFL;
 		
 		setSize(new Dimension(1024, 800));
 		setLocationByPlatform(true);
@@ -182,6 +179,7 @@ public class MainFrame extends WebFrame implements MapListener {
 		wbtglbtnModeAutomatique = new WebToggleButton();
 		wbtglbtnModeAutomatique.setIcon(null);
 		wbtglbtnModeAutomatique.setText("Mode automatique");
+		wbtglbtnModeAutomatique.setSelected(false);
 		controlPanel.add(wbtglbtnModeAutomatique, "cell 0 0 1 2,growy");
 		
 		JSeparator separator = new JSeparator();
@@ -285,7 +283,7 @@ public class MainFrame extends WebFrame implements MapListener {
 		wbmntmFinirSimulation.setText("Finir simulation");
 		wbmntmFinirSimulation.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Arret de la simmulation
+				//Arrêt de la simulation
 				mainFrameListener.setVitesse(0);
 				//Ouverture de la fenêtre de statistiques
 				StatisticsFrame sf = new StatisticsFrame(monde);
@@ -320,18 +318,17 @@ public class MainFrame extends WebFrame implements MapListener {
 		});
 		
 		wbtglbtnModeAutomatique.addItemListener(new ItemListener() {
-			
 			public void itemStateChanged(ItemEvent e) {
-		        if(e.getStateChange() == ItemEvent.SELECTED)
-		        {
+				
+		        if(wbtglbtnModeAutomatique.isSelected()) {
 		        	wbtglbtnModeAutomatique.setText("Mode manuel");
 		        	mainFrameListener.setVitesse(vitesseWebSlider.getValue());
-		        }
-		        else
-		        {
+		        	
+		        } else {
 		        	wbtglbtnModeAutomatique.setText("Mode automatique");
 		        	mainFrameListener.setVitesse(0);
 		        } 
+		        
 		    }
 		});
 		
@@ -359,22 +356,24 @@ public class MainFrame extends WebFrame implements MapListener {
 		
 	}
 	
+	/**
+	 * Dessine un monde à partir d'un objet monde
+	 * @param m Le monde à initialiser
+	 */
 	public void initMonde(final Monde m){
+		monde = m;
 		
-				monde = m;
-				for(Fourmiliere f : m.getFourmilieres()){
+			for(Fourmiliere f : m.getFourmilieres()){
+				FourmiliereInfoPanel fpc = new FourmiliereInfoPanel();
 					
-					FourmiliereInfoPanel fpc = new FourmiliereInfoPanel();
-					
-					WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+indexFourmiliere, fpc );
-					fp.setMaximumSize(new Dimension(Integer.MAX_VALUE,50));
-			        fp.setExpanded ( true );
-			        fp.getTitleComponent().setForeground(colors.get(f));
+				WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+indexFourmiliere, fpc );
+				fp.setMaximumSize(new Dimension(Integer.MAX_VALUE,50));
+			    fp.setExpanded ( true );
+			    fp.getTitleComponent().setForeground(colors.get(f));
 
-					
-					int nbf=0;
-					int nbo=0;
-					int nbe=0;
+				int nbf=0;
+				int nbo=0;
+				int nbe=0;
 					
 					for(Fourmi fo : f.getFourmi()) {
 						if(fo instanceof Ouvriere)  {
@@ -385,20 +384,157 @@ public class MainFrame extends WebFrame implements MapListener {
 						nbf++;
 					}
 					
-					fpc.getTotalValue().setText(Integer.toString(nbf));
-					fpc.getOuvValue().setText(Integer.toString(nbo));
-					fpc.getEclValue().setText(Integer.toString(nbe));
-					fpc.getResValue().setText(Integer.toString(f.getRessources()));
+				fpc.getTotalValue().setText(Integer.toString(nbf));
+				fpc.getOuvValue().setText(Integer.toString(nbo));
+				fpc.getEclValue().setText(Integer.toString(nbe));
+				fpc.getResValue().setText(Integer.toString(f.getRessources()));
 			        
-			        fourmilierePanes.put(f,fp);
-			        infoPanel.add(fp,infoPanel.getComponentCount()-1);
+			    fourmilierePanes.put(f,fp);
+			    infoPanel.add(fp,infoPanel.getComponentCount()-1);
 			        
-			        indexFourmiliere++;
-				}
+			    indexFourmiliere++;
+			}
 
-				map.setLayout(new GridLayout(m.getDimensionX(),m.getDimensionY(),2,2));
+		map.setLayout(new GridLayout(m.getDimensionX(),m.getDimensionY(),2,2));
+		drawMonde(monde);
 	}
 	
+	/**
+	 * Rempli le gridLayout représentant le monde à partir d'un objet monde
+	 * @param monde Le monde à dessiner
+	 */
+	private void drawMonde(Monde monde) {
+
+		try {
+				map.removeAll();
+		    	logger.info("Tour n°"+(monde.getTour())+" - Total fourmilières : "+monde.getFourmilieres().size()+" - Total fourmis : "+monde.getTotalFourmis());
+		    	int reines = 0;
+		    	int ouvrieres = 0;
+		    	int eclaireuses = 0;
+		    	
+		    	for(Fourmiliere f : monde.getFourmilieres()) {
+		    		
+					FourmiliereInfoPanel fpc =  (FourmiliereInfoPanel) fourmilierePanes.get(f).getContent();
+					
+		    		int nbf=0;
+		    		int nbo=0;
+		    		int nbe=0;
+		    		
+		    		for(Fourmi fo : f.getFourmi()) {
+		    			if(fo instanceof Ouvriere)  {
+		    				ouvrieres++;
+		    				nbo++;
+		    				nbf++;
+		    			} else if (fo instanceof Eclaireuse) {
+		    				eclaireuses++;
+		    				nbe++;
+		    				nbf++;
+		    			} else if (fo instanceof Reine) {
+		    				reines++;
+		    			}
+		    			
+		    		}
+		    	
+		    		fpc.getTotalValue().setText(Integer.toString(nbf));
+		    		fpc.getOuvValue().setText(Integer.toString(nbo));
+		    		fpc.getEclValue().setText(Integer.toString(nbe));
+		    		fpc.getResValue().setText(Integer.toString(f.getRessources()));
+		    		
+		    	}
+		    	
+		    	String infosString = "TOUR n° "+monde.getTour()+
+						 " -- Fourmilières : "+monde.getFourmilieres().size()+
+						 " - Fourmis : "+monde.getTotalFourmis()+
+						 "  (Reines : "+reines+
+						 " / Ouvrières : "+ouvrieres+
+						 " / Éclaireuses : "+eclaireuses+")";
+						 
+		    	((JLabel) mondeInfoPanel.getComponent(0)).setText(infosString);
+		    	
+				for(int x=0; x<monde.getDimensionX(); x++) {
+					
+					for(int y=0; y<monde.getDimensionY(); y++) {
+						final Case current = monde.getCaseAt(x,y);
+						
+						final JLabel label = new JLabel("", SwingConstants.CENTER);
+					    label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					    label.setOpaque(true);
+					    label.setIgnoreRepaint(true);
+						map.add(label);
+						
+						
+						if(current.getFourmiliere() != null) {
+							
+							label.setBackground(colors.get(current.getFourmiliere()));
+							
+							label.setText(String.valueOf(current.getFourmiliere().getRessources()));
+							label.setForeground(Color.BLACK);
+							
+						} else if (current.getPheromones().size() > 0) {
+						
+							int ph = 0;
+							
+							for(Pheromone p : current.getPheromones()) {
+								
+								ph+= p.getPuissance();
+							}
+						
+							if(ph != 0) {
+								
+								int gb = 0;
+								
+								if((10*ph) < 255) {
+									gb = 255 - (10*ph);
+								}
+								
+								label.setBackground(new Color(255,gb,gb));
+							}
+							
+						}
+						if (current.getFourmiliere() == null && current.getFourmis().size() > 0) {
+							label.setText("F");
+				    		label.setForeground(colors.get(current.getFourmis().iterator().next().getFourmiliere()));
+						}
+						if(current.getFourmiliere() == null && current.getRessources().size() > 0) {
+							label.setBackground(Color.ORANGE);
+							
+							int q = 0;
+							
+							for(Ressource r : current.getRessources()) {
+								q+= r.getQuantite();
+							}
+							
+							label.setText(String.valueOf(q));
+							
+						}
+					    
+						if(current.getNiveau_obstacle() > 0) {
+							label.setBackground(Color.BLACK);
+						}
+
+					}
+
+				}
+				
+				
+		      } catch (Exception e) {
+		    	  e.printStackTrace();
+		      }
+			
+
+			wbtnJouerTour.setEnabled(true);
+			
+			if(monde.getTotalFourmis()==0){
+				//Arrêt de la simulation
+				mainFrameListener.setVitesse(0);
+				//Ouverture de la fenêtre de statistiques
+				StatisticsFrame sf = new StatisticsFrame(monde);
+				sf.setVisible(true);
+				sf.setDefaultCloseOperation(EXIT_ON_CLOSE);
+				//Fermeture de la fenêtre principale
+				dispose();
+			}
+	}
 	
 	/*-----------------*/
 	/* GETTERS/SETTERS */
@@ -429,6 +565,32 @@ public class MainFrame extends WebFrame implements MapListener {
 		this.mainFrameListener = mainFrameListener;
 	}
 	
+	/**
+	 * Ajoute une ligne de texte au panel de logs
+	 * @param logText
+	 */
+	public void addTextEvent(final String logText) {
+		
+		 try {
+		  SwingUtilities.invokeAndWait(new Runnable() {
+		        public void run() {
+		        	//Le log est exécuté dans une thread spéciale pour des raisons de performances
+		        	new Thread(new Runnable() {
+						
+						public void run() {
+							logTextArea.append(logText+"\n");
+						}
+					}).run();
+		        }
+		  });
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		 
+	}
+	
 	/*-----------------*/
 	/* EVENT LISTENERS */
 	/*-----------------*/
@@ -436,139 +598,8 @@ public class MainFrame extends WebFrame implements MapListener {
 	public void tourJoue(final TourJoueEvent _e){
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
-				
 				public void run() {
-					Monde monde = _e.getMonde();
-					
-					try {
-							map.removeAll();
-					    	logger.info("Tour n°"+(_e.getTour())+" - Total fourmilières : "+monde.getFourmilieres().size()+" - Total fourmis : "+monde.getTotalFourmis());
-					    	int reines = 0;
-					    	int ouvrieres = 0;
-					    	int eclaireuses = 0;
-					    	
-					    	for(Fourmiliere f : monde.getFourmilieres()) {
-					    		
-								FourmiliereInfoPanel fpc =  (FourmiliereInfoPanel) fourmilierePanes.get(f).getContent();
-								
-					    		int nbf=0;
-					    		int nbo=0;
-					    		int nbe=0;
-					    		
-					    		for(Fourmi fo : f.getFourmi()) {
-					    			if(fo instanceof Ouvriere)  {
-					    				ouvrieres++;
-					    				nbo++;
-					    				nbf++;
-					    			} else if (fo instanceof Eclaireuse) {
-					    				eclaireuses++;
-					    				nbe++;
-					    				nbf++;
-					    			} else if (fo instanceof Reine) {
-					    				reines++;
-					    			}
-					    			
-					    		}
-					    	
-					    		fpc.getTotalValue().setText(Integer.toString(nbf));
-					    		fpc.getOuvValue().setText(Integer.toString(nbo));
-					    		fpc.getEclValue().setText(Integer.toString(nbe));
-					    		fpc.getResValue().setText(Integer.toString(f.getRessources()));
-					    		
-					    	}
-					    	
-					    	String infosString = "TOUR n° "+_e.getTour()+
-									 " -- Fourmilières : "+monde.getFourmilieres().size()+
-									 " - Fourmis : "+monde.getTotalFourmis()+
-									 "  (Reines : "+reines+
-									 " / Ouvrières : "+ouvrieres+
-									 " / Eclaireuses : "+eclaireuses+")";
-									 
-					    	((JLabel) mondeInfoPanel.getComponent(0)).setText(infosString);
-					    	
-							for(int x=0; x<monde.getDimensionX(); x++) {
-								
-								for(int y=0; y<monde.getDimensionY(); y++) {
-									final Case current = monde.getCaseAt(x,y);
-									
-									final JLabel label = new JLabel("", SwingConstants.CENTER);
-								    label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-								    label.setOpaque(true);
-								    label.setIgnoreRepaint(true);
-									map.add(label);
-									
-									
-									if(current.getFourmiliere() != null) {
-										
-										label.setBackground(colors.get(current.getFourmiliere()));
-										
-										label.setText(String.valueOf(current.getFourmiliere().getRessources()));
-										label.setForeground(Color.BLACK);
-										
-									} else if (current.getPheromones().size() > 0) {
-									
-										int ph = 0;
-										
-										for(Pheromone p : current.getPheromones()) {
-											
-											ph+= p.getPuissance();
-										}
-									
-										if(ph != 0) {
-											
-											int gb = 0;
-											
-											if((10*ph) < 255) {
-												gb = 255 - (10*ph);
-											}
-											
-											label.setBackground(new Color(255,gb,gb));
-										}
-										
-									}
-									if (current.getFourmiliere() == null && current.getFourmis().size() > 0) {
-										label.setText("F");
-							    		label.setForeground(colors.get(current.getFourmis().iterator().next().getFourmiliere()));
-									}
-									if(current.getRessources().size() > 0) {
-										label.setBackground(Color.ORANGE);
-										
-										int q = 0;
-										
-										for(Ressource r : current.getRessources()) {
-											q+= r.getQuantite();
-										}
-										
-										label.setText(String.valueOf(q));
-										
-									}
-								    
-									if(current.getNiveau_obstacle() > 0) {
-										label.setBackground(Color.BLACK);
-									}
-
-								}
-
-							}
-							
-							
-					      } catch (Exception e) {
-					    	  e.printStackTrace();
-					      }
-						
-
-						wbtnJouerTour.setEnabled(true);
-						
-						if(monde.getTotalFourmis()==0){
-							//Arret de la simmulation
-							mainFrameListener.setVitesse(0);
-							//Ouverture de la fenêtre de statistiques
-							StatisticsFrame sf = new StatisticsFrame(monde);
-							sf.setVisible(true);
-							sf.setDefaultCloseOperation(EXIT_ON_CLOSE);
-							//Fermeture de la fenêtre principale
-							dispose();
-						}
+					drawMonde(monde);
 				}
 			});
 		} catch (InvocationTargetException e) {
@@ -579,26 +610,10 @@ public class MainFrame extends WebFrame implements MapListener {
 		
 	}
 
-	public void addTextEvent(final String logText) {
-		Runnable addTextThread=new Runnable() {
-	        public void run() {
-	        	logTextArea.append(logText+"\n");
-	        }
-	  };
-		 try {
-			SwingUtilities.invokeAndWait(addTextThread);
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		 
-	}
-		
 	public void fourmiPositionChangee(FourmiPositionChangeeEvent e) {
 		Fourmi f = e.getFourmi();
 		Case c = e.getFourmi().get_case();
-		//this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+e.getOld_position_x()+"/"+e.getOld_position_y()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") se déplace en "+c.getX()+"/"+c.getY());
+		this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+e.getOld_position_x()+"/"+e.getOld_position_y()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") se déplace en "+c.getX()+"/"+c.getY());
 	}
 
 	public void fourmiEtatChange(FourmiEtatChangeEvent e) {
@@ -613,8 +628,7 @@ public class MainFrame extends WebFrame implements MapListener {
 			etat = ((Reine) f).getEtat().name();
 		}
 		
-		//this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+f.get_case().getX()+"/"+f.get_case().getY()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") a changé d'état - Nouvel état : "+etat); 
-		
+		this.addTextEvent("Tour n°"+e.getTour()+" - La fourmi "+f.hashCode()+" ( Case "+f.get_case().getX()+"/"+f.get_case().getY()+" - "+fourmilierePanes.get(f.getFourmiliere()).getTitle()+") a changé d'état - Nouvel état : "+etat); 
 	}
 
 	public void fourmiAjoutee(FourmiAjouteeEvent e) {
@@ -634,47 +648,43 @@ public class MainFrame extends WebFrame implements MapListener {
 		
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
-						
-						public void run() {
-			
-			
-			
-			Fourmiliere f = e.getFourmiliere();
-
-			Random rand = new Random();
-			colors.put(f, new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
-			
-			FourmiliereInfoPanel fpc = new FourmiliereInfoPanel();
-			
-			WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+indexFourmiliere, fpc );
-			fp.setMaximumSize(new Dimension(Integer.MAX_VALUE,50));
-			fp.setExpanded ( true );
-			fp.getTitleComponent().setForeground(colors.get(f));
-
-			int nbf=0;
-			int nbo=0;
-			int nbe=0;
-			
-			for(Fourmi fo : f.getFourmi()) {
-				if(fo instanceof Ouvriere)  {
-					nbo++;
-				} else if (fo instanceof Eclaireuse) {
-					nbe++;
-				}
-				nbf++;
-			}
-			
-			fpc.getTotalValue().setText(Integer.toString(nbf));
-			fpc.getOuvValue().setText(Integer.toString(nbo));
-			fpc.getEclValue().setText(Integer.toString(nbe));
-			fpc.getResValue().setText(Integer.toString(f.getRessources()));
-			
-			fourmilierePanes.put(f,fp);
-			infoPanel.add(fp,infoPanel.getComponentCount()-1);
-			
-			indexFourmiliere++;
-			
+				public void run() {
+					Fourmiliere f = e.getFourmiliere();
+		
+					Random rand = new Random();
+					colors.put(f, new Color(rand.nextFloat(),rand.nextFloat(),rand.nextFloat()));
+					
+					FourmiliereInfoPanel fpc = new FourmiliereInfoPanel();
+					
+					WebCollapsiblePane fp = new WebCollapsiblePane ("Fourmilière "+indexFourmiliere, fpc );
+					fp.setMaximumSize(new Dimension(Integer.MAX_VALUE,50));
+					fp.setExpanded ( true );
+					fp.getTitleComponent().setForeground(colors.get(f));
+		
+					int nbf=0;
+					int nbo=0;
+					int nbe=0;
+					
+					for(Fourmi fo : f.getFourmi()) {
+						if(fo instanceof Ouvriere)  {
+							nbo++;
+						} else if (fo instanceof Eclaireuse) {
+							nbe++;
+						}
+						nbf++;
+					}
+					
+					fpc.getTotalValue().setText(Integer.toString(nbf));
+					fpc.getOuvValue().setText(Integer.toString(nbo));
+					fpc.getEclValue().setText(Integer.toString(nbe));
+					fpc.getResValue().setText(Integer.toString(f.getRessources()));
+					
+					fourmilierePanes.put(f,fp);
+					infoPanel.add(fp,infoPanel.getComponentCount()-1);
+					
+					indexFourmiliere++;
 			}});
+			
 		} catch (InvocationTargetException e1) {
 			e1.printStackTrace();
 		} catch (InterruptedException e1) {
@@ -714,6 +724,9 @@ public class MainFrame extends WebFrame implements MapListener {
 	public void pheromonePuissanceChangee(PheromonePuissanceChangeeEvent e) {}
 	public void fourmiliereRessourcesChangees(FourmiliereRessourcesChangeesEvent e) {}
 
+	/**
+	 * Classe représentant le panneau contenant la liste des fourmilières
+	 */
 	class FourmiliereInfoPanel extends JPanel{
 		private static final long serialVersionUID = 6088887840869041715L;
 		private JLabel totalLabel;
@@ -747,7 +760,7 @@ public class MainFrame extends WebFrame implements MapListener {
 			
 			totalLabel = new JLabel(" Total fourmis : ");
 			ouvLabel = new JLabel(" Ouvrières : ");
-			eclLabel = new JLabel(" Eclaireuses : ");
+			eclLabel = new JLabel(" Éclaireuses : ");
 			resLabel = new JLabel(" Ressources : ");
 			
 			totalValue = new JLabel("0");
@@ -800,7 +813,6 @@ public class MainFrame extends WebFrame implements MapListener {
 			c.gridwidth=1;
 			this.add(resValue,c);
 		}
-		
 		
 	}
 }

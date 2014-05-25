@@ -94,28 +94,17 @@
           <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_XunBMaqaEeOxp7Vf-D-jqw" points="[219, -203, -4225, 3900]$[219, -2064, -4225, 2039]$[2858, -2064, -1586, 2039]$[2858, -3628, -1586, 475]"/>
           <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_XunBN6qaEeOxp7Vf-D-jqw" id="(0.34497659344616494,0.21345951629863302)"/>
         </edges>
-        <edges xmi:type="umlnotation:UMLConnector" xmi:id="_YqqZwKqaEeOxp7Vf-D-jqw" element="_YqgowKqaEeOxp7Vf-D-jqw" source="_LQDOwaqaEeOxp7Vf-D-jqw" target="_LQDOwaqaEeOxp7Vf-D-jqw" fontHeight="8" roundedBendpointsRadius="4" routing="Rectilinear" lineColor="8421504" lineWidth="1" showStereotype="Text">
-          <children xmi:type="notation:DecorationNode" xmi:id="_YqqZwqqaEeOxp7Vf-D-jqw" type="TransitionLabelCompartment">
-            <children xmi:type="notation:BasicDecorationNode" xmi:id="_YqqZxKqaEeOxp7Vf-D-jqw" type="Stereotype"/>
-            <children xmi:type="notation:BasicDecorationNode" xmi:id="_YqqZxaqaEeOxp7Vf-D-jqw" type="TransitionLabel"/>
-            <children xmi:type="notation:ListCompartment" xmi:id="_YqqZxqqaEeOxp7Vf-D-jqw" type="Triggers"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_YqqZw6qaEeOxp7Vf-D-jqw" x="965" y="-458"/>
-          </children>
-          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_YqqZwaqaEeOxp7Vf-D-jqw" points="[2764, 185, 2236, -210]$[4472, 185, 3944, -210]$[4472, -1932, 3944, -2327]$[1582, -1932, 1054, -2327]$[1582, -80, 1054, -475]"/>
-          <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_YqqZx6qaEeOxp7Vf-D-jqw" id="(0.38256227758007116,0.08412197686645637)"/>
-        </edges>
       </contents>
     </eAnnotations>
     <region xmi:id="_FbOwcaqaEeOxp7Vf-D-jqw" name="Région1">
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_JqIZ0KqaEeOxp7Vf-D-jqw"/>
-      <subvertex xmi:type="uml:State" xmi:id="_LQDOwKqaEeOxp7Vf-D-jqw" name="SUIVRE_TRACE"/>
+      <subvertex xmi:type="uml:State" xmi:id="_LQDOwKqaEeOxp7Vf-D-jqw" name="SUIVRE_PHEROMONES"/>
       <subvertex xmi:type="uml:State" xmi:id="_Li-x0KqaEeOxp7Vf-D-jqw" name="RETOUR"/>
-      <subvertex xmi:type="uml:State" xmi:id="_Lz90IKqaEeOxp7Vf-D-jqw" name="RECOLTE_NOURRITURE"/>
+      <subvertex xmi:type="uml:State" xmi:id="_Lz90IKqaEeOxp7Vf-D-jqw" name="RECOLTER"/>
       <transition xmi:id="_WP1WEKqaEeOxp7Vf-D-jqw" source="_JqIZ0KqaEeOxp7Vf-D-jqw" target="_LQDOwKqaEeOxp7Vf-D-jqw"/>
       <transition xmi:id="_W_OLoKqaEeOxp7Vf-D-jqw" name="nourriture trouvée" source="_LQDOwKqaEeOxp7Vf-D-jqw" target="_Lz90IKqaEeOxp7Vf-D-jqw"/>
       <transition xmi:id="_XYaHsKqaEeOxp7Vf-D-jqw" name="nourriture récoltée" source="_Lz90IKqaEeOxp7Vf-D-jqw" target="_Li-x0KqaEeOxp7Vf-D-jqw"/>
       <transition xmi:id="_XudQMKqaEeOxp7Vf-D-jqw" name="nourriture déposée" source="_Li-x0KqaEeOxp7Vf-D-jqw" target="_LQDOwKqaEeOxp7Vf-D-jqw"/>
-      <transition xmi:id="_YqgowKqaEeOxp7Vf-D-jqw" name="Phéromone presente" source="_LQDOwKqaEeOxp7Vf-D-jqw" target="_LQDOwKqaEeOxp7Vf-D-jqw"/>
     </region>
   </packagedElement>
   <packagedElement xmi:type="uml:StateMachine" xmi:id="_WNuSsKqZEeOxp7Vf-D-jqw" name="MachineàétatEclaireuse">
@@ -192,11 +181,11 @@
     </eAnnotations>
     <region xmi:id="_WNuSsaqZEeOxp7Vf-D-jqw" name="Région1">
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_a6IXcKqZEeOxp7Vf-D-jqw"/>
-      <subvertex xmi:type="uml:State" xmi:id="_b7ixIKqZEeOxp7Vf-D-jqw" name="RECHERCHE_NOURRITURE"/>
+      <subvertex xmi:type="uml:State" xmi:id="_b7ixIKqZEeOxp7Vf-D-jqw" name="CHERCHER_RESSOURCES"/>
       <subvertex xmi:type="uml:State" xmi:id="_pm_NcKqZEeOxp7Vf-D-jqw" name="RETOUR"/>
       <transition xmi:id="_nulhYKqZEeOxp7Vf-D-jqw" source="_a6IXcKqZEeOxp7Vf-D-jqw" target="_b7ixIKqZEeOxp7Vf-D-jqw"/>
       <transition xmi:id="_31TGQKqZEeOxp7Vf-D-jqw" source="_pm_NcKqZEeOxp7Vf-D-jqw" target="_b7ixIKqZEeOxp7Vf-D-jqw"/>
-      <transition xmi:id="_5HtJUKqZEeOxp7Vf-D-jqw" name="nourriture trouvé" source="_b7ixIKqZEeOxp7Vf-D-jqw" target="_pm_NcKqZEeOxp7Vf-D-jqw"/>
+      <transition xmi:id="_5HtJUKqZEeOxp7Vf-D-jqw" name="nourriture trouvée" source="_b7ixIKqZEeOxp7Vf-D-jqw" target="_pm_NcKqZEeOxp7Vf-D-jqw"/>
     </region>
   </packagedElement>
   <packagedElement xmi:type="uml:StateMachine" xmi:id="_c2BKcKqbEeOxp7Vf-D-jqw" name="MachineàétatReine">
@@ -233,7 +222,7 @@
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_h_7ql6qbEeOxp7Vf-D-jqw" type="Parent"/>
               <children xmi:type="notation:ListCompartment" xmi:id="_h_7qmKqbEeOxp7Vf-D-jqw" visible="false" type="Activities"/>
               <children xmi:type="notation:ListCompartment" xmi:id="_h_7qmaqbEeOxp7Vf-D-jqw" visible="false" type="InternalTransitionCompartment"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_h_7qkqqbEeOxp7Vf-D-jqw" x="7616" y="6255"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_h_7qkqqbEeOxp7Vf-D-jqw" x="8936" y="6255"/>
             </children>
           </children>
           <children xmi:type="notation:BasicDecorationNode" xmi:id="_c2BKdqqbEeOxp7Vf-D-jqw" type="Name"/>
@@ -262,8 +251,8 @@
     </eAnnotations>
     <region xmi:id="_c2BKcaqbEeOxp7Vf-D-jqw" name="Région1">
       <subvertex xmi:type="uml:Pseudostate" xmi:id="_gvnSMKqbEeOxp7Vf-D-jqw"/>
-      <subvertex xmi:type="uml:State" xmi:id="_hv1ZEKqbEeOxp7Vf-D-jqw" name="non installée"/>
-      <subvertex xmi:type="uml:State" xmi:id="_h_7qkKqbEeOxp7Vf-D-jqw" name="installée"/>
+      <subvertex xmi:type="uml:State" xmi:id="_hv1ZEKqbEeOxp7Vf-D-jqw" name="RECHERCHE_EMPLACEMENT"/>
+      <subvertex xmi:type="uml:State" xmi:id="_h_7qkKqbEeOxp7Vf-D-jqw" name="INSTALEE"/>
       <transition xmi:id="_mtYRIKqbEeOxp7Vf-D-jqw" name="fourmilière trop grande" source="_gvnSMKqbEeOxp7Vf-D-jqw" target="_hv1ZEKqbEeOxp7Vf-D-jqw"/>
       <transition xmi:id="_nD4FkKqbEeOxp7Vf-D-jqw" name="assez loin" source="_hv1ZEKqbEeOxp7Vf-D-jqw" target="_h_7qkKqbEeOxp7Vf-D-jqw"/>
     </region>

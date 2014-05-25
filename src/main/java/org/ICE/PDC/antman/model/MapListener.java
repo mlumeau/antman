@@ -16,118 +16,78 @@ import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
 import org.ICE.PDC.antman.model.events.TourJoueEvent;
 
 /** 
- * <!-- begin-UML-doc -->
- * <!-- end-UML-doc -->
- * @author S219
- * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+ * Cette interface permet de créer la lien entre le modèle et la vue (qui l'implémentera)
  */
 public interface MapListener {
 	
-	
+	/**
+	 * @param _e
+	 */
 	public void tourJoue(TourJoueEvent _e);
 	
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
+	/**
 	 * @param _e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public void fourmiPositionChangee(FourmiPositionChangeeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
 	public void fourmiEtatChange(FourmiEtatChangeEvent e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void fourmiAjoutee(FourmiAjouteeEvent e);
+	public void fourmiAjoutee(FourmiAjouteeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void fourmiSupprimee(FourmiSupprimeeEvent e);
+	public void fourmiSupprimee(FourmiSupprimeeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void ressourceAjoutee(RessourceAjouteeEvent e);
+	public void ressourceAjoutee(RessourceAjouteeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void ressourceQuantiteChangee(RessourceQuantiteChangeeEvent e);
+	public void ressourceQuantiteChangee(RessourceQuantiteChangeeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void ressourceSupprimee(RessourceSupprimeeEvent e);
+	public void ressourceSupprimee(RessourceSupprimeeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void pheromoneAjoutee(PheromoneAjouteeEvent e);
+	public void pheromoneAjoutee(PheromoneAjouteeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void pheromoneSupprimee(PheromoneSupprimeeEvent e);
+	public void pheromoneSupprimee(PheromoneSupprimeeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void pheromonePuissanceChangee(PheromonePuissanceChangeeEvent e);
+	public void pheromonePuissanceChangee(PheromonePuissanceChangeeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void fourmiliereAjoutee(FourmiliereAjouteeEvent e);
+	public void fourmiliereAjoutee(FourmiliereAjouteeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void fourmiliereSupprimee(FourmiliereSupprimeeEvent e);
+	public void fourmiliereSupprimee(FourmiliereSupprimeeEvent _e);
 
-	/** 
-	 * <!-- begin-UML-doc -->
-	 * <!-- end-UML-doc -->
-	 * @param e
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+	/**
+	 * @param _e
 	 */
-	public void fourmiliereRessourcesChangees(
-			FourmiliereRessourcesChangeesEvent e);
+	public void fourmiliereRessourcesChangees(FourmiliereRessourcesChangeesEvent _e);
+	
 }

@@ -29,23 +29,31 @@ import org.ICE.PDC.antman.model.events.TourJoueEvent;
 import org.apache.log4j.Logger;
 
 /** 
- * Le monde contient tout les autres élements de la simmulation
+ * Le monde contient tout les autres éléments de la simulation
  */
 public class Monde implements Serializable {
 	
 	private static final long serialVersionUID = 583350775373768197L;
 	private static Logger logger = Logger.getLogger(Monde.class);
+	/**Liste des interfaces observant l'objet monde*/
 	private transient List<MapListener> listeners;
+	/**Liste des case du monde*/
 	private List<Case> _cases;
-	private Set<Case> obstacles;
+	/**Liste des fourmilières du monde*/
 	private Set<Fourmiliere> fourmilieres;
-	private Set<Pheromone> pheromones;
+	/**Météo du monde - La météo défini la vitesse d'évaporation des phéromones*/
 	private int meteo;
+	/**Abondance du monde - L'abondance défini la quantité de ressources crées à chaque tour*/
 	private int abondance;
+	/**Liste des évènements produits pour chaque tours joués*/
 	private Map<Integer,List<MapEvent>> events;
+	/**Tour courant*/
 	private int tour;
+	/**Dimension X de la carte*/
 	private int dimension_x;
+	/**Dimension Y de la carte*/
 	private int dimension_y;
+	/**Cases réservées pour l'apparition de ressources*/
 	private List<Case> ressources_spawns;
 	
 	/** 
@@ -73,10 +81,10 @@ public class Monde implements Serializable {
 		}
 		
 		this.meteo = meteo;
-		logger.info("Meteo initiale reglée à "+meteo);
+		logger.info("Météo initiale réglée à "+meteo);
 		
 		this.abondance = abondance;
-		logger.info("Abondance initiale reglée à "+abondance);
+		logger.info("Abondance initiale réglée à "+abondance);
 		
 		this.tour = 0;
 		this.events = new HashMap<Integer, List<MapEvent>>();
@@ -84,7 +92,12 @@ public class Monde implements Serializable {
 	}
 	
 	
-
+	/**
+	 * Crée des ressources sur la carte<br/>
+	 * Les ressources ne peuvent se créer que sur une liste de cases choisies aléatoirement<br/>
+	 * 'ressources_spawns' dont le nombre dépend du paramètre de configuration MAX_RESSOURCES_SPAWNS<br/>
+	 * La quantité de ressources apparaissant à chaque tour est définie par l'abondance attribuée à ce tour
+	 */
 	public void creerRessources() {
 		
 		if(this.ressources_spawns == null) {
@@ -176,8 +189,8 @@ public class Monde implements Serializable {
 		
 		logger.info("Action des fourmis ...");
 		/*
-		 * On copie la liste de fourmilires pour pouvoir supprimer certaines de celles-ci durant la boucle for 
-		 * en évitant le problème des modifications concurentes 
+		 * On copie la liste de fourmilières pour pouvoir supprimer certaines de celles-ci durant la boucle for 
+		 * en évitant le problème des modifications concurrentes 
 		 */
 		Set<Fourmiliere> fourmilieres = new HashSet<Fourmiliere>(this.getFourmilieres());
 		
@@ -185,7 +198,7 @@ public class Monde implements Serializable {
 			
 			/*
 			 * On copie la liste de fourmi pour pouvoir supprimer certaines de celles-ci durant la boucle for 
-			 * en évitant le problème des modifications concurentes 
+			 * en évitant le problème des modifications concurrentes 
 			 */
 			Set<Fourmi> fourmis = new HashSet<Fourmi>(fl.getFourmi());
 			
@@ -231,21 +244,7 @@ public class Monde implements Serializable {
 	}
 
 	/** 
-	 * @return obstacles
-	 */
-	public Set<Case> getObstacles() {
-		return obstacles;
-	}
-
-	/** 
-	 * @param obstacle obstacle à définir
-	 */
-	public void setObstacles(Set<Case> obstacles) {
-		this.obstacles = obstacles;
-	}
-
-	/** 
-	 * @return fourmilieres
+	 * @return fourmilières
 	 */
 	public Set<Fourmiliere> getFourmilieres() {
 		return fourmilieres;
@@ -259,20 +258,6 @@ public class Monde implements Serializable {
 	}
 
 	/** 
-	 * @return pheromones
-	 */
-	public Set<Pheromone> getPheromones() {
-		return pheromones;
-	}
-
-	/** 
-	 * @param pheromones pheromones à définir
-	 */
-	public void setPheromones(Set<Pheromone> pheromones) {
-		this.pheromones = pheromones;
-	}
-
-	/** 
 	 * @return meteo
 	 */
 	public int getMeteo() {
@@ -280,7 +265,7 @@ public class Monde implements Serializable {
 	}
 
 	/** 
-	 * @param meteo meteo à définir
+	 * @param meteo météo à définir
 	 */
 	public void setMeteo(int meteo) {
 		this.meteo = meteo;
@@ -328,6 +313,10 @@ public class Monde implements Serializable {
 		this.listeners = listener;
 	}
 	
+	/**
+	 * Ajoute une interface observatrice
+	 * @param listener
+	 */
 	public void addListener(MapListener listener) {
 		
 		if(this.listeners == null) {
@@ -338,6 +327,10 @@ public class Monde implements Serializable {
 		this.listeners.add(listener);
 	}
 	
+	/**
+	 * Supprime une interface observatrice
+	 * @param listener
+	 */
 	public void removeListener(MapListener listener) {
 		
 		if(this.listeners == null) {
@@ -354,22 +347,38 @@ public class Monde implements Serializable {
 		return tour;
 	}	
 
+	/**
+	 * @return events
+	 */
 	public Map<Integer, List<MapEvent>> getEvents() {
 		return events;
 	}
-
+	
+	/**
+	 * @param events
+	 */
 	public void setEvents(Map<Integer, List<MapEvent>> events) {
 		this.events = events;
 	}
 	
+	/**
+	 * @return dimension_x
+	 */
 	public int getDimensionX() {
 		return this.dimension_x;
 	}
 	
+	/**
+	 * @return dimension_y
+	 */
 	public int getDimensionY() {
 		return this.dimension_y;
 	}
 	
+	/**
+	 * Transmet un évènement de type MapEvent aux observateurs de l'instance monde
+	 * @param e
+	 */
 	public void fireEvent(MapEvent e) {
 		
 		//Ajout de l'event à la liste d'events
@@ -377,7 +386,7 @@ public class Monde implements Serializable {
 			this.events.get(this.getTour()).add(e);
 		}
 		
-		//Transmition de l'event aux listeners
+		//Transmission de l'event aux listeners
 		for(MapListener listener : this.getListeners()) {
 			
 			if(e instanceof TourJoueEvent) {

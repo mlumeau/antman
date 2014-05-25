@@ -14,9 +14,9 @@ import org.ICE.PDC.antman.model.events.RessourceQuantiteChangeeEvent;
 import org.apache.log4j.Logger;
 
 /** 
- * Une fourmi ouvriere :
- * -Cherche des ressources en suivant des pistes de phéromones
- * -Ramasse les ressources
+ * Une fourmi ouvrière :<br/>
+ * -Cherche des ressources en suivant des pistes de phéromones<br/>
+ * -Ramasse les ressources<br/>
  * -Retourne à la fourmiliere en déposant des phéromones sur son passage
  */
 public class Ouvriere extends Fourmi implements Serializable {
@@ -24,15 +24,25 @@ public class Ouvriere extends Fourmi implements Serializable {
 	private static final long serialVersionUID = 3587116224753560973L;
 	private static Logger logger = Logger.getLogger(Ouvriere.class);
 	
+	/**
+	 * États de la fourmi<br/>
+	 * SUIVRE_PHEROMONES : Cherche des ressources en suivant des pistes de phéromones<br/>
+	 * RECOLTER : Ramasse les ressources<br/>
+	 * RETOUR : Retourne à la fourmiliere en déposant des phéromones sur son passage
+	 */
 	public enum States {
 		SUIVRE_PHEROMONES,
-		RETOUR,
-		RECOLTER
+		RECOLTER,
+		RETOUR
 	}
 	
+	/**Charge de ressources maximale que peut transporter la fourmi*/
 	private final int charge_max;
+	/**Permet de stocker le chemin de retour de la fourmi vers sa fourmiliere une fois celui-ci calculé*/
 	private List<Case> chemin_retour;
+	/**Charge courante de la fourmi*/
 	private int charge;
+	/**Etat courant de la fourmi*/
 	private States etat;
 	
 	/** 
@@ -77,10 +87,16 @@ public class Ouvriere extends Fourmi implements Serializable {
 		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_OUVRIERE);
 	}
 
+	/**
+	 * Dépose des phéromones sur la case courante de la fourmi
+	 */
 	public void poserPheromones() {
 		this.get_case().ajouterPheromone(new Pheromone(this.getFourmiliere(),ConfigurationLoader.PHEROMONES_OUVRIERES));
 	}
 
+	/**
+	 * Récolte la nourriture présente sur la case courante de la fourmi
+	 */
 	public void recolterNouriture() {
 		Set<Ressource> ressources = new HashSet<Ressource>(this.get_case().getRessources());		
 		for(Ressource r : ressources) {
@@ -107,6 +123,9 @@ public class Ouvriere extends Fourmi implements Serializable {
 		}
 	}
 
+	/**
+	 * Dépose la nourriture portée par la fourmi dans sa fourmilière
+	 */
 	public void deposerNouriture() {
 		this.getFourmiliere().augmenterRessources(this.charge);
 		this.charge = 0;
@@ -138,13 +157,13 @@ public class Ouvriere extends Fourmi implements Serializable {
 						
 						if(this.get_case().getRessources().size() > 0) {
 							this.setEtat(States.RECOLTER);
-							logger.info("L'Ouvriere ("+this.hashCode()+") a trouvé des ressources et commence sa recolte");
+							logger.info("L'Ouvriere ("+this.hashCode()+") a trouvé des ressources et commence sa récolte");
 						
 						} else {
 						
 							//Recherche des phéromones
 							List<Case> adjacentes = this.get_case().getCasesInRadius(1);
-							adjacentes.remove(this.getLast_position()); //On éxclu la derniere case de la recherche
+							adjacentes.remove(this.getLast_position()); //On exclu la dernière case de la recherche
 							List<Case> cases_with_max_ph = new ArrayList<Case>();
 							int puissance_max = 0;
 							
@@ -172,7 +191,7 @@ public class Ouvriere extends Fourmi implements Serializable {
 							}
 							
 							if(cases_with_max_ph.size() > 0) {
-								//Deplacement dans une des cases adjacentes ayant le plus de phéromones
+								//Déplacement dans une des cases adjacentes ayant le plus de phéromones
 								int index = new Random().nextInt(cases_with_max_ph.size());
 								this.seDeplacer(cases_with_max_ph.get(index));
 							} else {
@@ -187,7 +206,7 @@ public class Ouvriere extends Fourmi implements Serializable {
 					case RECOLTER:
 						this.recolterNouriture();
 						this.setEtat(States.RETOUR);
-						logger.info("L'Ouvriere ("+this.hashCode()+") a fini de récolter et commene son retour vers la fourmiliere");
+						logger.info("L'Ouvriere ("+this.hashCode()+") a fini de récolter et commence son retour vers la fourmiliere");
 					break;
 					
 					case RETOUR:
@@ -210,7 +229,7 @@ public class Ouvriere extends Fourmi implements Serializable {
 						} else {
 							//Déposer ressources
 							this.deposerNouriture();
-							logger.info("L'Ouvriere ("+this.hashCode()+") dépose sa nouriture dans la fourmiliere");
+							logger.info("L'Ouvriere ("+this.hashCode()+") dépose sa nourriture dans la fourmiliere");
 							//Retourner dans l'état suivre phéromones
 							this.setEtat(States.SUIVRE_PHEROMONES);
 							logger.info("L'Ouvriere ("+this.hashCode()+") part de la fourmiliere à la recherche de phéromones");
@@ -267,6 +286,7 @@ public class Ouvriere extends Fourmi implements Serializable {
 	}
 
 	/** 
+	 * Fire l'event FourmiEtatChangeEvent
 	 * @param etat etat à définir
 	 */
 	public void setEtat(States etat) {

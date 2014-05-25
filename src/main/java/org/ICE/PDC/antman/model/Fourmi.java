@@ -11,31 +11,37 @@ import org.ICE.PDC.antman.model.events.FourmiSupprimeeEvent;
 import org.apache.log4j.Logger;
 
 /** 
- * <!-- begin-UML-doc -->
- * <!-- end-UML-doc -->
- * @author S219
- * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
+ * Superclass pour tout les types de fourmis
  */
 public abstract class Fourmi implements Serializable {
 	
 	private static final long serialVersionUID = -8157920655219441612L;
-
 	private static Logger logger = Logger.getLogger(Fourmi.class);
 	
+	/**Dernière position connue de la fourmi*/
 	private Case last_position;
+	/**Case courant de la fourmi*/
 	private Case _case;
+	/**Fourmilière d'appartenance de la fourmi*/
 	private Fourmiliere fourmiliere;
+	/**Santé maximum de la fourmi (au delà de ce niveau de santé la fourmi ne regagnera plus de vie en mangeant)*/
 	private int sante_max;
+	/**Espérance de vie de la fourmi (nombre maximal de tour avant que la fourmi ne meurt)*/
 	private int esperance_de_vie;
+	/**Age de la fourmi*/
 	private int age;
+	/**Santé de la fourmi*/
 	private int sante;
 	
+	/**
+	 * Effectue une action dépendant du type de la Fourmi et de son état actuel
+	 */
 	public abstract void agir();
 
 	/** 
+	 * Fire l'event FourmiAjouteeEvent
 	 * @param fourmiliere
 	 * @param _case
-	 * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
 	 */
 	public Fourmi(Fourmiliere fourmiliere, Case _case) {
 		this.age = 0; 
@@ -46,7 +52,7 @@ public abstract class Fourmi implements Serializable {
 		this.fourmiliere = fourmiliere;
 		logger.debug("Fourmi crée : "+this);
 		_case.ajouterFourmi(this); //Lie la case à la Fourmi
-		fourmiliere.ajouterFourmi(this); //Lie la fourmiliere à la Fourmi
+		fourmiliere.ajouterFourmi(this); //Lie la fourmilière à la Fourmi
 		
 		//Ajout de l'évennement FourmiAjouteeEvent
 		this.getFourmiliere().getMonde().fireEvent(new FourmiAjouteeEvent(fourmiliere.getMonde().getTour(), new Date(), this));
@@ -56,7 +62,7 @@ public abstract class Fourmi implements Serializable {
 	 * @param fourmiliere
 	 */
 	public Fourmi(Fourmiliere fourmiliere) {
-		this(fourmiliere,fourmiliere.get_case());//On initialise la case à celle de la fourmiliere
+		this(fourmiliere,fourmiliere.get_case());//On initialise la case à celle de la fourmilière
 	}
 	
 
@@ -65,22 +71,26 @@ public abstract class Fourmi implements Serializable {
 		return "(Fourmi) - "+this.hashCode()+" -> { Fourmiliere : "+this.getFourmiliere().hashCode()+
 				" , Case : "+this.get_case().hashCode()+
 				" , Age : "+this.getAge()+
-				" , Esperance de vie : "+this.getEsperance_de_vie()+
-				" , Santée : "+this.getSante()+"}";
+				" , Espérance de vie : "+this.getEsperance_de_vie()+
+				" , Santé : "+this.getSante()+"}";
 	}
 	
+	/**
+	 * Fait mourir la fourmi et la supprime du modèle<br/>
+	 * Fire l'event FourmiSupprimeeEvent
+	 */
 	public void mourir() {
 		this.get_case().supprimerFourmi(this);
-		
 		//Ajout de l'évennement FourmiSupprimeeEvent
 		this.getFourmiliere().getMonde().fireEvent(new FourmiSupprimeeEvent(fourmiliere.getMonde().getTour(), new Date(),this));
-
-		//Suppression de la fourmi de la fourmiliere
+		//Suppression de la fourmi de la fourmilière
 		this.getFourmiliere().supprimerFourmi(this);
 		
 	}
 	
-
+	/**
+	 * Déplace aléatoirement la fourmi sur l'une des cases libres adjacentes
+	 */
 	public void seDeplacerAlea() {
 		List<Case> cases = this.get_case().getCasesInRadius(1);
 		if(cases.size() > 1) {
@@ -90,19 +100,23 @@ public abstract class Fourmi implements Serializable {
 		int index = new Random().nextInt(cases.size());
 		Case focus = cases.get(index);
 		this.set_case(focus);
-		logger.debug(this.getClass()+" ("+this.hashCode()+") : Deplacement Aleatoire en "+focus);
+		logger.debug(this.getClass()+" ("+this.hashCode()+") : Déplacement Aléatoire en "+focus);
 	}
 	
 
 	/**
+	 * Déplace arbitrairement la fourmi sur l'une des cases du monde
 	 * @param c
 	 */
 	public void seDeplacer(Case c) {
 		this.set_case(c);
-		logger.debug(this.getClass()+" ("+this.hashCode()+") : Deplacement en "+c);
+		logger.debug(this.getClass()+" ("+this.hashCode()+") : Déplacement en "+c);
 	}
 	
-
+	/**
+	 * Fait manger la fourmi à partir des ressources contenues dans la fourmilière de celle-ci<br/>
+	 * Chaque point de ressource permet de récupérer un point de santé (si celle-ci est inférieure à la santé maximale de la fourmi)
+	 */
 	public void manger() {
 		int ressources_dispo = this.getFourmiliere().getRessources();
 		int vie_perdue = this.getSante_max()-this.getSante();
@@ -167,7 +181,7 @@ public abstract class Fourmi implements Serializable {
 	}
 
 	/** 
-	 * @param sante sante à définir
+	 * @param sante santé à définir
 	 */
 	public void setSante(int sante) {
 		this.sante = sante;
@@ -181,6 +195,8 @@ public abstract class Fourmi implements Serializable {
 	}
 
 	/** 
+	 * Change la fourmi de case<br/>
+	 * Fire l'event FourmiPositionChangeeEvent
 	 * @param _case _case à définir
 	 */
 	public void set_case(Case _case) {	

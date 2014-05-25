@@ -1,38 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <antman>
-	<!-- Path for the Maps folder (default : APP_PATH/maps -->
+	<!-- 
+		Path for the Maps folder 
+		(default : APP_PATH/maps 
+	-->
 	<mapsPath>${antman.maps}</mapsPath>
-	<!-- Path for the saves folder (default : APP_PATH/save -->
+	<!-- 
+		Path for the saves folder 
+		(default : APP_PATH/save 
+	-->
 	<savePath>${antman.save}</savePath>
-	
+	<!-- 
+		Weather multiplicator : an high multiplicator increase the significance of the weather parameter 
+		(default :1)
+	-->
 	<meteo_multiplicator>1</meteo_multiplicator>
-	<vitesse_multiplicator>10</vitesse_multiplicator>
+	<!-- 
+		Speed multiplicator : an high speed multiplicator increase the global speed of the application 
+		(default :1)
+	-->
+	<vitesse_multiplicator>1</vitesse_multiplicator>
+	<!-- 
+		Abundance multiplicator : an high abundance multiplicator increase the global abondance of the application 
+		(default :1)
+	-->
 	<abondance_multiplicator>1</abondance_multiplicator>
+	<!-- 
+		Maximum availables spawns for the ressources
+		(default :10)
+	-->
 	<max_ressources_spawns>3</max_ressources_spawns>
+	<!-- 
+		Maximum of anthill that could exist together
+		(default :10)
+	-->
 	<max_fourmilieres>4</max_fourmilieres>
+	<!-- 
+		false to allow anthills to create ants after reaching the max ants parameter
+		(default : true)
+	-->
 	<limit_fourmis_number>true</limit_fourmis_number>
 	
 	<fourmis>
 		<ouvriere>
+			<!-- 
+				workers' life expectancy 
+				(default : 20)
+			-->
 			<esperance_vie>20</esperance_vie>
+			<!-- 
+				workers' health
+				(default : 20)
+			-->
 			<sante>20</sante>
+			<!-- 
+				workers' maximum health 
+				(default : 20)
+			-->
 			<sante_max>20</sante_max>
+			<!-- 
+				workers' maximum load 
+				(default : 20)
+			-->
 			<charge_max>20</charge_max>
-			<pheromones>30</pheromones>
+			<!-- 
+				power of workers' pheromones
+				(default : 5)
+			-->
+			<pheromones>20</pheromones>
 		</ouvriere>
 		
 		<eclaireuse>
+			<!-- 
+				scouts' life expectancy 
+				(default : 20)
+			-->
 			<esperance_vie>20</esperance_vie>
+			<!-- 
+				scouts' health
+				(default : 20)
+			-->
 			<sante>20</sante>
+			<!-- 
+				scouts' maximum health 
+				(default : 20)
+			-->
 			<sante_max>20</sante_max>
-			<pheromones>70</pheromones>
+			<!-- 
+				power of scouts' pheromones
+				(default : 10)
+			-->
+			<pheromones>40</pheromones>
 		</eclaireuse>
 			
 		<reine>
+			<!-- 
+				queens' life expectancy 
+				(default : 9999)
+			-->
 			<esperance_vie>9999</esperance_vie>
+			<!-- 
+				queens' health
+				(default : 20)
+			-->
 			<sante>20</sante>
+			<!-- 
+				queens' maximum health 
+				(default : 20)
+			-->
 			<sante_max>20</sante_max>
+			<!-- 
+				queens' chances of birth (%/round)
+				(default : 10)
+			-->
 			<chances_naissance>5</chances_naissance>
+			<!-- 
+				queens' chances to create a new anthill on an available place (%/round)
+				(default : 10)
+			-->
 			<chances_installation>10</chances_installation>
 		</reine>
 	</fourmis>

@@ -1,13 +1,10 @@
-/**
- * 
- */
 package org.ICE.PDC.antman.view;
 
 import javax.swing.JPanel;
 
-import org.ICE.PDC.antman.StatsCalculator;
 import org.ICE.PDC.antman.model.Fourmiliere;
 import org.ICE.PDC.antman.model.Monde;
+import org.ICE.PDC.antman.utils.StatsCalculator;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -28,12 +25,6 @@ import java.util.ArrayList;
 import com.alee.laf.button.WebButton;
 import com.alee.laf.rootpane.WebFrame;
 
-/** 
- * <!-- begin-UML-doc -->
- * <!-- end-UML-doc -->
- * @author S219
- * @generated "UML vers Java (com.ibm.xtools.transform.uml2.java5.internal.UML2JavaTransform)"
- */
 public class StatisticsFrame extends WebFrame {
 
 	private static final long serialVersionUID = 1L;

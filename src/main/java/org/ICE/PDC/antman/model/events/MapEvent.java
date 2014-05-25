@@ -3,6 +3,9 @@ package org.ICE.PDC.antman.model.events;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Évènement abstrait SuperClass de tout les évènements
+ */
 public abstract class MapEvent implements Serializable {
 	
 	private static final long serialVersionUID = -6753438529038374656L;

@@ -1,4 +1,4 @@
-package org.ICE.PDC.antman;
+package org.ICE.PDC.antman.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +22,6 @@ import org.ICE.PDC.antman.model.events.RessourceSupprimeeEvent;
 
 /**
  * Permet de récupérer les statistiques d'une partie à partir d'un objet monde
- *
  */
 public class StatsCalculator {
 
@@ -109,8 +108,8 @@ public class StatsCalculator {
 	}
 	
 	/**
-	 * Retourne la population d'une fourmiliere lors d'un tour donné
 	 * @param tour
+	 * @return la population d'une fourmiliere lors d'un tour donné
 	 */
 	public Integer getPopulationFourmiliereAt(int tour,Fourmiliere fourmiliere) {
 		
@@ -119,8 +118,8 @@ public class StatsCalculator {
 	}	
 	
 	/**
-	 * Retourne la liste des fourmilieres ajoutées lors d'un tour donné
 	 * @param tour
+	 * @return la liste des fourmilières ajoutées lors d'un tour donné
 	 */
 	public Set<Fourmiliere> getFourmilieresAjouteesAt(int tour) {
 		
@@ -134,8 +133,8 @@ public class StatsCalculator {
 	}
 	
 	/**
-	 * Retourne la liste des fourmilieres supprimées lors d'un tour donné
 	 * @param tour
+	 * @return la liste des fourmilières supprimées lors d'un tour donné
 	 */
 	public Set<Fourmiliere> getFourmilieresSupprimeesAt(int tour) {
 		
@@ -149,8 +148,8 @@ public class StatsCalculator {
 	}	
 	
 	/**
-	 * Retourne la liste des ressources ajoutées lors d'un tour donné
 	 * @param tour
+	 * @return  la liste des ressources ajoutées lors d'un tour donné
 	 */
 	public Set<Ressource> getRessourcesAjouteesAt(int tour) {
 		
@@ -165,8 +164,8 @@ public class StatsCalculator {
 	}
 	
 	/**
-	 * Retourne la liste des ressources supprimées lors d'un tour donné
 	 * @param tour
+	 * @return la liste des ressources supprimées lors d'un tour donné
 	 */
 	public Set<Ressource> getRessourcesSupprimeesAt(int tour) {
 		
@@ -182,8 +181,8 @@ public class StatsCalculator {
 	
 
 	/**
-	 * Retourne la liste des ressources ajoutées lors d'un tour donné
 	 * @param tour
+	 * @return la liste des ressources ajoutées lors d'un tour donné
 	 */
 	public Set<Pheromone> getPheromonesAjouteesAt(int tour) {
 		
@@ -198,8 +197,8 @@ public class StatsCalculator {
 	}
 	
 	/**
-	 * Retourne la liste des ressources supprimées lors d'un tour donné
 	 * @param tour
+	 * @return la liste des ressources supprimées lors d'un tour donné
 	 */
 	public Set<Pheromone> getPheromonesSupprimeesAt(int tour) {
 		
@@ -214,8 +213,8 @@ public class StatsCalculator {
 	}
 	
 	/**
-	 * Retourne la liste des ressources ajoutées lors d'un tour donné
 	 * @param tour
+	 * @return la liste des ressources ajoutées lors d'un tour donné
 	 */
 	public Set<Fourmi> getFourmisAjouteesAt(int tour) {
 		
@@ -230,8 +229,8 @@ public class StatsCalculator {
 	}
 	
 	/**
-	 * Retourne la liste des ressources supprimées lors d'un tour donné
 	 * @param tour
+	 * @return la liste des ressources supprimées lors d'un tour donné
 	 */
 	public Set<Fourmi> getFourmisSupprimeesAt(int tour) {
 		
@@ -245,10 +244,16 @@ public class StatsCalculator {
 		
 	}
 
+	/**
+	 * @return
+	 */
 	public HashMap<Fourmiliere, ArrayList<Integer>> getPopulationTicks() {
 		return populationTicks;
 	}
 
+	/**
+	 * @param populationTicks
+	 */
 	public void setPopulationTicks(
 			HashMap<Fourmiliere, ArrayList<Integer>> populationTicks) {
 		this.populationTicks = populationTicks;

@@ -9,29 +9,31 @@ import org.ICE.PDC.antman.model.events.FourmiEtatChangeEvent;
 import org.apache.log4j.Logger;
 
 /** 
- * Une fourmi éclaireuse :
- * -Cherche des ressources en se déplacant aleatoirement
- * -Retourne à la fourmiliere en déposant des phéromones sur son passage
+ * Une fourmi éclaireuse :<br/>
+ * -Cherche des ressources en se déplaçant aléatoirement<br/>
+ * -Retourne à la fourmilière en déposant des phéromones sur son passage
  */
 public class Eclaireuse extends Fourmi implements Serializable  {
 	
-	
 	private static final long serialVersionUID = -3767003284851778910L;
-	
 	private static Logger logger = Logger.getLogger(Eclaireuse.class);
 	
+	/**
+	 * États de la fourmi<br/>
+	 * CHERCHER_RESSOURCES : Cherche des ressources en se déplaçant aléatoirement<br/>
+	 * RETOUR : Retourne à la fourmilière en déposant des phéromones sur son passage
+	 */
 	public enum States {
 		CHERCHER_RESSOURCES,
 		RETOUR
 	}
 	
+	/**Permet de stocker le chemin de retour de la fourmi vers sa fourmilière une fois celui-ci calculé*/
 	private List<Case> chemin_retour;
+	
+	/**État courant de la fourmi*/
 	private States etat;
 	
-	public void poserPheromones() {
-		this.get_case().ajouterPheromone(new Pheromone(this.getFourmiliere(),ConfigurationLoader.PHEROMONES_ECLAIREUSES));
-	}
-
 	/** 
 	 * @param fourmiliere
 	 */
@@ -69,6 +71,13 @@ public class Eclaireuse extends Fourmi implements Serializable  {
 		this.setSante(ConfigurationLoader.SANTE_ECLAIREUSE);
 		this.setSante_max(ConfigurationLoader.SANTE_MAX_ECLAIREUSE);
 		this.setEsperance_de_vie(ConfigurationLoader.ESPERANCE_VIE_ECLAIREUSE);
+	}
+	
+	/**
+	 * Dépose des phéromones sur la case courante de la fourmi
+	 */
+	public void poserPheromones() {
+		this.get_case().ajouterPheromone(new Pheromone(this.getFourmiliere(),ConfigurationLoader.PHEROMONES_ECLAIREUSES));
 	}
 
 	/** 
@@ -160,7 +169,8 @@ public class Eclaireuse extends Fourmi implements Serializable  {
 	}
 
 	/** 
-	 * @param etat etat à définir
+	 * Fire l'event FourmiEtatChangeEvent
+	 * @param etat état à définir
 	 */
 	public void setEtat(States etat) {
 		States old = this.etat;

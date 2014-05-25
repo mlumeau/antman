@@ -5,6 +5,9 @@ import java.util.Date;
 
 import org.ICE.PDC.antman.model.Monde;
 
+/**
+ * Fin d'un tour
+ */
 public class TourJoueEvent extends MapEvent implements Serializable {
 
 	private static final long serialVersionUID = -7871211977361241629L;

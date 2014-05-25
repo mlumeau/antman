@@ -10,6 +10,10 @@ import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.jdom2.xpath.XPathFactory;
 
+/**
+ * Classe permettant de charger la configuration de l'application<br/>
+ * (voir fichier config.xml)
+ */
 public class ConfigurationLoader {
 	
 	public static String MAPS_PATH = "maps";
@@ -42,6 +46,12 @@ public class ConfigurationLoader {
 	public static int MAX_RESSOURCES_SPAWNS = 10;
 	public static boolean LIMIT_FOURMIS_NUMBER = true;
 	
+	/**
+	 * Charge les paramètres du fichier de configuration config.xml
+	 * @param createMissingDirs - true pour créer automatiquement les répertoires de sauvegarde
+	 * @throws JDOMException
+	 * @throws IOException
+	 */
 	public static void load(boolean createMissingDirs) throws JDOMException, IOException {
 		
 		String configPath = ConfigurationLoader.class.getResource("config.xml").getPath();
@@ -220,7 +230,7 @@ public class ConfigurationLoader {
 		
 		if(createMissingDirs) {
 			
-			//On crée les répertoire si ceux-ci n'éxistent pas déja
+			//On crée les répertoire si ceux-ci n'éxistent pas déjà
 			File md = new File(ConfigurationLoader.MAPS_PATH);
 			if (!md.exists() || !md.getCanonicalFile().isDirectory()) {
 				md.mkdirs();
